@@ -1,2 +1,2 @@
 # dotoo
-A simple todo application. 
+A simple client-server todo application. 
