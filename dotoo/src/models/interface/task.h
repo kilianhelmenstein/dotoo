@@ -3,8 +3,11 @@
 
 /********************* Includes *********************/
 
+#include <QtGlobal>
+
 #include <memory>
 
+#include "libsymbolsexport.h"
 #include "decl/taskdecl.h"
 #include "types/commontypes.h"
 #include "types/tasktypes.h"
@@ -16,15 +19,20 @@
 namespace Dotoo {
 
 
+QString toString( const QDate& date );
+
+QDate fromString( const QString& dateStr );
+
 
 /*********************** Class **********************/
 
 /*!
  * \brief   The Task class is the common interface for accessing Task instances.
  */
-class Task
+class LIB_EXPORT Task
 {
 public:
+    Task();
     Task( const UniqueId id,
           const bool isDone,
           const UniqueId responsible,
@@ -37,7 +45,7 @@ public:
     Task( Task &other );
     ~Task();
 
-    void operator=( const Task& other );
+    Task& operator=( const Task& other );
 
     /*!
      * \brief   Swaps the content of other with content of *this.

@@ -24,9 +24,9 @@ public:
 
     void swap( PersonImpl& other );
 
-    UniqueId getId() const;
-    PersonName_t getName() const;
-    QString getComment() const;
+    UniqueId getId() const { return m_id; }
+    PersonName_t getName() const { return *m_name; }
+    QString getComment() const { return *m_comment; }
 
 private:
     UniqueId m_id;

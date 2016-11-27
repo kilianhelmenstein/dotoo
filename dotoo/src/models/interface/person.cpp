@@ -7,6 +7,14 @@ using namespace Dotoo;
 
 
 
+Person::Person()
+    : m_pImpl( new PersonImpl( 0,
+                               PersonName_t( "", "" ),
+                               "" ) )
+{
+}
+
+
 Person::Person( const UniqueId& id,
                 const PersonName_t& name,
                 const QString& comment )
@@ -31,9 +39,10 @@ Person::~Person()
 
 Person& Person::operator=( const Person& other )
 {
-    PersonImpl* temp = m_pImpl.get();
-    m_pImpl.reset( new PersonImpl( *(other.m_pImpl) ) );
-    delete temp;
+    if ( this != &other )
+    {
+        m_pImpl.reset( new PersonImpl( *(other.m_pImpl) ) );
+    }
 
     return *this;
 }

@@ -1,6 +1,8 @@
 #ifndef COMMONTYPES_H
 #define COMMONTYPES_H
 
+#include "QtGlobal"
+
 namespace Dotoo {
 
 /*!

@@ -7,6 +7,33 @@ using namespace std;
 using namespace Dotoo;
 
 
+QString toString( const QDate& date )
+{
+    return date.toString( "YYYY-MM-DD hh:mm:ss" );
+}
+
+
+
+QDate fromString( const QString& dateStr )
+{
+    return QDate::fromString( dateStr, "YYYY-MM-DD hh:mm:ss" );
+}
+
+
+
+Task::Task()
+    : m_pImpl( new TaskImpl( 0,
+                             false,
+                             0,
+                             0,
+                             QDate::currentDate(),
+                             QDate::currentDate(),
+                             0,
+                             0,
+                             "" ) )
+{
+}
+
 
 Task::Task( const UniqueId id,
             const bool isDone,
@@ -41,11 +68,14 @@ Task::~Task()
 }
 
 
-void Task::operator=( const Task& other )
+Task& Task::operator=( const Task& other )
 {
-    TaskImpl* temp = m_pImpl.get();
-    m_pImpl.reset( new TaskImpl( *(other.m_pImpl) ) );
-    delete temp;    /* Delete obsolete object when m_pImpl was reset. That will prevent a invalid pointer if an exception occurs. */
+    if ( this != &other )
+    {
+        m_pImpl.reset( new TaskImpl( *(other.m_pImpl) ) );
+    }
+
+    return *this;
 }
 
 

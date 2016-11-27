@@ -12,8 +12,20 @@
 
 namespace Dotoo {
 
-typedef struct
+typedef struct _PersonName
 {
+    _PersonName( const QString& argForename, const QString& argName )
+        : forename( argForename ),
+          name( argName )
+    {}
+
+    bool operator ==( const _PersonName& other )
+    {
+        return (forename == other.forename && name == other.name);
+    }
+    bool operator !=( const _PersonName& other ) { return !(*this == other); }
+
+
     QString forename;
     QString name;
 } PersonName_t;

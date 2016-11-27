@@ -6,6 +6,7 @@
 
 #include <memory>
 
+#include "project/libsymbolsexport.h"
 #include "decl/persondecl.h"
 #include "types/commontypes.h"
 #include "types/persontypes.h"
@@ -23,13 +24,25 @@ namespace Dotoo {
 /*!
  * \brief   The Person class is the common interface for accessing Person instances.
  */
-class Person
+class LIB_EXPORT Person
 {
 public:
+    Person();
+    /*!
+     * \brief Person
+     *
+     * \param id            Use id = 0 as invalid/unknown id (e.g. for creating a new pereson)
+     *
+     * \param name
+     *
+     * \param comment
+     */
     Person( const UniqueId& id,
             const PersonName_t& name,
             const QString& comment );
+
     Person( const Person& other );
+
     virtual ~Person();
 
     Person& operator=( const Person& other );

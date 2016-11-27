@@ -3,30 +3,37 @@
 
 /********************* Includes *********************/
 
-#include <memory>
-
-#include <QString>
+#include "project/libsymbolsexport.h"
 
 
-
-/******************** Namespaces ********************/
-
-namespace Persistence {
+class QString;
+class QStringList;
 
 
 
 /*********************** Class **********************/
 
 /*!
- * \brief   The SqlRequest class is a convinience class for building sql requests in a call-the-method
- *          manner. (For adding keywords you have to call methods instead of adding strings.)
+ * \brief   The SqlRequest class is a convinience class for building sql requests and preventing
+ *          sql-syntax errors.
+ *
+ *          This class allows you to build your sql requests by calling the specific
+ *          method with proper parameter list.
  *
  *          See SQL specification for details.
  */
-class SqlRequest
+class LIB_EXPORT SqlRequest
 {
 public:
-/***************** Static Varialbes *****************/
+    /***************** Static Varialbes *****************/
+
+    static const QLatin1String SqlKeyWord_CreateTable;
+    static const QLatin1String SqlConstraint_NotNull;
+    static const QLatin1String SqlConstraint_Unique;
+    static const QLatin1String SqlConstraint_PrimaryKey;
+    static const QLatin1String SqlConstraint_ForeignKey;
+    static const QLatin1String SqlConstraint_Check;
+    static const QLatin1String SqlConstraint_AutoIncrement;
 
     /* Column Selector: */
     static const QLatin1String SqlKeyword_Select;
@@ -77,6 +84,14 @@ public:
     static const QLatin1String SqlSyntax_ListingSeperator;
     static const QLatin1String SqlSyntax_EORequest;
 
+    static const QLatin1String SqlDatatype_Char;
+    static const QLatin1String SqlDatatype_VarChar;
+    static const QLatin1String SqlDatatype_Int;
+
+
+
+/********************* Typedefs *********************/
+
     typedef enum {
         Equal,
         NotEqual,
@@ -94,18 +109,57 @@ public:
         Descending
     } SqlOrder;
 
+    typedef enum {
+        Char,
+        VarChar,
+        Int
+    } SqlDatatype;
+
+    typedef enum {
+        NoConstraint,
+        NotNull,
+        Unique,
+        PrimaryKey,
+        ForeignKey,
+        Check,
+        AutoIncrement
+    } SqlConstraint;
+
+    typedef struct _SqlColumnSpec {
+        _SqlColumnSpec( QString columnName,
+                        SqlDatatype datatype,
+                        int fieldSize=255,
+                        SqlConstraint constraint=NoConstraint )
+            : columnName( columnName ),
+              datatype( datatype ),
+              fieldSize( fieldSize ),
+              constraint( constraint )
+        {}
+
+        QString columnName;
+        SqlDatatype datatype;
+        int fieldSize;
+        SqlConstraint constraint;
+    } SqlColumnSpec;
+
 
 public:
     SqlRequest();
     SqlRequest( const SqlRequest& other );
 
+    ~SqlRequest();
+
     SqlRequest& operator=( const SqlRequest& other );
 
     void swap( SqlRequest& other );
 
+    QString toString() const;
 
     /* Forming SQL Request: */
     SqlRequest& clear();
+
+    SqlRequest& createTable( const QString& tableName,
+                             const QList<SqlColumnSpec>& columnSpecifiers );
 
     SqlRequest& selectAll( const QString& tableName );
     SqlRequest& select( const QString& columnName, const QString& tableName );
@@ -130,7 +184,7 @@ public:
                          const SqlOrder );
 
     SqlRequest& insertInto( const QString& tableName,
-                            const QStringList& values );
+                            const QStringList &values );
     SqlRequest& insertInto( const QString& tableName,
                             const QStringList &columnNames,
                             const QStringList &values );
@@ -153,15 +207,39 @@ private:
      * \return  Adapted name.
      */
     static QString ParseName( const QString& fieldName );
-    static QLatin1String GetComparisionOperator( const SqlComparisionOperator comparisionOp );
-    static QLatin1String GetOrder( const SqlOrder order );
 
+    static QStringList ParseValueList( const QStringList& values );
+
+    /*!
+     * \brief   Returns the selected comparision operator in sql-valid string format.
+     *
+     * \param   const SqlComparisionOperator comparisionOp      Operator selection.
+     *
+     * \return  QString     Selected sql-comp. as string.
+     */
+    static QString GetComparisionOperator( const SqlComparisionOperator comparisionOp );
+
+    /*!
+     * \brief   Returns the selected sql-record-order in sql-valid string format.
+     *
+     * \param   const SqlOrder order        Selected order.
+     *
+     * \return  QString     Selected order in string format.
+     */
+    static QString GetOrder( const SqlOrder order );
+
+    /*!
+     * \brief   Returns the selected sql-column-specification (for creating new tables)
+     *          in sql-valid string format.
+     *
+     * \param   const SqlColumnSpec spec    Column spec. for a new table.
+     *
+     * \return  QString     Column specification in string format.
+     */
+    static QString GetColumnSpec( const SqlColumnSpec spec );
 
 private:
-    std::shared_ptr<QString> m_sqlRequest;
+    QString* m_sqlRequest;
 };
-
-
-} // namespace Persistence
 
 #endif // SQLREQUEST_H
