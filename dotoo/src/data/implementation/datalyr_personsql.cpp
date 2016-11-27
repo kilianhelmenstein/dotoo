@@ -44,7 +44,6 @@ DataLyr_PersonSql::DataLyr_PersonSql( const QString& databaseName,
 
         QSqlQuery dbQuery( sqlRequest.toString(), db );
         dbQuery.exec( sqlRequest.toString() );
-        qDebug() << dbQuery.lastError();
     }
 
     db.close();
