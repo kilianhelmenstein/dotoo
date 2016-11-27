@@ -31,17 +31,33 @@ Person::Person( const Person& other )
 }
 
 
+Person::Person( const Person&& other )
+    : m_pImpl( other.m_pImpl.get() )
+{
+}
+
 
 Person::~Person()
 {
 }
 
 
-Person& Person::operator=( const Person& other )
+Person& Person::operator =( const Person& other )
 {
     if ( this != &other )
     {
         m_pImpl.reset( new PersonImpl( *(other.m_pImpl) ) );
+    }
+
+    return *this;
+}
+
+
+Person& Person::operator =( const Person&& other )
+{
+    if ( this != &other )
+    {
+        m_pImpl.reset( other.m_pImpl.get() );
     }
 
     return *this;

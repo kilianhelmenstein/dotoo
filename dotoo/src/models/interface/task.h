@@ -42,10 +42,12 @@ public:
           const TaskPriority priority,
           const UniqueId relatedProject,
           const QString& comment );
-    Task( Task &other );
+    Task( const Task& other );
+    Task( const Task&& other );
     ~Task();
 
-    Task& operator=( const Task& other );
+    Task& operator =( const Task& other );
+    Task& operator =( const Task&& other );
 
     /*!
      * \brief   Swaps the content of other with content of *this.

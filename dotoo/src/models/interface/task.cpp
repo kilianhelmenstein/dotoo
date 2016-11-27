@@ -57,8 +57,14 @@ Task::Task( const UniqueId id,
 }
 
 
-Task::Task( Task& other )
+Task::Task( const Task& other )
     : m_pImpl( new TaskImpl( *(other.m_pImpl) ) )
+{
+}
+
+
+Task::Task( const Task&& other )
+    : m_pImpl( other.m_pImpl.get() )
 {
 }
 
@@ -68,7 +74,7 @@ Task::~Task()
 }
 
 
-Task& Task::operator=( const Task& other )
+Task& Task::operator =( const Task& other )
 {
     if ( this != &other )
     {
@@ -79,11 +85,21 @@ Task& Task::operator=( const Task& other )
 }
 
 
+Task& Task::operator =( const Task&& other )
+{
+    if ( this != &other )
+    {
+        m_pImpl.reset( other.m_pImpl.get() );
+    }
+
+    return *this;
+}
+
+
 void Task::swap( Task& other )
 {
     m_pImpl.swap( other.m_pImpl );
 }
-
 
 UniqueId Task::getId() const
 {

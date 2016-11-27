@@ -42,10 +42,12 @@ public:
             const QString& comment );
 
     Person( const Person& other );
+    Person( const Person&& other );
 
     virtual ~Person();
 
-    Person& operator=( const Person& other );
+    Person& operator =( const Person& other );
+    Person& operator =( const Person&& other );
 
     void swap( Person& other );
 
