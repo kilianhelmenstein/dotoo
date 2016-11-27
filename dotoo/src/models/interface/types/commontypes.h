@@ -4,7 +4,6 @@
 #include "QtGlobal"
 
 namespace Dotoo {
-
 /*!
  * \brief   Represents a type for an unique id.
  */
