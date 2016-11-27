@@ -37,6 +37,11 @@ Makefile*
 # QtCtreator CMake
 CMakeLists.txt.user
 
+# Executables
+clientapp
+serverapp
+tests
+
 # Etc.
 *.db3
 
