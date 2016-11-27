@@ -5,6 +5,16 @@
 namespace Dotoo {
 namespace Data {
 
+/*!
+ * \brief   Contains all possible errors that could occur while using
+ *          this layer.
+ */
+typedef enum {
+    NotFound,
+    NotAvailable,
+    InvalidArguments
+} Error_t;
+
 
 } // namespace Data
 } // namespace Dotoo

@@ -4,6 +4,7 @@
 #include <QList>
 
 #include "project/libsymbolsexport.h"
+#include "data/interface/datalyr_types.h"
 #include "models/interface/types/commontypes.h"
 
 
@@ -22,17 +23,6 @@ namespace Data {
  */
 class LIB_EXPORT DataLyr_Person
 {
-public:
-    /*!
-     * \brief   Contains all possible errors that could occur while using
-     *          this layer.
-     */
-    typedef enum {
-        NotFound,
-        NotAvailable,
-        InvalidArguments
-    } Error_t;
-
 public:
     virtual ~DataLyr_Person() {}
 
