@@ -24,28 +24,28 @@ Currently there are two collection resources '/tasks' and '/persons'. To access 
 ### /tasks
 
 ### /persons
-Get all persons: 
-Req: GET /persons
-Res: { { "id": <id>, "forename" <string>, "name": <string>, "comment": <string> }, { "id": <id>, ... } }
+#### Get all persons: 
+- Req: GET /persons
+- Res: { { "id": <id>, "forename" <string>, "name": <string>, "comment": <string> }, { "id": <id>, ... } }
 
-Get one person:
-Req-Header: GET /persons/<id>
-Res-Header: Http status code
-Res-Body: { "id": <id>, "forename" <string>, "name": <string>, "comment": <string> }
+#### Get one person:
+- Req-Header: GET /persons/<id>
+- Res-Header: Http status code
+- Res-Body: { "id": <id>, "forename" <string>, "name": <string>, "comment": <string> }
   
-Create a new person:
-Req-Header: POST /persons/<id>
-Req-Body: { "forename" <string>, "name": <string>, "comment": <string> }
-Res-Header: Http status code
+#### Create a new person:
+- Req-Header: POST /persons/<id>
+- Req-Body: { "forename" <string>, "name": <string>, "comment": <string> }
+- Res-Header: Http status code
 
-Change an existing person:
-Req-Header: PUT /persons/<id>
-Req-Body: { "forename" <string>, "name": <string>, "comment": <string> }
-Res-Header: Http status code
+#### Change an existing person:
+- Req-Header: PUT /persons/<id>
+- Req-Body: { "forename" <string>, "name": <string>, "comment": <string> }
+- Res-Header: Http status code
 
-Delete an existing person:
-Req-Header: DELETE /persons/<id>
-Res-Header: Http status code
+#### Delete an existing person:
+- Req-Header: DELETE /persons/<id>
+- Res-Header: Http status code
 
 
 
