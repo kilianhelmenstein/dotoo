@@ -25,8 +25,8 @@ Currently there are two collection resources '/tasks' and '/persons'. To access 
 
 ### /persons
 #### Get all persons: 
-- Req: GET /persons
-- Res: { { "id": <id>, "forename" <string>, "name": <string>, "comment": <string> }, { "id": <id>, ... } }
+- Req-Header: GET /persons
+- Res-Body: { { "id": <id>, "forename" <string>, "name": <string>, "comment": <string> }, { "id": <id>, ... } }
 
 #### Get one person:
 - Req-Header: GET /persons/<id>
