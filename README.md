@@ -9,3 +9,8 @@ A simple client-server todo application.
 
 ## Server-side
 - using REST-API to perform changes on task data
+
+## Used external code
+- Http webserver: https://github.com/nikhilm/qhttpserver
+- For parsing json: https://github.com/nlohmann/json
+- For parsing urls: https://github.com/0x00A/route
