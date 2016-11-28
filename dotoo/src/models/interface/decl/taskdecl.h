@@ -11,7 +11,7 @@ class QDate;
 namespace Dotoo {
 
 
-class TaskImpl;
+class Task;
 
 
 } // namespace Dotoo

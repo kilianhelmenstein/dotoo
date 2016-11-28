@@ -25,5 +25,20 @@ TaskImpl::TaskImpl( const UniqueId id,
 {}
 
 
+TaskImpl::TaskImpl( const TaskImpl& other )
+    : m_id( other.m_id ),
+      m_isDone( other.m_isDone ),
+      m_responsible( other.m_responsible ),
+      m_creator( other.m_creator ),
+      m_creationDate( new QDate(*other.m_creationDate) ),
+      m_dueDate( new QDate(*other.m_dueDate) ),
+      m_priority( other.m_priority ),
+      m_relatedProject( other.m_relatedProject ),
+      m_comment( new QString(*other.m_comment) )
+{
+
+}
+
+
 TaskImpl::~TaskImpl()
 {}

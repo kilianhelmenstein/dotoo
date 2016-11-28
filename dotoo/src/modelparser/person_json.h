@@ -3,27 +3,27 @@
 
 #include <QtGlobal>
 
-#include "libsymbolsexport.h"
+#include "modelparser/interface/bytestreampersonparser.h"
 
 
-
-class QByteArray;
 
 namespace Dotoo {
-class Person;
-}
-
-
 namespace ModelParser {
 
-class LIB_EXPORT PersonJSON
+
+
+class LIB_EXPORT JSONPersonParser : public BytestreamPersonParser
 {
 public:
-    static Dotoo::Person PersonFromJSON( const QByteArray& raw );
-    static QByteArray JSONFromPerson( const Dotoo::Person& person );
+    Person BytestreamIntoPerson( const QByteArray& bs ) const;
+    QList<Person> BytestreamIntoPersonList( const QByteArray& bs ) const;
+
+    QByteArray PersonIntoBytestream( const Person& person ) const;
+    QByteArray PersonListIntoBytestream(const QList<Person>& personList ) const;
 };
 
 
 } // namespace ModelParser
+} // namespace Dotoo
 
 #endif // PERSON_JSON_H

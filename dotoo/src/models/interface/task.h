@@ -3,11 +3,9 @@
 
 /********************* Includes *********************/
 
-#include <QtGlobal>
-
 #include <memory>
 
-#include "libsymbolsexport.h"
+#include "project/libsymbolsexport.h"
 #include "decl/taskdecl.h"
 #include "types/commontypes.h"
 #include "types/tasktypes.h"
@@ -17,6 +15,9 @@
 /******************** Namespaces ********************/
 
 namespace Dotoo {
+
+class TaskImpl;
+
 
 
 QString toString( const QDate& date );
@@ -48,6 +49,9 @@ public:
 
     Task& operator =( const Task& other );
     Task& operator =( const Task&& other );
+
+    bool operator ==( const Task& other );
+    bool operator !=( const Task& other );
 
     /*!
      * \brief   Swaps the content of other with content of *this.

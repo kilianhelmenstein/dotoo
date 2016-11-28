@@ -9,43 +9,85 @@
 #include "types/tasktypes.h"
 
 
+using namespace Dotoo;
 using namespace ModelParser;
 
 using json = nlohmann::json;    /* For convinience. */
 
 
-
-//Dotoo::Task TaskJSON::TaskFromJSON( const QByteArray& rawTask )
-//{
-//    json jsonData = json::parse( rawTask.data() );
-
-//    return Dotoo::Task( jsonData["id"],
-//                        jsonData["done"],
-//                        jsonData["responsible"],
-//                        jsonData["creator"],
-//                        Dotoo::fromString(QString::fromStdString(jsonData["creation_date"])),
-//                        Dotoo::fromString(QString::fromStdString(jsonData["due_date"])),
-//                        jsonData["priority"],
-//                        jsonData["related_project"],
-//                        QString::fromStdString(jsonData["comment"] ));
-//}
+Task JsonToTask( const json& jsonData )
+{
+    return Dotoo::Task(
+                jsonData["id"],
+            jsonData["isDone"],
+            jsonData["responsible"],
+            jsonData["creator"],
+            QDate::fromString( QString::fromStdString( jsonData["creationDate"] ) ),
+            QDate::fromString( QString::fromStdString( jsonData["dueDate"] )  ),
+            jsonData["priority"],
+            jsonData["relatedProject"],
+            QString::fromStdString(jsonData["comment"]) );
+}
 
 
+json TaskToJson( const Task& task )
+{
+    json jsonData = {
+        { "id", task.getId() },
+        { "isDone", task.isDone() },
+        { "responsible", task.getResponsible() },
+        { "creator", task.getCreator() },
+        { "creationDate", task.getCreationDate().toString().toStdString() },
+        { "dueDate", task.getDueDate().toString().toStdString() },
+        { "priority", task.getPriority() },
+        { "relatedProject", task.getRelatedProject() },
+        { "comment", task.getComment().toStdString() }
+    };
 
-//QByteArray TaskJSON::JSONFromTask( const Dotoo::Task& task )
-//{
-//    json jsonData = {
-//        { "id", task.getId() },
-//        { "done", task.isDone() },
-//        { "responsible", task.getResponsible() },
-//        { "creator", task.getCreator() },
-//        { "creation_date", Dotoo::toString(task.getCreationDate()).toStdString() },
-//        { "due_date", Dotoo::toString(task.getDueDate()).toStdString() },
-//        { "priority", task.getPriority() },
-//        { "related_project", task.getRelatedProject() },
-//        { "comment", task.getComment().toStdString() }
-//    };
+    return jsonData;
+}
 
-//    return QByteArray( jsonData.dump().data(), jsonData.size() );
-//}
 
+Task JsonTaskParser::BytestreamIntoTask( const QByteArray& bs ) const
+{
+    json jsonData = json::parse( bs.data() );
+    return JsonToTask( jsonData );
+}
+
+
+QList<Task> JsonTaskParser::BytestreamIntoTaskList( const QByteArray& bs ) const
+{
+    QList<Task> taskList;
+    json jsonDataAll = json::parse( bs.data() );
+
+    /* Step through json array and create all persons: */
+    for ( std::size_t i = 0 ; i < jsonDataAll.size() ; i++ )
+    {
+        json jsonData = jsonDataAll.at(i);
+        taskList.append( JsonToTask(jsonData) );
+    }
+
+    return taskList;
+}
+
+
+QByteArray JsonTaskParser::TaskIntoBytestream( const Task& task ) const
+{
+    json jsonData = TaskToJson( task );
+    return QByteArray( jsonData.dump().data() );
+}
+
+
+QByteArray JsonTaskParser::TaskListIntoBytestream( const QList<Task>& taskList ) const
+{
+    json jsonDataAll;
+
+    for ( QList<Task>::const_iterator itTask = taskList.begin()
+          ; itTask != taskList.end()
+          ; itTask++ )
+    {
+        jsonDataAll.push_back( TaskToJson(*itTask) );
+    }
+
+    return QByteArray( jsonDataAll.dump().data(), jsonDataAll.size() );
+}

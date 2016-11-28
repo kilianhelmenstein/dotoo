@@ -18,6 +18,9 @@
 namespace Dotoo {
 
 
+class PersonImpl;
+
+
 
 /*********************** Class **********************/
 
@@ -48,6 +51,9 @@ public:
 
     Person& operator =( const Person& other );
     Person& operator =( const Person&& other );
+
+    bool operator ==( const Person& other );
+    bool operator !=( const Person& other);
 
     void swap( Person& other );
 

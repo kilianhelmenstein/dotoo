@@ -3,27 +3,25 @@
 
 #include <QtGlobal>
 
-#include "libsymbolsexport.h"
+#include "modelparser/interface/bytestreamtaskparser.h"
 
-
-
-class QByteArray;
 
 namespace Dotoo {
-class Task;
-}
-
-
 namespace ModelParser {
 
 
-class LIB_EXPORT TaskJSON
+class LIB_EXPORT JsonTaskParser : public BytestreamTaskParser
 {
 public:
-//    static Dotoo::Task TaskFromJSON( const QByteArray& rawTask );
-//    static QByteArray JSONFromTask( const Dotoo::Task& task );
+    Task BytestreamIntoTask( const QByteArray& bs ) const;
+    QList<Task> BytestreamIntoTaskList( const QByteArray& bs ) const;
+
+    QByteArray TaskIntoBytestream( const Task& task ) const;
+    QByteArray TaskListIntoBytestream( const QList<Task>& taskList ) const;
 };
 
+
 } // namespace ModelParser
+} // namespace Dotoo
 
 #endif // TASKJSON_H

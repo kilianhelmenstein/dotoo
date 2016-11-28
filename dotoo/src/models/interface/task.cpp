@@ -96,6 +96,26 @@ Task& Task::operator =( const Task&& other )
 }
 
 
+bool Task::operator ==( const Task& other )
+{
+    return (getId() == other.getId()
+            && isDone() == other.isDone()
+            && getResponsible() == other.getResponsible()
+            && getCreator() == other.getCreator()
+            && getCreationDate() == other.getCreationDate()
+            && getDueDate() == other.getDueDate()
+            && getPriority() == other.getPriority()
+            && getRelatedProject() == other.getRelatedProject()
+            && getComment() == other.getComment());
+}
+
+
+bool Task::operator !=( const Task& other )
+{
+    return !(*this == other);
+}
+
+
 void Task::swap( Task& other )
 {
     m_pImpl.swap( other.m_pImpl );

@@ -28,9 +28,12 @@ HEADERS += \
     data/interface/datalyr_person.h \
     data/interface/datalyr_types.h \
     data/implementation/datalyr_personsql.h \
-    ext/parsing/json.h \
     data/interface/datalyr_task.h \
-    data/implementation/datalyr_tasksql.h
+    data/implementation/datalyr_tasksql.h \
+    modelparser/interface/bytestreampersonparser.h \
+    modelparser/interface/bytestreamtaskparser.h \
+    ext/parsing/json.h
+    #ext/parsing/route.h
 
 SOURCES += \
     models/implementation/taskimpl.cpp \
@@ -42,6 +45,7 @@ SOURCES += \
     data/utils/sqlrequest.cpp \
     data/implementation/datalyr_personsql.cpp \
     data/implementation/datalyr_tasksql.cpp
+    #ext/parsing/route.cpp
 
 INCLUDEPATH += \
     project \

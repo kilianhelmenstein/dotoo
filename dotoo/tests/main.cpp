@@ -1,7 +1,12 @@
 #include <QCoreApplication>
 #include <QDebug>
 
+// Data layer:
 #include "testdatalyr_personsql.h"
+
+// Model parser:
+#include "modelparser/testjsontaskparser.h"
+#include "modelparser/testjsonpersonparser.h"
 
 
 
@@ -15,8 +20,16 @@ int main(int argc, char *argv[])
         delete obj;
     };
 
+
     /* Process all tests: */
+    /* ================== */
+
+    // Data layer:
     ProcessTest( new TestDataLyr_PersonSql() );
+
+    // Model parser:
+    ProcessTest( new TestJsonTaskParser() );
+    ProcessTest( new TestkJsonPersonParser() );
 
     /* Return common state. */
     return status;

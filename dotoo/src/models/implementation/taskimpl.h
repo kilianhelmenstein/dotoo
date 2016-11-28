@@ -36,6 +36,7 @@ public:
               const TaskPriority priority,
               const UniqueId relatedProject,
               const QString& comment );
+    TaskImpl( const TaskImpl& other );
     virtual ~TaskImpl();
 
     /* Interface implementation. For detailed interface description see "task.h".
@@ -50,7 +51,6 @@ public:
     TaskPriority getPriority() const{ return m_priority; }
     UniqueId getRelatedProject() const{ return m_relatedProject; }
     QString getComment() const{ return *m_comment; }
-
 
 private:
     UniqueId m_id;

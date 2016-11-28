@@ -1,13 +1,14 @@
 #ifndef PERSONDECL_H
 #define PERSONDECL_H
 
-class QDate;
 class QString;
+class QDate;
+
 
 namespace Dotoo {
 
+class Person;
 
-class PersonImpl;
 
 
 } // namespace Dotoo

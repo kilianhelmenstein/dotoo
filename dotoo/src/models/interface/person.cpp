@@ -64,6 +64,20 @@ Person& Person::operator =( const Person&& other )
 }
 
 
+bool Person::operator ==( const Person& other )
+{
+    return (getId() == other.getId()
+            && getName() == other.getName()
+            && getComment() == other.getComment() );
+}
+
+
+bool Person::operator !=( const Person& other)
+{
+    return !(*this == other );
+}
+
+
 void Person::swap( Person& other )
 {
     m_pImpl.swap( other.m_pImpl );
