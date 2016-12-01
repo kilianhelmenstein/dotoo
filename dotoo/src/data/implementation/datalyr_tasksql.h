@@ -25,8 +25,9 @@ private:
 
 
 public:
-    DataLyr_TaskSql( const QString& databaseName,
-                      const QString& tableName );
+    DataLyr_TaskSql( const QString databaseConnection,
+                     const QString& databaseName,
+                     const QString& tableName );
     virtual ~DataLyr_TaskSql();
 
     QList<Task> getAllTasks() throw(Error_t);
@@ -40,6 +41,7 @@ private:
     std::shared_ptr<QSqlQuery> getDatabaseConnection();
 
 private:
+    const QString m_databaseConnection;
     const QString m_databaseName;
     const QString m_tableName;
 };

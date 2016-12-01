@@ -21,13 +21,21 @@ const QLatin1String DataLyr_PersonSql::SQLDriverSpec = QLatin1String( "QSQLITE" 
 
 
 
-DataLyr_PersonSql::DataLyr_PersonSql( const QString& databaseName,
+DataLyr_PersonSql::DataLyr_PersonSql( const QString& databaseConnection,
+                                      const QString& databaseName,
                                       const QString& tableName )
-    : m_databaseName( databaseName ),
+    : m_databaseConnection( databaseConnection ),
+      m_databaseName( databaseName ),
       m_tableName( tableName )
 {
+    // If necessary, add database:
+    if ( !QSqlDatabase::contains( m_databaseConnection ) )
+    {
+        QSqlDatabase::addDatabase( SQLDriverSpec, m_databaseConnection );
+    }
+
     /* Check whether table for persons exists. If not, create a new table: */
-    QSqlDatabase db = QSqlDatabase::addDatabase( SQLDriverSpec );
+    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
     db.setDatabaseName( m_databaseName );
     db.open();
 
@@ -57,7 +65,7 @@ DataLyr_PersonSql::~DataLyr_PersonSql()
 
 QList<Person> DataLyr_PersonSql::getAllPersons() throw(Error_t)
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase( SQLDriverSpec );
+    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
     db.setDatabaseName( m_databaseName );
     db.open();
 
@@ -83,7 +91,7 @@ QList<Person> DataLyr_PersonSql::getAllPersons() throw(Error_t)
 
 Person DataLyr_PersonSql::getPerson( const UniqueId personId ) throw(Error_t)
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase( SQLDriverSpec );
+    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
     db.setDatabaseName( m_databaseName );
     db.open();
 
@@ -112,7 +120,7 @@ Person DataLyr_PersonSql::getPerson( const UniqueId personId ) throw(Error_t)
 
 void DataLyr_PersonSql::createPerson( const Person& newPerson ) throw(Error_t)
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase( SQLDriverSpec );
+    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
     db.setDatabaseName( m_databaseName );
     db.open();
 
@@ -136,7 +144,7 @@ void DataLyr_PersonSql::createPerson( const Person& newPerson ) throw(Error_t)
 
 void DataLyr_PersonSql::changePerson( const Person& changedPerson ) throw(Error_t)
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase( SQLDriverSpec );
+    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
     db.setDatabaseName( m_databaseName );
     db.open();
 
@@ -144,15 +152,14 @@ void DataLyr_PersonSql::changePerson( const Person& changedPerson ) throw(Error_
     sqlRequest
             .update( m_tableName,
                      QStringList()
-                     << "id"
                      << "name"
                      << "forename"
                      << "comment",
                      QStringList()
-                     << QString::number( changedPerson.getId() )
                      << changedPerson.getName().name
                      << changedPerson.getName().forename
                      << changedPerson.getComment() )
+            .where( "id", SqlRequest::Equal, QString::number( changedPerson.getId() ) )
             .end();
 
     QSqlQuery dbQuery( sqlRequest.toString(), db );
@@ -162,7 +169,7 @@ void DataLyr_PersonSql::changePerson( const Person& changedPerson ) throw(Error_
 
 void DataLyr_PersonSql::deletePerson( const UniqueId personId ) throw(Error_t)
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase( SQLDriverSpec );
+    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
     db.setDatabaseName( m_databaseName );
     db.open();
 

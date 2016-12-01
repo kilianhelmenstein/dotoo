@@ -22,13 +22,21 @@ const QLatin1String DataLyr_TaskSql::SQLDriverSpec = QLatin1String( "QSQLITE" );
 
 
 
-DataLyr_TaskSql::DataLyr_TaskSql( const QString& databaseName,
+DataLyr_TaskSql::DataLyr_TaskSql( const QString databaseConnection,
+                                  const QString& databaseName,
                                   const QString& tableName )
-    : m_databaseName( databaseName ),
+    : m_databaseConnection( databaseConnection ),
+      m_databaseName( databaseName ),
       m_tableName( tableName )
 {
+    // If necessary, add database:
+    if ( !QSqlDatabase::contains( m_databaseConnection ) )
+    {
+        QSqlDatabase::addDatabase( SQLDriverSpec, m_databaseConnection );
+    }
+
     /* Check whether table for tasks exists. If not, create a new table: */
-    QSqlDatabase db = QSqlDatabase::addDatabase( SQLDriverSpec );
+    QSqlDatabase db = QSqlDatabase::database( m_databaseConnection );
     db.setDatabaseName( m_databaseName );
     db.open();
 
@@ -63,7 +71,7 @@ DataLyr_TaskSql::~DataLyr_TaskSql()
 
 QList<Task> DataLyr_TaskSql::getAllTasks() throw(Error_t)
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase( SQLDriverSpec );
+    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
     db.setDatabaseName( m_databaseName );
     db.open();
 
@@ -94,7 +102,7 @@ QList<Task> DataLyr_TaskSql::getAllTasks() throw(Error_t)
 
 Task DataLyr_TaskSql::getTask( const UniqueId taskId ) throw(Error_t)
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase( SQLDriverSpec );
+    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
     db.setDatabaseName( m_databaseName );
     db.open();
 
@@ -128,7 +136,7 @@ Task DataLyr_TaskSql::getTask( const UniqueId taskId ) throw(Error_t)
 
 void DataLyr_TaskSql::createTask( const Task& newTask ) throw(Error_t)
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase( SQLDriverSpec );
+    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
     db.setDatabaseName( m_databaseName );
     db.open();
 
@@ -162,7 +170,7 @@ void DataLyr_TaskSql::createTask( const Task& newTask ) throw(Error_t)
 
 void DataLyr_TaskSql::changeTask( const Task& changedTask ) throw(Error_t)
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase( SQLDriverSpec );
+    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
     db.setDatabaseName( m_databaseName );
     db.open();
 
@@ -196,7 +204,7 @@ void DataLyr_TaskSql::changeTask( const Task& changedTask ) throw(Error_t)
 
 void DataLyr_TaskSql::deleteTask( const UniqueId taskId ) throw(Error_t)
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase( SQLDriverSpec );
+    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
     db.setDatabaseName( m_databaseName );
     db.open();
 

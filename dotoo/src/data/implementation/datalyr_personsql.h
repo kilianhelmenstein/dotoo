@@ -25,7 +25,8 @@ private:
 
 
 public:
-    DataLyr_PersonSql( const QString& databaseName,
+    DataLyr_PersonSql( const QString& databaseConnection,
+                       const QString& databaseName,
                        const QString& tableName );
     virtual ~DataLyr_PersonSql();
 
@@ -40,6 +41,7 @@ private:
     std::shared_ptr<QSqlQuery> getDatabaseConnection();
 
 private:
+    const QString m_databaseConnection;
     const QString m_databaseName;
     const QString m_tableName;
 };
