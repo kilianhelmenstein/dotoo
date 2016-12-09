@@ -7,6 +7,8 @@
 #include "project/libsymbolsexport.h"
 #include "data/interface/datalyr_person.h"
 
+class QSqlDatabase;
+
 
 class QSqlQuery;
 
@@ -38,12 +40,11 @@ public:
 
 
 private:
-    std::shared_ptr<QSqlQuery> getDatabaseConnection();
-
-private:
     const QString m_databaseConnection;
     const QString m_databaseName;
     const QString m_tableName;
+
+    QSqlDatabase* m_database;
 };
 
 

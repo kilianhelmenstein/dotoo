@@ -27,20 +27,23 @@ DataLyr_TaskSql::DataLyr_TaskSql( const QString databaseConnection,
                                   const QString& tableName )
     : m_databaseConnection( databaseConnection ),
       m_databaseName( databaseName ),
-      m_tableName( tableName )
+      m_tableName( tableName ),
+      m_database( nullptr )
 {
     // If necessary, add database:
     if ( !QSqlDatabase::contains( m_databaseConnection ) )
     {
-        QSqlDatabase::addDatabase( SQLDriverSpec, m_databaseConnection );
+          m_database = new QSqlDatabase( QSqlDatabase::addDatabase( SQLDriverSpec, m_databaseConnection )) ;
+    } else
+    {
+        m_database = new QSqlDatabase( QSqlDatabase::database( m_databaseConnection ) );
     }
 
     /* Check whether table for tasks exists. If not, create a new table: */
-    QSqlDatabase db = QSqlDatabase::database( m_databaseConnection );
-    db.setDatabaseName( m_databaseName );
-    db.open();
+    m_database->setDatabaseName( m_databaseName );
+    m_database->open();
 
-    if ( !db.tables().contains( m_tableName ) )
+    if ( !m_database->tables().contains( m_tableName ) )
     {
         /* Task table is not existing. Create it: */
         SqlRequest sqlRequest;
@@ -56,30 +59,28 @@ DataLyr_TaskSql::DataLyr_TaskSql( const QString databaseConnection,
                 << SqlRequest::SqlColumnSpec( "comment", SqlRequest::VarChar );
         sqlRequest.createTable( m_tableName, columns ).end();
 
-        QSqlQuery dbQuery( sqlRequest.toString(), db );
+        QSqlQuery dbQuery( *m_database );
         dbQuery.exec( sqlRequest.toString() );
     }
-
-    db.close();
 }
 
 
 DataLyr_TaskSql::~DataLyr_TaskSql()
 {
+    m_database->close();
+    QSqlDatabase::removeDatabase( m_databaseConnection );
+    delete m_database;
 }
 
 
 QList<Task> DataLyr_TaskSql::getAllTasks() throw(Error_t)
 {
-    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
-    db.setDatabaseName( m_databaseName );
-    db.open();
-
     SqlRequest sqlRequest;
     sqlRequest.selectAll( m_tableName ).end();
 
-    QSqlQuery dbQuery( sqlRequest.toString(), db );
-    db.close();
+    QSqlQuery dbQuery( *m_database );
+    dbQuery.setForwardOnly( true );      // For performance reasons
+    dbQuery.exec( sqlRequest.toString() );
 
     QList<Task> result;
     while ( dbQuery.next() )
@@ -102,18 +103,15 @@ QList<Task> DataLyr_TaskSql::getAllTasks() throw(Error_t)
 
 Task DataLyr_TaskSql::getTask( const UniqueId taskId ) throw(Error_t)
 {
-    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
-    db.setDatabaseName( m_databaseName );
-    db.open();
-
     SqlRequest sqlRequest;
     sqlRequest
             .selectAll( m_tableName )
             .where( "id", SqlRequest::Equal, QString::number(taskId) )
             .end();
 
-    QSqlQuery dbQuery( sqlRequest.toString(), db );
-    db.close();
+    QSqlQuery dbQuery( *m_database );
+    dbQuery.setForwardOnly( true );
+    dbQuery.exec( sqlRequest.toString() );
 
     if ( dbQuery.next() )
     {
@@ -136,10 +134,6 @@ Task DataLyr_TaskSql::getTask( const UniqueId taskId ) throw(Error_t)
 
 void DataLyr_TaskSql::createTask( const Task& newTask ) throw(Error_t)
 {
-    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
-    db.setDatabaseName( m_databaseName );
-    db.open();
-
     SqlRequest sqlRequest;
     sqlRequest
             .insertInto( m_tableName,
@@ -162,18 +156,13 @@ void DataLyr_TaskSql::createTask( const Task& newTask ) throw(Error_t)
                          << QString::number( newTask.getRelatedProject() )
                          << newTask.getComment() )
             .end();
-    QSqlQuery dbQuery( sqlRequest.toString(), db );
-
-    db.close();
+    QSqlQuery dbQuery( *m_database );
+    dbQuery.exec( sqlRequest.toString() );
 }
 
 
 void DataLyr_TaskSql::changeTask( const Task& changedTask ) throw(Error_t)
 {
-    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
-    db.setDatabaseName( m_databaseName );
-    db.open();
-
     SqlRequest sqlRequest;
     sqlRequest
             .update( m_tableName,
@@ -197,25 +186,19 @@ void DataLyr_TaskSql::changeTask( const Task& changedTask ) throw(Error_t)
                      << changedTask.getComment() )
             .end();
 
-    QSqlQuery dbQuery( sqlRequest.toString(), db );
-    db.close();
+    QSqlQuery dbQuery( *m_database );
+    dbQuery.exec( sqlRequest.toString() );
 }
 
 
 void DataLyr_TaskSql::deleteTask( const UniqueId taskId ) throw(Error_t)
 {
-    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
-    db.setDatabaseName( m_databaseName );
-    db.open();
-
     SqlRequest sqlRequest;
     sqlRequest
             .deleteRecords( m_tableName )
             .where( "id", SqlRequest::Equal, QString::number(taskId) )
             .end();
 
-    QSqlQuery dbQuery( sqlRequest.toString(), db );
-    qDebug() << sqlRequest.toString();
-    qDebug() << dbQuery.lastError();
-    db.close();
+    QSqlQuery dbQuery( *m_database );
+    dbQuery.exec( sqlRequest.toString() );
 }

@@ -1,4 +1,3 @@
-#include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QString>
 #include <QList>
@@ -26,20 +25,23 @@ DataLyr_PersonSql::DataLyr_PersonSql( const QString& databaseConnection,
                                       const QString& tableName )
     : m_databaseConnection( databaseConnection ),
       m_databaseName( databaseName ),
-      m_tableName( tableName )
+      m_tableName( tableName ),
+      m_database( nullptr )
 {
     // If necessary, add database:
     if ( !QSqlDatabase::contains( m_databaseConnection ) )
     {
-        QSqlDatabase::addDatabase( SQLDriverSpec, m_databaseConnection );
+        m_database = new QSqlDatabase( QSqlDatabase::addDatabase( SQLDriverSpec, m_databaseConnection ) );
+    } else
+    {
+        m_database = new QSqlDatabase( QSqlDatabase::database( m_databaseConnection ) );
     }
 
     /* Check whether table for persons exists. If not, create a new table: */
-    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
-    db.setDatabaseName( m_databaseName );
-    db.open();
+    m_database->setDatabaseName( m_databaseName );
+    m_database->open();
 
-    if ( !db.tables().contains( m_tableName ) )
+    if ( !m_database->tables().contains( m_tableName ) )
     {
         /* Person table is not existing. Create it: */
         SqlRequest sqlRequest;
@@ -50,34 +52,33 @@ DataLyr_PersonSql::DataLyr_PersonSql( const QString& databaseConnection,
                 << SqlRequest::SqlColumnSpec( "comment", SqlRequest::VarChar );
         sqlRequest.createTable( m_tableName, columns ).end();
 
-        QSqlQuery dbQuery( sqlRequest.toString(), db );
+        QSqlQuery dbQuery( sqlRequest.toString(), *m_database );
         dbQuery.exec( sqlRequest.toString() );
     }
-
-    db.close();
 }
 
 
 DataLyr_PersonSql::~DataLyr_PersonSql()
 {
+    m_database->close();
+    QSqlDatabase::removeDatabase( m_databaseConnection );
+    delete m_database;
 }
 
 
 QList<Person> DataLyr_PersonSql::getAllPersons() throw(Error_t)
 {
-    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
-    db.setDatabaseName( m_databaseName );
-    db.open();
-
     SqlRequest sqlRequest;
     sqlRequest.selectAll( m_tableName ).end();
 
-    QSqlQuery dbQuery( sqlRequest.toString(), db );
-    db.close();
+    QSqlQuery dbQuery( *m_database );
+    dbQuery.setForwardOnly( true );     // For performance reasons
+    dbQuery.exec( sqlRequest.toString() );
 
     QList<Person> result;
     while ( dbQuery.next() )
     {
+        // Append a new instance of person (filled with record's data):
         result.append( Person( dbQuery.value("id").toInt(),
                                PersonName_t(
                                    dbQuery.value("forename").toString(),
@@ -91,18 +92,13 @@ QList<Person> DataLyr_PersonSql::getAllPersons() throw(Error_t)
 
 Person DataLyr_PersonSql::getPerson( const UniqueId personId ) throw(Error_t)
 {
-    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
-    db.setDatabaseName( m_databaseName );
-    db.open();
-
     SqlRequest sqlRequest;
     sqlRequest
             .selectAll( m_tableName )
             .where( "id", SqlRequest::Equal, QString::number(personId) )
             .end();
 
-    QSqlQuery dbQuery( sqlRequest.toString(), db );
-    db.close();
+    QSqlQuery dbQuery( sqlRequest.toString(), *m_database );
 
     if ( dbQuery.next() )
     {
@@ -120,10 +116,6 @@ Person DataLyr_PersonSql::getPerson( const UniqueId personId ) throw(Error_t)
 
 void DataLyr_PersonSql::createPerson( const Person& newPerson ) throw(Error_t)
 {
-    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
-    db.setDatabaseName( m_databaseName );
-    db.open();
-
     SqlRequest sqlRequest;
     sqlRequest
             .insertInto( m_tableName,
@@ -136,18 +128,12 @@ void DataLyr_PersonSql::createPerson( const Person& newPerson ) throw(Error_t)
                          << newPerson.getName().forename
                          << newPerson.getComment() )
             .end();
-    QSqlQuery dbQuery( sqlRequest.toString(), db );
-
-    db.close();
+    QSqlQuery dbQuery( sqlRequest.toString(), *m_database );;
 }
 
 
 void DataLyr_PersonSql::changePerson( const Person& changedPerson ) throw(Error_t)
 {
-    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
-    db.setDatabaseName( m_databaseName );
-    db.open();
-
     SqlRequest sqlRequest;
     sqlRequest
             .update( m_tableName,
@@ -162,25 +148,19 @@ void DataLyr_PersonSql::changePerson( const Person& changedPerson ) throw(Error_
             .where( "id", SqlRequest::Equal, QString::number( changedPerson.getId() ) )
             .end();
 
-    QSqlQuery dbQuery( sqlRequest.toString(), db );
-    db.close();
+    QSqlQuery dbQuery( sqlRequest.toString(), *m_database );
 }
 
 
 void DataLyr_PersonSql::deletePerson( const UniqueId personId ) throw(Error_t)
 {
-    QSqlDatabase db( QSqlDatabase::database( m_databaseConnection ) );
-    db.setDatabaseName( m_databaseName );
-    db.open();
-
     SqlRequest sqlRequest;
     sqlRequest
             .deleteRecords( m_tableName )
             .where( "id", SqlRequest::Equal, QString::number(personId) )
             .end();
 
-    QSqlQuery dbQuery( sqlRequest.toString(), db );
+    QSqlQuery dbQuery( sqlRequest.toString(), *m_database );
     qDebug() << sqlRequest.toString();
     qDebug() << dbQuery.lastError();
-    db.close();
 }

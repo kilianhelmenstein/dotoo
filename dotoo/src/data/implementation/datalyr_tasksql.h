@@ -9,6 +9,7 @@
 
 
 class QSqlQuery;
+class QSqlDatabase;
 
 namespace Dotoo {
 namespace Data {
@@ -38,12 +39,11 @@ public:
 
 
 private:
-    std::shared_ptr<QSqlQuery> getDatabaseConnection();
-
-private:
     const QString m_databaseConnection;
     const QString m_databaseName;
     const QString m_tableName;
+
+    QSqlDatabase* m_database;
 };
 
 } // namespace Data
