@@ -3,7 +3,7 @@ TEMPLATE = app
 
 
 # Using ONLY Qt's core module:
-QT += core network
+QT += core network sql
 QT -= gui
 
 
@@ -22,7 +22,14 @@ SOURCES += main.cpp \
     rest/persons/getallpersonshandler.cpp \
     rest/persons/createpersonhandler.cpp \
     rest/persons/getpersonhandler.cpp \
-    httprequesthandleraccubody.cpp
+    httprequesthandleraccubody.cpp \
+    rest/persons/deletepersonhandler.cpp \
+    rest/persons/changepersonhandler.cpp \
+    rest/tasks/createtaskhandler.cpp \
+    rest/tasks/changetaskhandler.cpp \
+    rest/tasks/deletetaskhandler.cpp \
+    rest/tasks/getalltaskshandler.cpp \
+    rest/tasks/gettaskhandler.cpp
 
 INCLUDEPATH += ../qhttpserver/src
 
@@ -36,4 +43,12 @@ HEADERS += \
     utilz/tohttpcode.h \
     rest/persons/createpersonhandler.h \
     rest/persons/getpersonhandler.h \
-    httprequesthandleraccubody.h
+    httprequesthandleraccubody.h \
+    rest/persons/deletepersonhandler.h \
+    utilz/uriutilz.h \
+    rest/persons/changepersonhandler.h \
+    rest/tasks/createtaskhandler.h \
+    rest/tasks/changetaskhandler.h \
+    rest/tasks/deletetaskhandler.h \
+    rest/tasks/getalltaskshandler.h \
+    rest/tasks/gettaskhandler.h
