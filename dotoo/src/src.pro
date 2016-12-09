@@ -34,7 +34,8 @@ HEADERS += \
     modelparser/interface/bytestreamtaskparser.h \
     ext/parsing/json.h \
     data/interface/asyncdatalyr_task.h \
-    data/implementation/asyncdatalyr_taskhttp.h
+    data/implementation/asyncdatalyr_taskhttp.h \
+    data/utilz/http.h
     #ext/parsing/route.h
 
 SOURCES += \
