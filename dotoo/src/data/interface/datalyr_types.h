@@ -10,6 +10,7 @@ namespace Data {
  *          this layer.
  */
 typedef enum {
+    None = 0,
     NotFound,
     NotAvailable,
     InvalidArguments

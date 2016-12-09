@@ -24,17 +24,6 @@ namespace Data {
 class LIB_EXPORT DataLyr_Task
 {
 public:
-    /*!
-     * \brief   Contains all possible errors that could occur while using
-     *          this layer.
-     */
-    typedef enum {
-        NotFound,
-        NotAvailable,
-        InvalidArguments
-    } Error_t;
-
-public:
     virtual ~DataLyr_Task() {}
 
     virtual QList<Task> getAllTasks() throw(Error_t) = 0;
@@ -46,7 +35,6 @@ public:
 
 
 } // namespace Data
-
 } // namespace Dotoo
 
 #endif // DATALYR_TASK_H
