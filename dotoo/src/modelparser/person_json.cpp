@@ -18,7 +18,7 @@ using json = nlohmann::json;    /* For convinience. */
 
 Person JsonToPerson( const json& jsonData )
 {
-    return Dotoo::Person( jsonData["id"],
+    return Dotoo::Person( jsonData.count("id") ? static_cast<UniqueId>(jsonData["id"]) : 0,
                           Dotoo::PersonName_t(
                             QString::fromStdString(jsonData["forename"]),
                             QString::fromStdString(jsonData["name"])

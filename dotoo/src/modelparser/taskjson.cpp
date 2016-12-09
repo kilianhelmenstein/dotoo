@@ -18,7 +18,7 @@ using json = nlohmann::json;    /* For convinience. */
 Task JsonToTask( const json& jsonData )
 {
     return Dotoo::Task(
-                jsonData["id"],
+                jsonData.count("id") ? static_cast<UniqueId>(jsonData["id"]) : 0,
             jsonData["isDone"],
             jsonData["responsible"],
             jsonData["creator"],
@@ -89,5 +89,5 @@ QByteArray JsonTaskParser::TaskListIntoBytestream( const QList<Task>& taskList )
         jsonDataAll.push_back( TaskToJson(*itTask) );
     }
 
-    return QByteArray( jsonDataAll.dump().data(), jsonDataAll.size() );
+    return QByteArray( jsonDataAll.dump().data() );
 }
