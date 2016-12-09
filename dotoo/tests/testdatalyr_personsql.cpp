@@ -10,7 +10,8 @@
 
 void TestDataLyr_PersonSql::initTestCase()
 {
-    m_dut = new Dotoo::Data::DataLyr_PersonSql( "unit_test.db3",
+    m_dut = new Dotoo::Data::DataLyr_PersonSql( "test_con",
+                                                "unit_test.db3",
                                                 "persons" );
 }
 
