@@ -2,7 +2,7 @@ include(../defaults.pri)
 TEMPLATE = lib
 
 # Using Qt's core and sql module:
-QT += core sql
+QT += core sql network
 QT -= gui
 
 TARGET = dotoolib
@@ -32,7 +32,9 @@ HEADERS += \
     data/implementation/datalyr_tasksql.h \
     modelparser/interface/bytestreampersonparser.h \
     modelparser/interface/bytestreamtaskparser.h \
-    ext/parsing/json.h
+    ext/parsing/json.h \
+    data/interface/asyncdatalyr_task.h \
+    data/implementation/asyncdatalyr_taskhttp.h
     #ext/parsing/route.h
 
 SOURCES += \
@@ -44,7 +46,8 @@ SOURCES += \
     modelparser/taskjson.cpp \
     data/utils/sqlrequest.cpp \
     data/implementation/datalyr_personsql.cpp \
-    data/implementation/datalyr_tasksql.cpp
+    data/implementation/datalyr_tasksql.cpp \
+    data/implementation/asyncdatalyr_taskhttp.cpp
     #ext/parsing/route.cpp
 
 INCLUDEPATH += \
