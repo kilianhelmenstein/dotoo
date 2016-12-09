@@ -25,11 +25,11 @@ class LIB_EXPORT AsyncDataLyr_TaskHttp : public AsyncDataLyr_Task
 public:
     AsyncDataLyr_TaskHttp( const QString& url,
                            const QString& resourceCollection,
-                           const ModelParser::BytestreamTaskParser& parser );
+                           ModelParser::BytestreamTaskParser* parser );
     virtual ~AsyncDataLyr_TaskHttp();
 
     void getAllTasks();
-    void getTask( UniqueId taskId );
+    void getTask( const UniqueId taskId );
     void createTask( const Task& newTask );
     void changeTask( const Task& changedTask );
     void deleteTask( const UniqueId taskId );
@@ -38,9 +38,9 @@ private slots:
     void onNetworkReply( QNetworkReply* reply );
 
 private:
-    const QString& m_url;                   /*!< URL that receives the network requests. */
-    const QString& m_resourceCollection;    /*!< Used resource collection for gettings tasks */
-    const ModelParser::BytestreamTaskParser& m_parser; /*!< Used object to parse raw data into Task instances. */
+    QString m_url;                          /*!< URL that receives the network requests. */
+    QString m_resourceCollection;           /*!< Used resource collection for gettings tasks */
+    ModelParser::BytestreamTaskParser* m_parser; /*!< Used object to parse raw data into Task instances. */
 
     QNetworkAccessManager* m_networkAccess; /*!< Used to access network and perfrom http requests. */
 };
