@@ -30,7 +30,7 @@ public:
     virtual ~AsyncDataLyr_Task() {}
 
     virtual void getAllTasks() = 0;
-    virtual void getTask( UniqueId taskId ) = 0;
+    virtual void getTask( const UniqueId taskId ) = 0;
     virtual void createTask( const Task& newTask ) = 0;
     virtual void changeTask( const Task& changedTask ) = 0;
     virtual void deleteTask( const UniqueId taskId ) = 0;
@@ -40,13 +40,13 @@ signals:
      * \brief   Emitted when response of getAllTasks request is received.
      *          Client is responsible for deleting allTasks list.
      */
-    void responseGetAllTasks( QList<Task>* allTasks );
+    void responseGetAllTasks( QList<Task>* allTasks, Error_t errorCode );
 
     /*!
      * \brief   Emitted when response of getTask request is received.
      *          Client is responsible for deleting task.
      */
-    void responseGetTask( Task* task );
+    void responseGetTask( Task* task, Error_t errorCode );
 
     /*!
      * \brief   Emitted when response of createTask request is received.
