@@ -61,9 +61,9 @@ public:
     PersonName_t getName() const;
     QString getComment() const;
 
-    void setId( const UniqueId id );
-    void setName( const PersonName_t& name );
-    void setComment( const QString& comment );
+    virtual void setId( const UniqueId id );
+    virtual void setName( const PersonName_t& name );
+    virtual void setComment( const QString& comment );
 
 private:
     std::shared_ptr<PersonImpl> m_pImpl;

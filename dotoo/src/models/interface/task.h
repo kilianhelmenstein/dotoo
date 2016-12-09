@@ -70,15 +70,15 @@ public:
     UniqueId getRelatedProject() const;
     QString getComment() const;
 
-    void setId( const UniqueId id );
-    void setDone( const bool isDone );
-    void setResponsible( const UniqueId responsible );
-    void setCreator( const UniqueId creator );
-    void setCreationDate( const QDate& creationDate );
-    void setDueDate( const QDate& dueDate );
-    void setPriority( const TaskPriority priority );
-    void setRelatedProject( const UniqueId relatedProject );
-    void setComment( const QString& comment );
+    virtual void setId( const UniqueId id );
+    virtual void setDone( const bool isDone );
+    virtual void setResponsible( const UniqueId responsible );
+    virtual void setCreator( const UniqueId creator );
+    virtual void setCreationDate( const QDate& creationDate );
+    virtual void setDueDate( const QDate& dueDate );
+    virtual void setPriority( const TaskPriority priority );
+    virtual void setRelatedProject( const UniqueId relatedProject );
+    virtual void setComment( const QString& comment );
 
 private:
     std::shared_ptr<TaskImpl> m_pImpl;
