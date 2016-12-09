@@ -52,6 +52,16 @@ public:
     UniqueId getRelatedProject() const{ return m_relatedProject; }
     QString getComment() const{ return *m_comment; }
 
+    void setId( const UniqueId id ) { m_id = id; }
+    void setDone( const bool isDone ) { m_isDone = isDone; }
+    void setResponsible( const UniqueId responsible ) { m_responsible = responsible; }
+    void setCreator( const UniqueId creator ) { m_creator = creator; }
+    void setCreationDate( const QDate& creationDate ) { *m_creationDate = creationDate; }
+    void setDueDate( const QDate& dueDate ) { *m_dueDate = dueDate; }
+    void setPriority( const TaskPriority priority ) { m_priority = priority; }
+    void setRelatedProject( const UniqueId relatedProject ) { m_relatedProject = relatedProject; }
+    void setComment( const QString& comment ) { *m_comment = comment; }
+
 private:
     UniqueId m_id;
     bool m_isDone;

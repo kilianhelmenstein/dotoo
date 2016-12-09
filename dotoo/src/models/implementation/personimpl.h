@@ -28,6 +28,10 @@ public:
     PersonName_t getName() const { return *m_name; }
     QString getComment() const { return *m_comment; }
 
+    void setId( const UniqueId id ) { m_id = id; }
+    void setName( const PersonName_t& name ) { *m_name = name; }
+    void setComment( const QString& comment ) { *m_comment = comment; }
+
 private:
     UniqueId m_id;
     std::shared_ptr<PersonName_t> m_name;
