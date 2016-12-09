@@ -13,7 +13,9 @@ typedef enum {
     None = 0,
     NotFound,
     NotAvailable,
-    InvalidArguments
+    InvalidArguments,
+    InvalidFormat,
+    NotSpecified            // For errors that cannot be specified exactly
 } Error_t;
 
 
