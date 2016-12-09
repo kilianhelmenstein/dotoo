@@ -89,14 +89,27 @@ UniqueId Person::getId() const
     return m_pImpl->getId();
 }
 
-
 PersonName_t Person::getName() const
 {
     return m_pImpl->getName();
 }
 
-
 QString Person::getComment() const
 {
     return m_pImpl->getComment();
+}
+
+void Person::setId( const UniqueId id )
+{
+    m_pImpl->setId( id );
+}
+
+void Person::setName( const PersonName_t& name )
+{
+    m_pImpl->setName( name );
+}
+
+void Person::setComment( const QString& comment )
+{
+    m_pImpl->setComment( comment );
 }

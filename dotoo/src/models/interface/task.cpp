@@ -166,3 +166,48 @@ QString Task::getComment() const
     return m_pImpl->getComment();
 }
 
+void Task::setId( const UniqueId id )
+{
+    m_pImpl->setId( id );
+}
+
+void Task::setDone( const bool isDone )
+{
+    m_pImpl->setDone( isDone );
+}
+
+void Task::setResponsible( const UniqueId responsible )
+{
+    m_pImpl->setResponsible( responsible );
+}
+
+void Task::setCreator( const UniqueId creator )
+{
+    m_pImpl->setCreator( creator );
+}
+
+void Task::setCreationDate( const QDate& creationDate )
+{
+    m_pImpl->setCreationDate( creationDate );
+}
+
+void Task::setDueDate( const QDate& dueDate )
+{
+    m_pImpl->setDueDate( dueDate );
+}
+
+void Task::setPriority( const TaskPriority priority )
+{
+    m_pImpl->setPriority( priority );
+}
+
+void Task::setRelatedProject( const UniqueId relatedProject )
+{
+    m_pImpl->setRelatedProject( relatedProject );
+}
+
+void Task::setComment( const QString& comment )
+{
+    m_pImpl->setComment( comment );
+}
+

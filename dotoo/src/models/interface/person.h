@@ -57,26 +57,13 @@ public:
 
     void swap( Person& other );
 
-    /*!
-     * \brief   Delivers the unique id for this person.
-     *
-     * \return  UniqueId            Unique id for this person.
-     */
     UniqueId getId() const;
-
-    /*!
-     * \brief   Delivers the name of the person.
-     *
-     * \return  PersonName_t        Name of the person. See type documentation for further information.
-     */
     PersonName_t getName() const;
-
-    /*!
-     * \brief   Returns a comment to this task as string.
-     *
-     * \return  QString     Some free-chosen comment.
-     */
     QString getComment() const;
+
+    void setId( const UniqueId id );
+    void setName( const PersonName_t& name );
+    void setComment( const QString& comment );
 
 private:
     std::shared_ptr<PersonImpl> m_pImpl;

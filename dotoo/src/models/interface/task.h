@@ -60,69 +60,25 @@ public:
      */
     void swap( Task& other );
 
-    /*!
-     * \brief   Delivers the unique id for this task.
-     *
-     * \return  UniqueId      Unique id for this task.
-     */
     UniqueId getId() const;
-
-    /*!
-     * \brief   Delivers whether task has been done already.
-     *
-     * \return  bool        true    -> Task is done.
-     *                      false   -> Task is still open.
-     */
     bool isDone() const;
-
-    /*!
-     * \brief   Delivers the person which is responsible for this task.
-     *
-     * \return  UniqueId    Unique id that refers to the responsible person.
-     */
     UniqueId getResponsible() const;
-
-    /*!
-     * \brief   Delivers the creator of this task.
-     *
-     * \return  UniqueId    Unique id that refers to the creator of this task.
-     */
     UniqueId getCreator() const;
-
-    /*!
-     * \brief   Delivers the date of task creation.
-     *
-     * \return  QDate       Creation date of this task.
-     */
     QDate getCreationDate() const;
-
-    /*!
-     * \brief   Delivers the due date of this task.
-     *
-     * \return  QDate       Due date of this task.
-     */
     QDate getDueDate() const;
-
-    /*!
-     * \brief   Delivers the priority of this task.
-     *
-     * \return  TaskPriority    Priority of this task.
-     */
     TaskPriority getPriority() const;
-
-    /*!
-     * \brief   Delivers the project, the task is related to.
-     *
-     * \return  UniqueId   Unique id that refers to the related project.
-     */
     UniqueId getRelatedProject() const;
-
-    /*!
-     * \brief   Returns a comment to this task as string.
-     *
-     * \return  QString     Some free-chosen comment.
-     */
     QString getComment() const;
+
+    void setId( const UniqueId id );
+    void setDone( const bool isDone );
+    void setResponsible( const UniqueId responsible );
+    void setCreator( const UniqueId creator );
+    void setCreationDate( const QDate& creationDate );
+    void setDueDate( const QDate& dueDate );
+    void setPriority( const TaskPriority priority );
+    void setRelatedProject( const UniqueId relatedProject );
+    void setComment( const QString& comment );
 
 private:
     std::shared_ptr<TaskImpl> m_pImpl;
