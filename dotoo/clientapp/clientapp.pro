@@ -13,10 +13,12 @@ QT       += core gui
 # Files we need:
 SOURCES += main.cpp \
         mainwindow.cpp \
-    views/taskview.cpp
+    views/taskview.cpp \
+    viewmodels/taskviewmodel.cpp
 
 HEADERS  += mainwindow.h \
-    views/taskview.h
+    views/taskview.h \
+    viewmodels/taskviewmodel.h
 
 
 
