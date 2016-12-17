@@ -28,6 +28,7 @@ class TaskImpl
 {
 public:
     TaskImpl( const UniqueId id,
+              const QString& title,
               const bool isDone,
               const UniqueId responsible,
               const UniqueId creator,
@@ -43,6 +44,7 @@ public:
      * (Using in-class-def for inline-reasons)
      */
     UniqueId getId() const { return m_id; }
+    QString getTitle() const { return *m_title; }
     bool isDone() const { return m_isDone; }
     UniqueId getResponsible() const{ return m_responsible; }
     UniqueId getCreator() const{ return m_creator; }
@@ -53,6 +55,7 @@ public:
     QString getComment() const{ return *m_comment; }
 
     void setId( const UniqueId id ) { m_id = id; }
+    void setTitle( const QString& title ) { *m_title = title; }
     void setDone( const bool isDone ) { m_isDone = isDone; }
     void setResponsible( const UniqueId responsible ) { m_responsible = responsible; }
     void setCreator( const UniqueId creator ) { m_creator = creator; }
@@ -64,6 +67,7 @@ public:
 
 private:
     UniqueId m_id;
+    std::shared_ptr<QString> m_title;
     bool m_isDone;
     UniqueId m_responsible;
     UniqueId m_creator;

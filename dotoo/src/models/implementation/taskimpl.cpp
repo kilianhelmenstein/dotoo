@@ -5,6 +5,7 @@ using namespace Dotoo;
 
 
 TaskImpl::TaskImpl( const UniqueId id,
+                    const QString& title,
                     const bool isDone,
                     const UniqueId responsible,
                     const UniqueId creator,
@@ -14,6 +15,7 @@ TaskImpl::TaskImpl( const UniqueId id,
                     const UniqueId relatedProject,
                     const QString& comment )
     : m_id( id ),
+      m_title( new QString(title) ),
       m_isDone( isDone ),
       m_responsible( responsible ),
       m_creator( creator ),
@@ -27,6 +29,7 @@ TaskImpl::TaskImpl( const UniqueId id,
 
 TaskImpl::TaskImpl( const TaskImpl& other )
     : m_id( other.m_id ),
+      m_title( other.m_title ),
       m_isDone( other.m_isDone ),
       m_responsible( other.m_responsible ),
       m_creator( other.m_creator ),
