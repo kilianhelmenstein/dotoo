@@ -19,6 +19,7 @@ Task JsonToTask( const json& jsonData )
 {
     return Dotoo::Task(
                 jsonData.count("id") ? static_cast<UniqueId>(jsonData["id"]) : 0,
+            QString::fromStdString( jsonData["title"] ),
             jsonData["isDone"],
             jsonData["responsible"],
             jsonData["creator"],
@@ -34,6 +35,7 @@ json TaskToJson( const Task& task )
 {
     json jsonData = {
         { "id", task.getId() },
+        { "title", task.getTitle().toStdString() },
         { "isDone", task.isDone() },
         { "responsible", task.getResponsible() },
         { "creator", task.getCreator() },

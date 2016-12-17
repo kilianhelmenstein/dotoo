@@ -23,6 +23,7 @@ QDate fromString( const QString& dateStr )
 
 Task::Task()
     : m_pImpl( new TaskImpl( 0,
+                             "",
                              false,
                              0,
                              0,
@@ -36,6 +37,7 @@ Task::Task()
 
 
 Task::Task( const UniqueId id,
+            const QString& title,
             const bool isDone,
             const UniqueId responsible,
             const UniqueId creator,
@@ -45,6 +47,7 @@ Task::Task( const UniqueId id,
             const UniqueId relatedProject,
             const QString& comment )
     : m_pImpl( new TaskImpl( id,
+                             title,
                              isDone,
                              responsible,
                              creator,
@@ -99,6 +102,7 @@ Task& Task::operator =( const Task&& other )
 bool Task::operator ==( const Task& other )
 {
     return (getId() == other.getId()
+            && getTitle() == other.getTitle()
             && isDone() == other.isDone()
             && getResponsible() == other.getResponsible()
             && getCreator() == other.getCreator()
@@ -124,6 +128,11 @@ void Task::swap( Task& other )
 UniqueId Task::getId() const
 {
     return m_pImpl->getId();
+}
+
+QString Task::getTitle() const
+{
+    return m_pImpl->getTitle();
 }
 
 bool Task::isDone() const
@@ -169,6 +178,11 @@ QString Task::getComment() const
 void Task::setId( const UniqueId id )
 {
     m_pImpl->setId( id );
+}
+
+void Task::setTitle( const QString& title )
+{
+    m_pImpl->setTitle( title );
 }
 
 void Task::setDone( const bool isDone )

@@ -35,6 +35,7 @@ class LIB_EXPORT Task
 public:
     Task();
     Task( const UniqueId id,
+          const QString& title,
           const bool isDone,
           const UniqueId responsible,
           const UniqueId creator,
@@ -45,10 +46,10 @@ public:
           const QString& comment );
     Task( const Task& other );
     Task( const Task&& other );
-    ~Task();
+    virtual ~Task();
 
-    Task& operator =( const Task& other );
-    Task& operator =( const Task&& other );
+    virtual Task& operator =( const Task& other );
+    virtual Task& operator =( const Task&& other );
 
     bool operator ==( const Task& other );
     bool operator !=( const Task& other );
@@ -61,6 +62,7 @@ public:
     void swap( Task& other );
 
     UniqueId getId() const;
+    QString getTitle() const;
     bool isDone() const;
     UniqueId getResponsible() const;
     UniqueId getCreator() const;
@@ -71,6 +73,7 @@ public:
     QString getComment() const;
 
     virtual void setId( const UniqueId id );
+    virtual void setTitle( const QString& title );
     virtual void setDone( const bool isDone );
     virtual void setResponsible( const UniqueId responsible );
     virtual void setCreator( const UniqueId creator );
