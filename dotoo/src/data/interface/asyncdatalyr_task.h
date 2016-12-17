@@ -17,24 +17,13 @@ class Task;
 namespace Data {
 
 
-
 /*!
- * \brief   The AsyncDataLyr_Task class provides an interface for requesting
- *          Task data asynchronously. Objects are designed to work with only ONE client.
+ * \brief   The AsyncDataLyr_Task class is given to clients of AsyncDataLyr_Task
+ *          to receive the responses of only their requests.
  */
-class AsyncDataLyr_Task : public QObject
+class LIB_EXPORT AsyncDataLyr_TaskResponse : public QObject
 {
     Q_OBJECT
-public:
-    AsyncDataLyr_Task( QObject* parent=nullptr ) : QObject( parent ) {}
-    virtual ~AsyncDataLyr_Task() {}
-
-    virtual void getAllTasks() = 0;
-    virtual void getTask( const UniqueId taskId ) = 0;
-    virtual void createTask( const Task& newTask ) = 0;
-    virtual void changeTask( const Task& changedTask ) = 0;
-    virtual void deleteTask( const UniqueId taskId ) = 0;
-
 signals:
     /*!
      * \brief   Emitted when response of getAllTasks request is received.
@@ -62,6 +51,61 @@ signals:
      * \brief   Emitted when response of deleteTask request is received.
      */
     void responseDeleteTask( Error_t errorCode );
+};
+
+
+
+/*!
+ * \brief   The AsyncDataLyr_Task class provides an interface for requesting
+ *          Task data asynchronously. Objects are designed to work with only ONE client.
+ */
+class LIB_EXPORT AsyncDataLyr_Task : public QObject
+{
+    Q_OBJECT
+public:
+    AsyncDataLyr_Task( QObject* parent=nullptr ) : QObject( parent ) {}
+    virtual ~AsyncDataLyr_Task() {}
+
+    /*!
+     * \brief   Tries to get all available tasks.
+     *
+     * \return  AsyncDataLyr_TaskResponse*  Might be used by clients to
+     *                                      receive only their responses.
+     */
+    virtual AsyncDataLyr_TaskResponse* getAllTasks() = 0;
+
+    /*!
+     * \brief   Tries to get the specified task.
+     *
+     * \return  AsyncDataLyr_TaskResponse*  Might be used by clients to
+     *                                      receive only their responses.
+     */
+    virtual AsyncDataLyr_TaskResponse* getTask( const UniqueId taskId ) = 0;
+
+    /*!
+     * \brief   Tries to create a new tasks that equals to newTask.
+     *
+     * \return  AsyncDataLyr_TaskResponse*  Might be used by clients to
+     *                                      receive only their responses.
+     */
+    virtual AsyncDataLyr_TaskResponse* createTask( const Task& newTask ) = 0;
+
+    /*!
+     * \brief   Tries to change the a tasks by using the attributes of
+     *          changedTask. The task to change is referenced by changedTask's id.
+     *
+     * \return  AsyncDataLyr_TaskResponse*  Might be used by clients to
+     *                                      receive only their responses.
+     */
+    virtual AsyncDataLyr_TaskResponse* changeTask( const Task& changedTask ) = 0;
+
+    /*!
+     * \brief   Tries to delete the specified task.
+     *
+     * \return  AsyncDataLyr_TaskResponse*  Might be used by clients to
+     *                                      receive only their responses.
+     */
+    virtual AsyncDataLyr_TaskResponse* deleteTask( const UniqueId taskId ) = 0;
 };
 
 
