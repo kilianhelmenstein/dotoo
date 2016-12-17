@@ -38,9 +38,7 @@ Makefile*
 CMakeLists.txt.user
 
 # Executables
-clientapp
-serverapp
-tests
+
 
 # Etc.
 *.db3
