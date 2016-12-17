@@ -28,11 +28,11 @@ public:
                            ModelParser::BytestreamTaskParser* parser );
     virtual ~AsyncDataLyr_TaskHttp();
 
-    void getAllTasks();
-    void getTask( const UniqueId taskId );
-    void createTask( const Task& newTask );
-    void changeTask( const Task& changedTask );
-    void deleteTask( const UniqueId taskId );
+    AsyncDataLyr_TaskResponse* getAllTasks();
+    AsyncDataLyr_TaskResponse* getTask( const UniqueId taskId );
+    AsyncDataLyr_TaskResponse* createTask( const Task& newTask );
+    AsyncDataLyr_TaskResponse* changeTask( const Task& changedTask );
+    AsyncDataLyr_TaskResponse* deleteTask( const UniqueId taskId );
 
 private slots:
     void onNetworkReply( QNetworkReply* reply );

@@ -34,13 +34,14 @@ AsyncDataLyr_TaskHttp::~AsyncDataLyr_TaskHttp()
 {}
 
 
-void AsyncDataLyr_TaskHttp::getAllTasks()
+AsyncDataLyr_TaskResponse* AsyncDataLyr_TaskHttp::getAllTasks()
 {
+    AsyncDataLyr_TaskResponse* retVal = new AsyncDataLyr_TaskResponse();
     QNetworkRequest request;
     request.setUrl( QString("%1/%2").arg( m_url, m_resourceCollection ) );
     QNetworkReply* reply = m_networkAccess->get( request );
 
-    auto handleResponse = [&]()
+    auto handleResponse = [this, retVal, reply]()
     {
         QList<Task>* allTasks = nullptr;
 
@@ -56,15 +57,17 @@ void AsyncDataLyr_TaskHttp::getAllTasks()
             }
         }
 
-        emit responseGetAllTasks( allTasks, errorCode );
+        emit retVal-> responseGetAllTasks( allTasks, errorCode );
     };
 
     connect( reply, &QNetworkReply::readyRead, handleResponse );
+    return retVal;
 }
 
 
-void AsyncDataLyr_TaskHttp::getTask( const UniqueId taskId )
+AsyncDataLyr_TaskResponse* AsyncDataLyr_TaskHttp::getTask( const UniqueId taskId )
 {
+    AsyncDataLyr_TaskResponse* retVal = new AsyncDataLyr_TaskResponse();
     QNetworkRequest request;
     request.setUrl( QString("%1/%2/%3").arg( m_url,
                                              m_resourceCollection,
@@ -72,7 +75,7 @@ void AsyncDataLyr_TaskHttp::getTask( const UniqueId taskId )
 
     QNetworkReply* reply = m_networkAccess->get( request );
 
-    auto handleResponse = [&]()
+    auto handleResponse = [this, retVal, reply]()
     {
         Task* t = nullptr;
 
@@ -88,15 +91,17 @@ void AsyncDataLyr_TaskHttp::getTask( const UniqueId taskId )
             }
         }
 
-        emit responseGetTask( t, errorCode );
+        emit retVal-> responseGetTask( t, errorCode );
     };
 
     connect( reply, &QNetworkReply::finished, handleResponse );
+    return retVal;
 }
 
 
-void AsyncDataLyr_TaskHttp::createTask( const Task& newTask )
+AsyncDataLyr_TaskResponse* AsyncDataLyr_TaskHttp::createTask( const Task& newTask )
 {
+    AsyncDataLyr_TaskResponse* retVal = new AsyncDataLyr_TaskResponse();
     QNetworkRequest request;
     request.setUrl( QString("%1/%2").arg( m_url,
                                           m_resourceCollection ) );
@@ -104,19 +109,21 @@ void AsyncDataLyr_TaskHttp::createTask( const Task& newTask )
     QNetworkReply* reply = m_networkAccess->post( request,
                                                   m_parser->TaskIntoBytestream( newTask )  );
 
-    auto handleResponse = [this, reply]()
+    auto handleResponse = [this, retVal, reply]()
     {
         const HttpUtilz::HttpStatusCode statusCode
                 = static_cast<HttpUtilz::HttpStatusCode>(reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt());
-        emit responseCreateTask( HttpUtilz::DataErrorIntoHttpCode( statusCode ) );
+        emit retVal-> responseCreateTask( HttpUtilz::DataErrorIntoHttpCode( statusCode ) );
     };
 
     connect( reply, &QNetworkReply::finished, handleResponse );
+    return retVal;
 }
 
 
-void AsyncDataLyr_TaskHttp::changeTask( const Task& changedTask )
+AsyncDataLyr_TaskResponse* AsyncDataLyr_TaskHttp::changeTask( const Task& changedTask )
 {
+    AsyncDataLyr_TaskResponse* retVal = new AsyncDataLyr_TaskResponse();
     QNetworkRequest request;
     request.setUrl( QString("%1/%2/%3").arg( m_url,
                                              m_resourceCollection,
@@ -125,19 +132,21 @@ void AsyncDataLyr_TaskHttp::changeTask( const Task& changedTask )
     QNetworkReply* reply = m_networkAccess->put( request,
                                                  m_parser->TaskIntoBytestream( changedTask ) );
 
-    auto handleResponse = [this, reply]()
+    auto handleResponse = [this, retVal, reply]()
     {
         const HttpUtilz::HttpStatusCode statusCode
                 = static_cast<HttpUtilz::HttpStatusCode>(reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt());
-        emit responseCreateTask( HttpUtilz::DataErrorIntoHttpCode( statusCode ) );
+        emit retVal-> responseCreateTask( HttpUtilz::DataErrorIntoHttpCode( statusCode ) );
     };
 
     connect( reply, &QNetworkReply::finished, handleResponse );
+    return retVal;
 }
 
 
-void AsyncDataLyr_TaskHttp::deleteTask( const UniqueId taskId )
+AsyncDataLyr_TaskResponse* AsyncDataLyr_TaskHttp::deleteTask( const UniqueId taskId )
 {
+    AsyncDataLyr_TaskResponse* retVal = new AsyncDataLyr_TaskResponse();
     QNetworkRequest request;
     request.setUrl( QString("%1/%2/%3").arg( m_url,
                                              m_resourceCollection,
@@ -145,14 +154,15 @@ void AsyncDataLyr_TaskHttp::deleteTask( const UniqueId taskId )
 
     QNetworkReply* reply = m_networkAccess->deleteResource( request );
 
-    auto handleResponse = [this, reply]()
+    auto handleResponse = [this, retVal, reply]()
     {
         const HttpUtilz::HttpStatusCode statusCode
                 = static_cast<HttpUtilz::HttpStatusCode>(reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt());
-        emit responseCreateTask( HttpUtilz::DataErrorIntoHttpCode( statusCode ) );
+        emit retVal->responseCreateTask( HttpUtilz::DataErrorIntoHttpCode( statusCode ) );
     };
 
     connect( reply, &QNetworkReply::finished, handleResponse );
+    return retVal;
 }
 
 
