@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/svg">
+        <file alias="collaboration_icon">res/svg/collaboration_icon.svg</file>
+        <file alias="checkbox">res/svg/checkbox.svg</file>
+        <file alias="calendar_icon">res/svg/calendar_icon.svg</file>
+        <file alias="checkbox_checked">res/svg/checkbox_checked.svg</file>
+        <file alias="arrow_icon">res/svg/arrow_icon.svg</file>
+    </qresource>
+</RCC>
