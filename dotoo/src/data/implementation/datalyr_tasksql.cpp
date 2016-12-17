@@ -49,6 +49,7 @@ DataLyr_TaskSql::DataLyr_TaskSql( const QString databaseConnection,
         SqlRequest sqlRequest;
         QList<SqlRequest::SqlColumnSpec> columns;
         columns << SqlRequest::SqlColumnSpec( "id", SqlRequest::Int, 0, SqlRequest::PrimaryKey )
+                << SqlRequest::SqlColumnSpec( "title", SqlRequest::VarChar )
                 << SqlRequest::SqlColumnSpec( "is_done", SqlRequest::Int )
                 << SqlRequest::SqlColumnSpec( "responsible", SqlRequest::Int )
                 << SqlRequest::SqlColumnSpec( "creator", SqlRequest::Int )
@@ -86,6 +87,7 @@ QList<Task> DataLyr_TaskSql::getAllTasks() throw(Error_t)
     while ( dbQuery.next() )
     {
         result.append( Task( dbQuery.value("id").toInt(),
+                             dbQuery.value("title").toString(),
                              dbQuery.value("is_done").toBool(),
                              dbQuery.value("responsible").toInt(),
                              dbQuery.value("creator").toInt(),
@@ -116,6 +118,7 @@ Task DataLyr_TaskSql::getTask( const UniqueId taskId ) throw(Error_t)
     if ( dbQuery.next() )
     {
         return Task( dbQuery.value("id").toInt(),
+                     dbQuery.value("title").toString(),
                      dbQuery.value("is_done").toBool(),
                      dbQuery.value("responsible").toInt(),
                      dbQuery.value("creator").toInt(),
@@ -138,6 +141,7 @@ void DataLyr_TaskSql::createTask( const Task& newTask ) throw(Error_t)
     sqlRequest
             .insertInto( m_tableName,
                          QStringList()
+                         << "title"
                          << "is_done"
                          << "responsible"
                          << "creator"
@@ -147,6 +151,7 @@ void DataLyr_TaskSql::createTask( const Task& newTask ) throw(Error_t)
                          << "related_project"
                          << "comment",
                          QStringList()
+                         << newTask.getTitle()
                          << QString::number( newTask.isDone() )
                          << QString::number( newTask.getResponsible() )
                          << QString::number( newTask.getCreator() )
@@ -167,6 +172,7 @@ void DataLyr_TaskSql::changeTask( const Task& changedTask ) throw(Error_t)
     sqlRequest
             .update( m_tableName,
                      QStringList()
+                     << "title"
                      << "is_done"
                      << "responsible"
                      << "creator"
@@ -176,6 +182,7 @@ void DataLyr_TaskSql::changeTask( const Task& changedTask ) throw(Error_t)
                      << "related_project"
                      << "comment",
                      QStringList()
+                     << changedTask.getTitle()
                      << QString::number( changedTask.isDone() )
                      << QString::number( changedTask.getResponsible() )
                      << QString::number( changedTask.getCreator() )
