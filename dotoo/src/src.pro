@@ -35,7 +35,8 @@ HEADERS += \
     ext/parsing/json.h \
     data/interface/asyncdatalyr_task.h \
     data/implementation/asyncdatalyr_taskhttp.h \
-    data/utilz/http.h
+    data/utilz/http.h \
+    data/interface/datalyr_fwddecl.h
     #ext/parsing/route.h
 
 SOURCES += \
