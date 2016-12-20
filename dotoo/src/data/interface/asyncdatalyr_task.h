@@ -27,13 +27,13 @@ class LIB_EXPORT AsyncDataLyr_TaskResponse : public QObject
 signals:
     /*!
      * \brief   Emitted when response of getAllTasks request is received.
-     *          Client is responsible for deleting allTasks list.
+     *          Client is responsible for deleting 'allTasks' list.
      */
     void responseGetAllTasks( QList<Task>* allTasks, Error_t errorCode );
 
     /*!
      * \brief   Emitted when response of getTask request is received.
-     *          Client is responsible for deleting task.
+     *          Client is responsible for deleting 'task'.
      */
     void responseGetTask( Task* task, Error_t errorCode );
 
