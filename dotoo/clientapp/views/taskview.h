@@ -6,6 +6,7 @@
 
 class QLabel;
 class QSvgWidget;
+class QPalette;
 class CustomCheckBox;
 
 #include "viewmodels/taskviewmodel.h"
@@ -13,14 +14,26 @@ class CustomCheckBox;
 
 
 namespace Dotoo {
+namespace GUI {
 
 
 /*!
  * \brief   The TaskView class is the presentation of a task model.
  *
- *          It displays a changeable checkbox for task's 'isDone' state.
+ *          Abstract: It displays a changeable checkbox for task's 'isDone' state.
  *          It also presentates the title, comment, due date and responsible person if
  *          'isDone' is false. Else TaskView will only display checkbox and title.
+ *
+ *          Layout: TaskView uses basically a QGridLayout. Additionally two QHBoxLayouts
+ *          are used; one for comment line, one for due date and responsibilty.
+ *          The checkbox and the title of the task are added directly to the grid layout.
+ *
+ *          Colors: TaskView takes an input palette as template and changes only following colors:
+ *              - Group: All | Role: Base
+ *              - Group: All | Role: AlternateBase
+ *
+ *          Effects: TaskView currently uses QGraphicsDropShadowEffect for displaying a
+ *          simple shadow to widen the 3d-feeling.
  */
 class TaskView : public QWidget
 {
@@ -38,7 +51,7 @@ private:
     static const quint8 ClmnIdxSubInformation = 1;
 
 public:
-    TaskView( QWidget* parent=nullptr );
+    TaskView( const QPalette& appPalette, QWidget* parent=nullptr );
     virtual ~TaskView();
 
     /*!
@@ -48,7 +61,54 @@ public:
      */
     void setModel( TaskViewModel* model );
 
+signals:
+    /*!
+     * \brief   This signal is emitted when the 'isDone' state of the task was changed.
+     *
+     * \param   boool isDone        New state of 'isDone' attribute.
+     */
+    void isDoneToggled( bool isDone );
+
+    void mouseClicked();
+    void mouseDoubleClicked();
+    void mouseReleased();
+
+protected:
+    /*!
+     * \brief   Lets widget look highlighted.
+     */
+    void enterEvent(QEvent*) { changePalette(true); }
+
+    /*!
+     * \brief   Lets widget look un-highlighted.
+     */
+    void leaveEvent(QEvent*) { changePalette(false); }
+
+    /*!
+     * \brief   Emit own signal.
+     */
+    void mousePressEvent(QMouseEvent*) { emit mouseClicked(); }
+
+    /*!
+     * \brief   Emit own signal.
+     */
+    void mouseDoubleClickEvent(QMouseEvent*) { emit mouseDoubleClicked(); }
+
+    /*!
+     * \brief   Emit own signal.
+     */
+    void mouseReleaseEvent(QMouseEvent*) { emit mouseReleased(); }
+
 private:
+
+    /*!
+     * \brief   Adapts the widget's palette to 'highlighted' state.
+     *
+     * \param   bool highlighted    Indicates whether widget's palette shall be
+     *                              selected that it appears highlighted.
+     */
+    void changePalette( bool highlighted );
+
     /*!
      * \brief   Sets the visible state of
      *              - comment
@@ -60,6 +120,11 @@ private:
      */
     void setSubInfoVisible( bool visible );
 
+    /*!
+     * \brief   Adapts the widget's look to the new 'isDone'-state.
+     *
+     * \param   bool isDone         Indicates whether task is done or not.
+     */
     void changeIsDonePresentation( bool isDone );
 
 private slots:
@@ -77,16 +142,8 @@ private slots:
      */
     void onCheckBoxStateChange( bool state );
 
-signals:
-    /*!
-     * \brief   This signal is emitted when the 'isDone' state of the task was changed.
-     *
-     * \param   boool isDone        New state of 'isDone' attribute.
-     */
-    void isDoneToggled( bool isDone );
-
 private:
-    TaskViewModel* m_model;                     /*!< */
+    TaskViewModel* m_model;                     /*!< Reference to model that contains presentated data. */
 
     // Sub-widgets:
     CustomCheckBox* m_checkBox;                 /*!< Displays 'isDone' attribute. Interactive. */
@@ -98,12 +155,13 @@ private:
     QLabel* m_responsible;                      /*!< Displays model's 'responsible person' attribute. */
 
     // Style:
-    QFont m_titleFont;
-    QFont m_commentFont;
-    QFont m_subInfoFont;
+    QFont m_titleFont;                          /*!< Font for title. The biggest font. */
+    QFont m_commentFont;                        /*!< Font for the comment text. Smaller than title. */
+    QFont m_subInfoFont;                        /*!< Font for sub-information. Smallest presentation. */
 };
 
 
+} // namespace GUI;
 } // namespace Dotoo;
 
 #endif // TASKVIEW_H

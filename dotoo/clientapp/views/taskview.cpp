@@ -15,13 +15,21 @@
 
 
 
-using namespace Dotoo;
+namespace Dotoo {
+namespace GUI {
 
 
 
-TaskView::TaskView( QWidget* parent )
+TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     : QWidget( parent ),
-      m_model( nullptr )
+      m_model( nullptr ),
+      m_checkBox( nullptr ),
+      m_title( nullptr ),
+      m_comment( nullptr ),
+      m_calendarIcon( nullptr ),
+      m_dueDate( nullptr ),
+      m_personIcon( nullptr ),
+      m_responsible( nullptr )
 {
     /****************************************************************/
     /*********                Widget's Layout:                *******/
@@ -38,12 +46,8 @@ TaskView::TaskView( QWidget* parent )
     /*********                Widget's Style:                 *******/
     /****************************************************************/
     // Init widget color system:
-    QPalette* myPalette = new QPalette();
-    myPalette->setColor( QPalette::All, QPalette::Base, "#ffde6d6a" );
-    myPalette->setColor( QPalette::All, QPalette::Light, "#ff8fdb9b" );
-    myPalette->setColor( QPalette::All, QPalette::Text, "black" );
-    setPalette( *myPalette );
-
+    setPalette(appPalette);
+    changePalette(false);
 
     // Init fonts:
     m_titleFont.setPointSize(35);
@@ -121,18 +125,39 @@ TaskView::~TaskView()
 
 void TaskView::setModel( TaskViewModel* model )
 {
-    if ( m_model )
+    if ( model && model != m_model )
     {
-        disconnect( m_model, 0, this, 0 );
+        if ( m_model )
+        {
+            disconnect( m_model, 0, this, 0 );
+        }
+
+        m_model = model;
+        connect( m_model, &TaskViewModel::changed,
+                 this, &TaskView::onModelChange );
+
+        onModelChange();
     }
-
-    m_model = model;
-    connect( m_model, &TaskViewModel::changed,
-             this, &TaskView::onModelChange );
-
-    onModelChange();
 }
 
+
+
+/* Private methods: */
+
+void TaskView::changePalette( bool highlighted )
+{
+    QPalette newPalette(palette());
+    if ( highlighted )
+    {
+        newPalette.setColor( QPalette::Active, QPalette::Base, "#ffe69290" );
+        newPalette.setColor( QPalette::Active, QPalette::AlternateBase, "#ffbfeac4" );
+    } else
+    {
+        newPalette.setColor( QPalette::Active, QPalette::Base, "#ffde6d6a" );
+        newPalette.setColor( QPalette::Active, QPalette::AlternateBase, "#ff8fdb9b" );
+    }
+    setPalette(newPalette);
+}
 
 void TaskView::setSubInfoVisible( bool visible )
 {
@@ -147,7 +172,11 @@ void TaskView::setSubInfoVisible( bool visible )
 void TaskView::changeIsDonePresentation( bool isDone )
 {
     // Change backround color:
-    setBackgroundRole( isDone ? QPalette::Dark : QPalette::Base );
+    setBackgroundRole( isDone ? QPalette::AlternateBase : QPalette::Base );
+
+    // Strike out title if isDone is true:
+    m_titleFont.setStrikeOut(isDone);
+    m_title->setFont(m_titleFont);
 
     // Size depends on checkbox state:
     if ( isDone )
@@ -169,12 +198,11 @@ void TaskView::onModelChange()
 {
     if ( !m_model->getTitle().isEmpty() ) TextViewUtilz::SetTextToLabel( m_title, m_model->getTitle() );
     else m_title->setText( "Server not reachable" );    // remove later, only for development
-    TextViewUtilz::SetTextToLabel( m_title, "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum" );
     TextViewUtilz::SetTextToLabel( m_comment, m_model->getComment() );
     TextViewUtilz::SetTextToLabel( m_dueDate, QDate::currentDate().toString() );
     TextViewUtilz::SetTextToLabel( m_responsible, "Carolin Helmenstein" );
 
-    // Update 'isDone' depending presentation:
+    // Update 'isDone'-dependent presentation:
     changeIsDonePresentation( m_model->isDone() );
 }
 
@@ -186,3 +214,8 @@ void TaskView::onCheckBoxStateChange( bool state )
     // Change presentation immediatly for better user feeling:
     changeIsDonePresentation( state );
 }
+
+
+
+} // namespace GUI;
+} // namespace Dotoo;
