@@ -4,7 +4,8 @@
 #include "data/interface/asyncdatalyr_task.h"
 
 
-using namespace Dotoo;
+namespace Dotoo {
+namespace GUI {
 
 
 
@@ -13,7 +14,6 @@ TaskViewModel::TaskViewModel( Data::AsyncDataLyr_Task* datalayer,
     : QObject( parent ),
       m_datalayer( datalayer )
 {
-
 }
 
 
@@ -24,7 +24,6 @@ TaskViewModel::TaskViewModel( Data::AsyncDataLyr_Task* datalayer,
       Task( task ),
       m_datalayer( datalayer )
 {
-
 }
 
 
@@ -32,7 +31,6 @@ TaskViewModel::TaskViewModel( const TaskViewModel& other )
     : QObject( other.parent() ),
       Task( other )
 {
-
 }
 
 
@@ -115,7 +113,7 @@ void TaskViewModel::get()
     AsyncDataLyr_TaskResponse* rsp = m_datalayer->getTask(getId());
     connect( rsp, &AsyncDataLyr_TaskResponse::responseGetTask,
              this, &TaskViewModel::onResponseGetTask );
-    connect( rsp, &AsyncDataLyr_TaskResponse::responseGetAllTasks,
+    connect( rsp, &AsyncDataLyr_TaskResponse::responseGetTask,
              rsp, &AsyncDataLyr_TaskResponse::deleteLater );
 }
 
@@ -153,3 +151,7 @@ void TaskViewModel::onResponseChangeTask( Data::Error_t errorCode )
 
     }
 }
+
+
+} // namespace GUI
+} // namespace Dotoo

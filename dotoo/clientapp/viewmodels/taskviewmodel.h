@@ -12,6 +12,7 @@
 /******************** Namespaces ********************/
 
 namespace Dotoo {
+namespace GUI {
 
 
 
@@ -73,6 +74,7 @@ private:
 };
 
 
+} // namespace GUI
 } // namespace Dotoo
 
 #endif // TASKVIEWMODEL_H

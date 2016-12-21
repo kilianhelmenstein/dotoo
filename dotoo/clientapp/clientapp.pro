@@ -16,13 +16,17 @@ SOURCES += main.cpp \
     views/taskview.cpp \
     viewmodels/taskviewmodel.cpp \
     views/customcheckbox.cpp \
-    utilz/textviewutilz.cpp
+    utilz/textviewutilz.cpp \
+    viewmodels/tasklistviewmodel.cpp \
+    views/tasklistview.cpp
 
 HEADERS  += mainwindow.h \
     views/taskview.h \
     viewmodels/taskviewmodel.h \
     views/customcheckbox.h \
-    utilz/textviewutilz.h
+    utilz/textviewutilz.h \
+    viewmodels/tasklistviewmodel.h \
+    views/tasklistview.h
 
 
 

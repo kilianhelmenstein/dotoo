@@ -8,13 +8,16 @@
 #include "data/implementation/asyncdatalyr_taskhttp.h"
 #include "modelparser/taskjson.h"
 #include "models/interface/task.h"
-#include "viewmodels/taskviewmodel.h"
-#include "views/taskview.h"
+
+#include "viewmodels/tasklistviewmodel.h"
+
+#include "views/tasklistview.h"
 
 
 using namespace Dotoo;
-using namespace Data;
-using namespace ModelParser;
+using namespace Dotoo::GUI;
+using namespace Dotoo::Data;
+using namespace Dotoo::ModelParser;
 
 
 int main(int argc, char *argv[])
@@ -25,32 +28,23 @@ int main(int argc, char *argv[])
 
     QWidget mainW;
 
-    QVBoxLayout* listLayout = new QVBoxLayout;
-
     /* Dependencies used by MVC's: */
     BytestreamTaskParser* parser = new JsonTaskParser();
     AsyncDataLyr_Task* dataLayer = new AsyncDataLyr_TaskHttp( "http://localhost:8080",
                                                               "tasks",
                                                               parser );
-    Task* task = new Task();
-    task->setId(1);
-    TaskViewModel* viewmodel = new TaskViewModel( dataLayer, *task );
 
-    for ( int i=0 ; i<10 ; ++i )
-    {
-        TaskView* view = new TaskView();
-        view->setModel( viewmodel );
-        viewmodel->get();
-        listLayout->addWidget( view );
-    }
+    TaskListViewModel* model = new TaskListViewModel(dataLayer);
 
-    mainW.setLayout( listLayout );
+    QPalette defaultPalette;
+    TaskListView* view = new TaskListView(defaultPalette);
+    view->setModel(model);
 
-    QScrollArea* scrollArea = new QScrollArea;
-    scrollArea->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    scrollArea->setBackgroundRole(QPalette::Light);
-    scrollArea->setWidget(&mainW);
-    scrollArea->show();
+    model->getAllTasks();
 
+    QVBoxLayout layout;
+    layout.addWidget(view);
+    mainW.setLayout(&layout);
+    mainW.show();
     return a.exec();
 }
