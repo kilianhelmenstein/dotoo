@@ -65,7 +65,7 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     /*********             Widget's sub-widgets:              *******/
     /****************************************************************/
     m_checkBox = new CustomCheckBox();
-    m_checkBox->setFixedSize( 55, 55 );
+    m_checkBox->setFixedSize( 60, 60 );
     connect( m_checkBox, &CustomCheckBox::toggled, this, &TaskView::isDoneToggled );
     m_title = new QLabel();
     m_title->setFont(m_titleFont);
@@ -108,8 +108,8 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     /****************************************************************/
     /*********             Initial Presenation:               *******/
     /****************************************************************/
-    setFixedSize( 550, 115 );
-
+    setMinimumSize( 550, 115 );
+    setMaximumSize( 580, 135 );
     setBackgroundRole( QPalette::Base );
     setAutoFillBackground( true );
 }
@@ -149,12 +149,12 @@ void TaskView::changePalette( bool highlighted )
     QPalette newPalette(palette());
     if ( highlighted )
     {
-        newPalette.setColor( QPalette::Active, QPalette::Base, "#ffe69290" );
-        newPalette.setColor( QPalette::Active, QPalette::AlternateBase, "#ffbfeac4" );
+        newPalette.setColor( QPalette::All, QPalette::Base, "#ffe69290" );
+        newPalette.setColor( QPalette::All, QPalette::AlternateBase, "#ffbfeac4" );
     } else
     {
-        newPalette.setColor( QPalette::Active, QPalette::Base, "#ffde6d6a" );
-        newPalette.setColor( QPalette::Active, QPalette::AlternateBase, "#ff8fdb9b" );
+        newPalette.setColor( QPalette::All, QPalette::Base, "#ffde6d6a" );
+        newPalette.setColor( QPalette::All, QPalette::AlternateBase, "#ff8fdb9b" );
     }
     setPalette(newPalette);
 }
