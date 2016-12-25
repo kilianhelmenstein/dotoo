@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     views/customcheckbox.cpp \
     utilz/textviewutilz.cpp \
     viewmodels/tasklistviewmodel.cpp \
-    views/tasklistview.cpp
+    views/tasklistview.cpp \
+    views/customiconbutton.cpp
 
 HEADERS  += mainwindow.h \
     views/taskview.h \
@@ -26,24 +27,14 @@ HEADERS  += mainwindow.h \
     views/customcheckbox.h \
     utilz/textviewutilz.h \
     viewmodels/tasklistviewmodel.h \
-    views/tasklistview.h
+    views/tasklistview.h \
+    views/customiconbutton.h
 
 
 
 # Libraries:
-LIBS += -L../src -ldotoolib     # Using dotoolib with common dotoo stuff.
+LIBS += -L../src/lib -ldotoo        # Using dotoolib with common dotoo stuff.
 
 RESOURCES += \
     resources.qrc
 
-Release:DESTDIR = release
-Release:OBJECTS_DIR = release/.obj
-Release:MOC_DIR = release/.moc
-Release:RCC_DIR = release/.rcc
-Release:UI_DIR = release/.ui
-
-Debug:DESTDIR = debug
-Debug:OBJECTS_DIR = debug/.obj
-Debug:MOC_DIR = debug/.moc
-Debug:RCC_DIR = debug/.rcc
-Debug:UI_DIR = debug/.ui
