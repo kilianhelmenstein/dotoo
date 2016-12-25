@@ -31,11 +31,6 @@ SOURCES += main.cpp \
     rest/tasks/getalltaskshandler.cpp \
     rest/tasks/gettaskhandler.cpp
 
-INCLUDEPATH += ../qhttpserver/src
-
-# Libraries:
-LIBS += -L../src -L../qhttpserver/lib -ldotoolib -lqhttpserver
-
 HEADERS += \
     httprequesthandler.h \
     httprequestrouter.h \
@@ -52,3 +47,8 @@ HEADERS += \
     rest/tasks/deletetaskhandler.h \
     rest/tasks/getalltaskshandler.h \
     rest/tasks/gettaskhandler.h
+
+INCLUDEPATH += ../qhttpserver/src
+
+# Libraries:
+LIBS += -L../src/lib -L../qhttpserver/lib -ldotoo -lqhttpserver

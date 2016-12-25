@@ -20,4 +20,4 @@ HEADERS += \
     modelparser/testjsontaskparser.h \
     modelparser/testjsonpersonparser.h
 
-LIBS += -L../src -ldotoolib
+LIBS += -L../src/lib -ldotoo

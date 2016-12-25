@@ -5,23 +5,23 @@ TEMPLATE = lib
 QT += core sql network
 QT -= gui
 
-TARGET = dotoolib
+TARGET = dotoo
 
 DEFINES += COMPILE_LIBRARY
 
-HEADERS += \
-    project/libsymbolsexport.h \
+PRIVATE_HEADERS += models/implementation/taskimpl.h \
+    models/implementation/personimpl.h
+
+PUBLIC_HEADERS += project/libsymbolsexport.h \
     models/interface/task.h \
     models/interface/decl/taskdecl.h \
     models/interface/person.h \
     models/interface/decl/persondecl.h \
     models/interface/decl/projectdecl.h \
-    models/implementation/taskimpl.h \
     models/interface/types/persontypes.h \
     models/interface/types/commontypes.h \
     models/interface/decl/commondecl.h \
     models/interface/types/tasktypes.h \
-    models/implementation/personimpl.h \
     modelparser/person_json.h \
     modelparser/taskjson.h \
     data/utils/sqlrequest.h \
@@ -35,9 +35,10 @@ HEADERS += \
     ext/parsing/json.h \
     data/interface/asyncdatalyr_task.h \
     data/implementation/asyncdatalyr_taskhttp.h \
-    data/utilz/http.h \
+    data/utils/http.h \
     data/interface/datalyr_fwddecl.h
-    #ext/parsing/route.h
+
+HEADERS = $$PUBLIC_HEADERS $$PRIVATE_HEADERS
 
 SOURCES += \
     models/implementation/taskimpl.cpp \
@@ -59,3 +60,10 @@ INCLUDEPATH += \
     persistence \
     modelparser \
     ext
+
+DESTDIR = lib
+
+target.path = lib
+headers.path = inc
+headers.files = $$PUBLIC_HEADERS
+INSTALLS += target headers
