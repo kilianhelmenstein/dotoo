@@ -5,5 +5,8 @@
         <file alias="calendar_icon">res/svg/calendar_icon.svg</file>
         <file alias="checkbox_checked">res/svg/checkbox_checked.svg</file>
         <file alias="arrow_icon">res/svg/arrow_icon.svg</file>
+        <file alias="add_icon_selected">res/svg/add_icon_selected.svg</file>
+        <file alias="add_icon_normal">res/svg/add_icon_normal.svg</file>
+        <file alias="add_icon_mover">res/svg/add_icon_mover.svg</file>
     </qresource>
 </RCC>
