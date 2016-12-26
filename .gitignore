@@ -38,7 +38,7 @@ Makefile*
 CMakeLists.txt.user
 
 # Executables
-
+/build
 
 # Etc.
 *.db3
