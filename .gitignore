@@ -38,7 +38,10 @@ Makefile*
 CMakeLists.txt.user
 
 # Executables
-/build
+dotoo/clientapp/build/
+dotoo/clientapp/clientapp
+dotoo/serverapp/build/
+dotoo/tests/build/
 
 # Etc.
 *.db3
