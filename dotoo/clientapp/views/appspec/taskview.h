@@ -38,6 +38,17 @@ namespace GUI {
 class TaskView : public QWidget
 {
     Q_OBJECT
+public:
+
+    /*!
+     * \brief    Contains all possible states of this view.
+     */
+    typedef enum {
+        Normal,     /*!< Normal status. */
+        Focussed,   /*!< Selected by user, e.g. */
+        Disabled    /*!< Not selectable by user. */
+    } State;
+
 private:
     // Indeces of rows:
     static const quint8 RowIdxMain = 0;
@@ -61,6 +72,32 @@ public:
      */
     void setModel( TaskViewModel* model );
 
+    /*!
+     * \brief   Deliers the widget's state.
+     */
+    State state() const { return m_state; }
+
+    /*!
+     * \brief   Takes the view into desired state. Will update the view and
+     *          its state-dependent behavior.
+     *
+     * \param   State state                 Desired state for this view.
+     */
+    void setState( State state );
+
+    /*!
+     * \brief   Delivers the highlighted state of this widget.
+     */
+    bool highlighted() const { return m_highlighted; }
+
+    /*!
+     * \brief   Sets the highlighted state of this widget.
+     *
+     * \param   bool highlighted    Indicates whether widget's palette shall be
+     *                              selected that it appears highlighted.
+     */
+    void setHighlighted( bool highlighted );
+
 signals:
     /*!
      * \brief   This signal is emitted when the 'isDone' state of the task was changed.
@@ -77,12 +114,12 @@ protected:
     /*!
      * \brief   Lets widget look highlighted.
      */
-    void enterEvent(QEvent*) { changePalette(true); }
+    void enterEvent(QEvent*) { setHighlighted(true); updatePalette(); }
 
     /*!
      * \brief   Lets widget look un-highlighted.
      */
-    void leaveEvent(QEvent*) { changePalette(false); }
+    void leaveEvent(QEvent*) { setHighlighted(false); updatePalette(); }
 
     /*!
      * \brief   Emit own signal.
@@ -103,11 +140,8 @@ private:
 
     /*!
      * \brief   Adapts the widget's palette to 'highlighted' state.
-     *
-     * \param   bool highlighted    Indicates whether widget's palette shall be
-     *                              selected that it appears highlighted.
      */
-    void changePalette( bool highlighted );
+    void updatePalette();
 
     /*!
      * \brief   Sets the visible state of
@@ -144,6 +178,8 @@ private slots:
 
 private:
     TaskViewModel* m_model;                     /*!< Reference to model that contains presentated data. */
+    State m_state;                              /*!< View's current state. */
+    bool m_highlighted;                         /*!< Stores highlighted (by mouse over event e.g.) state. */
 
     // Sub-widgets:
     CustomGUI::CustomCheckBox* m_checkBox;      /*!< Displays 'isDone' attribute. Interactive. */

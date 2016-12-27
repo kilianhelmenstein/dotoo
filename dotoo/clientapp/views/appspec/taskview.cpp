@@ -23,6 +23,8 @@ namespace GUI {
 TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     : QWidget( parent ),
       m_model( nullptr ),
+      m_state( Normal ),
+      m_highlighted( false ),
       m_checkBox( nullptr ),
       m_title( nullptr ),
       m_comment( nullptr ),
@@ -47,7 +49,6 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     /****************************************************************/
     // Init widget color system:
     setPalette(appPalette);
-    changePalette(false);
 
     // Init fonts:
     m_titleFont.setPointSize(35);
@@ -112,6 +113,7 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     setMaximumSize( 580, 135 );
     setBackgroundRole( QPalette::Base );
     setAutoFillBackground( true );
+    updatePalette();
 }
 
 
@@ -141,22 +143,54 @@ void TaskView::setModel( TaskViewModel* model )
 }
 
 
+void TaskView::setState( State state )
+{
+    if ( state != m_state ) // Only act if necessary.
+    {
+        m_state = state;
+        m_checkBox->setEnabled( m_state != Disabled );  // Disable if necessary.
+        updatePalette();
+    }
+}
+
+
+void TaskView::setHighlighted( bool highlighted )
+{
+    if ( highlighted != m_highlighted )
+    {
+        m_highlighted = highlighted;
+        updatePalette();
+    }
+}
+
 
 /* Private methods: */
 
-void TaskView::changePalette( bool highlighted )
+void TaskView::updatePalette()
 {
-    QPalette newPalette(palette());
-    if ( highlighted )
+    QPalette newPalette(palette());     // Create new palette, prototyped by my one.
+    switch ( state() )
     {
-        newPalette.setColor( QPalette::All, QPalette::Base, "#ffe69290" );
-        newPalette.setColor( QPalette::All, QPalette::AlternateBase, "#ffbfeac4" );
-    } else
-    {
-        newPalette.setColor( QPalette::All, QPalette::Base, "#ffde6d6a" );
-        newPalette.setColor( QPalette::All, QPalette::AlternateBase, "#ff8fdb9b" );
+    case Normal:
+        newPalette.setColor( QPalette::All, QPalette::Base,                 // 'isDone = false'-presentation
+                             highlighted() ? "#ffe69290" : "#ffde6d6a" );
+        newPalette.setColor( QPalette::All, QPalette::AlternateBase,        // 'isDone = true'-presentation
+                             highlighted() ? "#ffbfeac4" : "#ff8fdb9b" );
+        break;
+    case Focussed:
+        newPalette.setColor( QPalette::All, QPalette::Base,                 // 'isDone = false'-presentation
+                             "#ffe69290" );
+        newPalette.setColor( QPalette::All, QPalette::AlternateBase,        // 'isDone = true'-presentation
+                             "#ffbfeac4" );
+        break;
+    case Disabled:
+        newPalette.setColor( QPalette::All, QPalette::Base,                 // 'isDone = false'-presentation
+                             "#ffc89695" );
+        newPalette.setColor( QPalette::All, QPalette::AlternateBase,        // 'isDone = true'-presentation
+                             "#ff99b99e" );
+        break;
     }
-    setPalette(newPalette);
+    setPalette(newPalette);             // Update my palette.
 }
 
 void TaskView::setSubInfoVisible( bool visible )
@@ -211,7 +245,7 @@ void TaskView::onCheckBoxStateChange( bool state )
 {
     emit isDoneToggled( state );       // Forward signal: Contoller has to handle it.
 
-    // Change presentation immediatly for better user feeling:
+    // Change presentation immediatly (for better user experience):
     changeIsDonePresentation( state );
 }
 
