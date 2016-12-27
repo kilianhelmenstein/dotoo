@@ -13,22 +13,28 @@ QT       += core gui svg
 # Files we need:
 SOURCES += main.cpp \
         mainwindow.cpp \
-    views/taskview.cpp \
-    viewmodels/taskviewmodel.cpp \
-    views/customcheckbox.cpp \
     utilz/textviewutilz.cpp \
+    viewmodels/taskviewmodel.cpp \
     viewmodels/tasklistviewmodel.cpp \
-    views/tasklistview.cpp \
-    views/customiconbutton.cpp
+    views/appspec/taskview.cpp \
+    views/appspec/tasklistview.cpp \
+    views/reusable/customcheckbox.cpp \
+    views/reusable/customiconbutton.cpp \
+    views/reusable/custommenubar.cpp
 
 HEADERS  += mainwindow.h \
-    views/taskview.h \
-    viewmodels/taskviewmodel.h \
-    views/customcheckbox.h \
     utilz/textviewutilz.h \
+    viewmodels/taskviewmodel.h \
     viewmodels/tasklistviewmodel.h \
-    views/tasklistview.h \
-    views/customiconbutton.h
+    views/appspec/taskview.h \
+    views/appspec/tasklistview.h \
+    views/reusable/customcheckbox.h \
+    views/reusable/customiconbutton.h \
+    views/reusable/custommenubar.h
+
+INCLUDEPATH += views/reusable \
+               views/appspec \
+               viewmodels
 
 
 
