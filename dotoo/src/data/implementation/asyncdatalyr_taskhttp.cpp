@@ -91,7 +91,7 @@ AsyncDataLyr_TaskResponse* AsyncDataLyr_TaskHttp::getTask( const UniqueId taskId
             }
         }
 
-        emit retVal-> responseGetTask( t, errorCode );
+        emit retVal->responseGetTask( t, errorCode );
     };
 
     connect( reply, &QNetworkReply::finished, handleResponse );
@@ -136,7 +136,7 @@ AsyncDataLyr_TaskResponse* AsyncDataLyr_TaskHttp::changeTask( const Task& change
     {
         const HttpUtilz::HttpStatusCode statusCode
                 = static_cast<HttpUtilz::HttpStatusCode>(reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt());
-        emit retVal-> responseCreateTask( HttpUtilz::DataErrorIntoHttpCode( statusCode ) );
+        emit retVal->responseChangeTask( HttpUtilz::DataErrorIntoHttpCode( statusCode ) );
     };
 
     connect( reply, &QNetworkReply::finished, handleResponse );
@@ -158,7 +158,7 @@ AsyncDataLyr_TaskResponse* AsyncDataLyr_TaskHttp::deleteTask( const UniqueId tas
     {
         const HttpUtilz::HttpStatusCode statusCode
                 = static_cast<HttpUtilz::HttpStatusCode>(reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt());
-        emit retVal->responseCreateTask( HttpUtilz::DataErrorIntoHttpCode( statusCode ) );
+        emit retVal->responseDeleteTask( HttpUtilz::DataErrorIntoHttpCode( statusCode ) );
     };
 
     connect( reply, &QNetworkReply::finished, handleResponse );
