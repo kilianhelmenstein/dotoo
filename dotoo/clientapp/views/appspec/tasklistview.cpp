@@ -20,10 +20,11 @@ namespace GUI {
 TaskListView::TaskListView( const QString headlineText,
                             const QPalette& appPalette,
                             QWidget* parent )
-    : QWidget(parent),
-      m_model(nullptr),
-      m_defaultPalette(appPalette),
-      m_listLayout(nullptr)
+    : QWidget( parent) ,
+      m_model( nullptr ),
+      m_defaultPalette( appPalette ),
+      m_listLayout( nullptr ),
+      m_selectedTask( nullptr )
 {  
     /****************************************************************/
     /*********             Initial Presenation:               *******/
@@ -137,6 +138,8 @@ TaskListView::~TaskListView()
 }
 
 
+/* Public methods: */
+
 void TaskListView::setHeadline( const QString& headlineText )
 {
     TextViewUtilz::SetTextToLabel( m_headline, headlineText );
@@ -163,12 +166,40 @@ void TaskListView::setModel( TaskListViewModel* model )
 }
 
 
+bool TaskListView::setTaskSelection( int index )
+{
+    if ( index < m_taskViews.size() )
+    {
+        TaskView* newSelection = m_taskViews.at( index );
+        changeTaskSelection( newSelection );
+        return true;
+    } else
+    {
+        return false;
+    }
+}
+
+
+/* Private methods: */
+
+void TaskListView::changeTaskSelection( TaskView* newSelection )
+{
+    if ( m_selectedTask ) m_selectedTask->setState( TaskView::Normal );
+    m_selectedTask = newSelection;
+    if ( m_selectedTask ) m_selectedTask->setState( TaskView::Focussed );
+    emit selectionChanged( m_selectedTask );
+}
+
+
+/* Private slots: */
+
 void TaskListView::onModelChange()
 {
     // Remove old ones
     foreach ( TaskView* view, m_taskViews )
     {
         m_listLayout->removeWidget(view);
+        disconnect( view, 0, this, 0 );
         delete view;
     }
     m_taskViews.clear();
@@ -178,8 +209,15 @@ void TaskListView::onModelChange()
     {
         TaskView* view = new TaskView(m_defaultPalette);
         view->setModel(taskModel);
+        connect( view, &TaskView::mouseClicked, this, &TaskListView::onTaskClicked );
         m_listLayout->addWidget(view);
     }
+}
+
+
+void TaskListView::onTaskClicked()
+{
+    changeTaskSelection( qobject_cast<TaskView*>( QObject::sender() ) );
 }
 
 
