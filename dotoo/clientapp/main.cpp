@@ -10,6 +10,7 @@
 #include "viewmodels/tasklistviewmodel.h"
 
 #include "tasklistview.h"
+#include "tasklistctrl.h"
 
 
 using namespace Dotoo;
@@ -38,6 +39,7 @@ int main(int argc, char *argv[])
     TaskListView* view = new TaskListView( QLatin1String("All Tasks"),
                                            *appPalette );
     view->setModel(model);
+    TaskListCtrl* controller = new TaskListCtrl( model, view );
 
     QVBoxLayout* layout = new QVBoxLayout();
     layout->setSizeConstraint(QLayout::SetMinAndMaxSize);
