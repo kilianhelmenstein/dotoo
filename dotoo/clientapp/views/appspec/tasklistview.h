@@ -4,14 +4,16 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QGraphicsBlurEffect>
-
-#include "viewmodels/tasklistviewmodel.h"
-#include "taskview.h"
-
+#include <QLabel>
 
 
 namespace Dotoo {
 namespace GUI {
+
+
+class TaskListViewModel;
+class TaskView;
+
 
 
 /*!
@@ -64,6 +66,11 @@ public:
      * \param   TaskListViewModel* model        Pointer to new viewmodel instance.
      */
     void setModel( TaskListViewModel* model );
+
+    /*!
+     * \brief   Delivers the view's model.
+     */
+    TaskListViewModel* model() const { return m_model; }
 
     /*!
      * \brief   Delivers the currently selected task (its view).

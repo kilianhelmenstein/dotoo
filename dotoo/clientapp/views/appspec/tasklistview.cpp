@@ -9,6 +9,8 @@
 
 #include "customiconbutton.h"
 
+#include "viewmodels/tasklistviewmodel.h"
+#include "taskview.h"
 #include "utilz/textviewutilz.h"
 
 
@@ -82,21 +84,29 @@ TaskListView::TaskListView( const QString headlineText,
                                                                                ":svg/update_icon_selected",
                                                                                false );
     toolUpdate->setFixedSize( 70,70 );
+    connect( toolUpdate, &CustomGUI::CustomIconButton::clicked,
+             this, &TaskListView::clickedUpdate );      // Forward buttons signal.
     CustomGUI::CustomIconButton* toolAdd = new CustomGUI::CustomIconButton( ":svg/add_icon_normal",
                                                                             ":svg/add_icon_mover",
                                                                             ":svg/add_icon_selected",
                                                                             false );
     toolAdd->setFixedSize( 70,70 );
+    connect( toolAdd, &CustomGUI::CustomIconButton::clicked,
+             this, &TaskListView::clickedAdd );         // Forward buttons signal.
     CustomGUI::CustomIconButton* toolChange = new CustomGUI::CustomIconButton( ":svg/change_icon_normal",
                                                                                ":svg/change_icon_mover",
                                                                                ":svg/change_icon_selected",
                                                                                false );
     toolChange->setFixedSize(70,70);
+    connect( toolChange, &CustomGUI::CustomIconButton::clicked,
+             this, &TaskListView::clickedChange );      // Forward buttons signal.
     CustomGUI::CustomIconButton* toolDelete = new CustomGUI::CustomIconButton( ":svg/delete_icon_normal",
                                                                                ":svg/delete_icon_mover",
                                                                                ":svg/delete_icon_selected",
                                                                                false );
     toolDelete->setFixedSize( 70,70 );
+    connect( toolDelete, &CustomGUI::CustomIconButton::clicked,
+             this, &TaskListView::clickedDelete );      // Forward buttons signal.
 
 
     /****************************************************************/
@@ -195,12 +205,14 @@ void TaskListView::changeTaskSelection( TaskView* newSelection )
 
 void TaskListView::onModelChange()
 {
+    m_selectedTask = nullptr;       // Don't know whether selected task is now invalid.
+
     // Remove old ones
     foreach ( TaskView* view, m_taskViews )
     {
         m_listLayout->removeWidget(view);
         disconnect( view, 0, this, 0 );
-        delete view;
+        view->deleteLater();
     }
     m_taskViews.clear();
 
@@ -208,9 +220,10 @@ void TaskListView::onModelChange()
     foreach ( TaskViewModel* taskModel, m_model->modelList() )
     {
         TaskView* view = new TaskView(m_defaultPalette);
-        view->setModel(taskModel);
+        view->setModel( taskModel );
         connect( view, &TaskView::mouseClicked, this, &TaskListView::onTaskClicked );
-        m_listLayout->addWidget(view);
+        m_listLayout->addWidget( view );
+        m_taskViews.append( view );
     }
 }
 
