@@ -9,7 +9,7 @@
 
 #include "viewmodels/tasklistviewmodel.h"
 
-#include "views/tasklistview.h"
+#include "tasklistview.h"
 
 
 using namespace Dotoo;
