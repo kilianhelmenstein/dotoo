@@ -8,5 +8,11 @@
         <file alias="add_icon_selected">res/svg/add_icon_selected.svg</file>
         <file alias="add_icon_normal">res/svg/add_icon_normal.svg</file>
         <file alias="add_icon_mover">res/svg/add_icon_mover.svg</file>
+        <file alias="delete_icon_selected">res/svg/delete_icon_selected.svg</file>
+        <file alias="delete_icon_normal">res/svg/delete_icon_normal.svg</file>
+        <file alias="delete_icon_mover">res/svg/delete_icon_mover.svg</file>
+        <file alias="change_icon_selected">res/svg/change_icon_selected.svg</file>
+        <file alias="change_icon_normal">res/svg/change_icon_normal.svg</file>
+        <file alias="change_icon_mover">res/svg/change_icon_mover.svg</file>
     </qresource>
 </RCC>
