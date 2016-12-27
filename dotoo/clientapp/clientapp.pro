@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     views/appspec/tasklistview.cpp \
     views/reusable/customcheckbox.cpp \
     views/reusable/customiconbutton.cpp \
-    views/reusable/custommenubar.cpp
+    views/reusable/custommenubar.cpp \
+    controller/tasklistctrl.cpp
 
 HEADERS  += mainwindow.h \
     utilz/textviewutilz.h \
@@ -30,7 +31,8 @@ HEADERS  += mainwindow.h \
     views/appspec/tasklistview.h \
     views/reusable/customcheckbox.h \
     views/reusable/customiconbutton.h \
-    views/reusable/custommenubar.h
+    views/reusable/custommenubar.h \
+    controller/tasklistctrl.h
 
 INCLUDEPATH += views/reusable \
                views/appspec \
