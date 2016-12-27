@@ -6,6 +6,10 @@
 
 
 
+namespace CustomGUI {
+
+
+
 CustomMenuBar::CustomMenuBar( Direction dir,
                               QWidget* parent )
     : QWidget(parent),
@@ -37,3 +41,6 @@ void CustomMenuBar::addWidget( QWidget* w,
     // Store ref to widget:
 
 }
+
+
+} // namespace CustomGUI

@@ -4,6 +4,9 @@
 #include "customcheckbox.h"
 
 
+namespace CustomGUI {
+
+
 
 CustomCheckBox::CustomCheckBox( QWidget* parent )
     : QWidget( parent ),
@@ -36,3 +39,6 @@ void CustomCheckBox::mouseReleaseEvent( QMouseEvent* event )
 
     emit toggled( m_state );        // inform listeners
 }
+
+
+} // namespace CustomGUI

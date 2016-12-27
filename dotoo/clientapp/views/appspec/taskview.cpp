@@ -64,12 +64,12 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     /****************************************************************/
     /*********             Widget's sub-widgets:              *******/
     /****************************************************************/
-    m_checkBox = new CustomCheckBox();
+    m_checkBox = new CustomGUI::CustomCheckBox();
     m_checkBox->setFixedSize( 60, 60 );
-    connect( m_checkBox, &CustomCheckBox::toggled, this, &TaskView::isDoneToggled );
+    connect( m_checkBox, &CustomGUI::CustomCheckBox::toggled, this, &TaskView::isDoneToggled );
     m_title = new QLabel();
     m_title->setFont(m_titleFont);
-    connect( m_checkBox, &CustomCheckBox::toggled, this, &TaskView::onCheckBoxStateChange );
+    connect( m_checkBox, &CustomGUI::CustomCheckBox::toggled, this, &TaskView::onCheckBoxStateChange );
 
     m_comment = new QLabel();
     m_comment->setFont(m_commentFont);

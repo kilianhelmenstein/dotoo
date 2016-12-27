@@ -5,6 +5,10 @@
 
 
 
+namespace CustomGUI {
+
+
+
 CustomIconButton::CustomIconButton( const QString& iconNormal,
                                     const QString& iconMouseOver,
                                     const QString& iconSelected,
@@ -26,6 +30,26 @@ CustomIconButton::CustomIconButton( const QString& iconNormal,
 }
 
 
+
+void CustomIconButton::setSelected( bool selected )
+{
+    if ( selectable() )
+    {
+        m_isSelected = selected;
+    }
+
+    // Update presentation:
+    if ( m_isSelected )
+    {
+        m_icon->load( QString(m_iconSelected) );
+    } else
+    {
+         m_icon->load( QString(m_iconNormal) );
+    }
+}
+
+
+
 void CustomIconButton::mousePressEvent( QMouseEvent* event )
 {
     Q_UNUSED(event)
@@ -37,27 +61,15 @@ void CustomIconButton::mouseReleaseEvent( QMouseEvent* event )
 {
     Q_UNUSED(event)
 
-    if ( m_selectable )
-    {
-        m_isSelected = !m_isSelected;
-    }
+    setSelected( !selected() );
 
-    // Update presentation:
-    if ( m_isSelected )
-    {
-        m_icon->load( QString(m_iconSelected) );
-    } else
-    {
-         m_icon->load( QString(m_iconNormal) );
-    }
-
-    emit clicked( m_isSelected );        // inform listeners
+    emit clicked( selected() );        // inform listeners
 }
 
 
 void CustomIconButton::enterEvent(QEvent*)
 {
-    if ( !m_isSelected )
+    if ( !selected() )
     {
         m_icon->load( QString(m_iconMouseOver) );
     }
@@ -66,9 +78,13 @@ void CustomIconButton::enterEvent(QEvent*)
 
 void CustomIconButton::leaveEvent(QEvent*)
 {
-    if ( !m_isSelected )
+    if ( !selected() )
     {
         m_icon->load( QString(m_iconNormal) );
     }
 }
+
+
+
+} // namespace CustomGUI
 

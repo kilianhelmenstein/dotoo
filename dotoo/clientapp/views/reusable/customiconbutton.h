@@ -7,6 +7,11 @@
 class QSvgWidget;
 
 
+
+namespace CustomGUI {
+
+
+
 class CustomIconButton : public QWidget
 {
     Q_OBJECT
@@ -17,6 +22,10 @@ public:
                       bool selectable=false,
                       QWidget* parent=nullptr );
     virtual ~CustomIconButton() {}
+
+    bool selectable() const { return m_selectable; }
+    bool selected() const { return m_isSelected; }
+    void setSelected( bool selected );
 
 private slots:
     void mousePressEvent( QMouseEvent* event );
@@ -47,5 +56,8 @@ private:
     const bool m_selectable;
     bool m_isSelected;
 };
+
+
+} // namespace CustomGUI
 
 #endif // CUSTOMICONBUTTON_H

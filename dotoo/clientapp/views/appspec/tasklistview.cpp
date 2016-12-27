@@ -1,5 +1,6 @@
 #include "tasklistview.h"
 
+#include <QGridLayout>
 #include <QHBoxLayout>
 #include <QScrollArea>
 #include <QRadialGradient>
@@ -29,7 +30,7 @@ TaskListView::TaskListView( const QString headlineText,
     /****************************************************************/
     setMinimumSize( 600, 500 );
     setMaximumSize( 700, 2000 );
-    setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+    setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Expanding );
     setAutoFillBackground( true );
 
     /****************************************************************/
@@ -46,82 +47,82 @@ TaskListView::TaskListView( const QString headlineText,
 
     /*** Headline: ***/
     QFont headlineFont;
-    headlineFont.setPointSize(40);
-    headlineFont.setStyleHint(QFont::SansSerif);
-    headlineFont.setWeight(30);
+    headlineFont.setPointSize( 40 );
+    headlineFont.setStyleHint( QFont::SansSerif );
+    headlineFont.setWeight( 30 );
     m_headline = new QLabel();
-    m_headline->setFont(headlineFont);
-    m_headline->setText(headlineText);
+    m_headline->setFont( headlineFont );
+    m_headline->setText( headlineText );
 
     /*** Task list: ***/
     // Use 'mainWidget' for usage of scroll area (takes only a widget, no layouts):
-    QWidget* mainWidget = new QWidget(this);
+    QWidget* mainWidget = new QWidget( this );
     mainWidget->setMinimumSize( 600, 500 );
     mainWidget->setMaximumSize( 700, 2000 );
-    mainWidget->setPalette(m_defaultPalette);
-    mainWidget->installEventFilter(this);           // mainWidget does not have functionality. Forward events to true widet.
+    mainWidget->setPalette( m_defaultPalette );
+    mainWidget->installEventFilter( this );             // mainWidget does not have functionality. Forward events to true widet.
 
     // Scroll area for list:
-    QScrollArea* scrollArea = new QScrollArea(this);
-    scrollArea->setPalette(m_defaultPalette);
-    scrollArea->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    scrollArea->setMinimumSize(minimumSize());
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setBackgroundRole(QPalette::Background);    // TODO: Maybe add a gradient would look nice.
-    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scrollArea->setFrameShape(QFrame::NoFrame);
-    scrollArea->installEventFilter(this);
-    scrollArea->setWidget(mainWidget);
+    QScrollArea* scrollArea = new QScrollArea( /*this*/ );
+    scrollArea->setPalette( m_defaultPalette );
+    scrollArea->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+    scrollArea->setMinimumSize( minimumSize() );
+    scrollArea->setWidgetResizable( true );
+    scrollArea->setBackgroundRole( QPalette::Background );    // TODO: Maybe add a gradient would look nice.
+    scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    scrollArea->setFrameShape( QFrame::NoFrame );
+    scrollArea->installEventFilter( this );
+    scrollArea->setWidget( mainWidget );
 
     /*** Tool bar: ***/
-    CustomIconButton* toolAdd = new CustomIconButton( ":svg/add_icon_normal",
-                                                      ":svg/add_icon_mover",
-                                                      ":svg/add_icon_selected",
-                                                      false );
-    toolAdd->setFixedSize(70,70);
-    CustomIconButton* toolChange = new CustomIconButton( ":svg/add_icon_normal",
-                                                         ":svg/add_icon_mover",
-                                                         ":svg/add_icon_selected",
-                                                         true );
+    CustomGUI::CustomIconButton* toolAdd = new CustomGUI::CustomIconButton( ":svg/add_icon_normal",
+                                                                            ":svg/add_icon_mover",
+                                                                            ":svg/add_icon_selected",
+                                                                            false );
+    toolAdd->setFixedSize( 70,70 );
+    CustomGUI::CustomIconButton* toolChange = new CustomGUI::CustomIconButton( ":svg/change_icon_normal",
+                                                                               ":svg/change_icon_mover",
+                                                                               ":svg/change_icon_selected",
+                                                                               false );
     toolChange->setFixedSize(70,70);
-    CustomIconButton* toolDelete = new CustomIconButton( ":svg/add_icon_normal",
-                                                         ":svg/add_icon_mover",
-                                                         ":svg/add_icon_selected",
-                                                         true );
-    toolDelete->setFixedSize(70,70);
+    CustomGUI::CustomIconButton* toolDelete = new CustomGUI::CustomIconButton( ":svg/delete_icon_normal",
+                                                                               ":svg/delete_icon_mover",
+                                                                               ":svg/delete_icon_selected",
+                                                                               true );
+    toolDelete->setFixedSize( 70,70 );
 
 
     /****************************************************************/
     /*********               Widget's Effects:                *******/
     /****************************************************************/
-    m_looseFocusEffect = new QGraphicsBlurEffect(this); // TODO: Evaluate better teamwork of scroll area and this effect.
-    m_looseFocusEffect->setBlurRadius(8.0);
-    m_looseFocusEffect->setEnabled(false);
-    setGraphicsEffect(m_looseFocusEffect);
+    m_looseFocusEffect = new QGraphicsBlurEffect( this );   // TODO: Evaluate better teamwork of scroll area and this effect.
+    m_looseFocusEffect->setBlurRadius( 8.0 );
+    m_looseFocusEffect->setEnabled( false );
+    setGraphicsEffect( m_looseFocusEffect );
 
     /****************************************************************/
     /*********                Widget's Layout:                *******/
     /****************************************************************/
 
     m_listLayout = new QVBoxLayout();
-    m_listLayout->setSpacing(10);
-    m_listLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
-    mainWidget->setLayout(m_listLayout);
+    m_listLayout->setSpacing( 10 );
+    m_listLayout->setSizeConstraint( QLayout::SetMinAndMaxSize );
+    mainWidget->setLayout( m_listLayout );
 
     // Toolbox layout:
-    QHBoxLayout* toolboxLayout = new QHBoxLayout();
-    toolboxLayout->addWidget( toolAdd, 0, Qt::AlignCenter );
-    toolboxLayout->addWidget( toolChange, 0, Qt::AlignCenter );
-    toolboxLayout->addWidget( toolDelete, 0, Qt::AlignCenter );
+    QVBoxLayout* toolboxLayout = new QVBoxLayout();
+    toolboxLayout->addWidget( toolAdd, 0, Qt::AlignLeft );
+    toolboxLayout->addWidget( toolChange, 0, Qt::AlignLeft );
+    toolboxLayout->addWidget( toolDelete, 0, Qt::AlignLeft );
 
     /*** Main VBox layout. Contains headline, task list itself (contained within
      *   scroll area and tool bar (for manipulating task and task list): ***/
-    QVBoxLayout* mainLayout = new QVBoxLayout();
-    mainLayout->addWidget(m_headline);
-    mainLayout->addWidget(scrollArea);
-    mainLayout->addLayout(toolboxLayout);     // TODO: Implement custom toolbar. Add here.
-    setLayout(mainLayout);
+    QGridLayout* mainLayout = new QGridLayout();
+    mainLayout->addWidget( m_headline, 0, 0 );
+    mainLayout->addWidget( scrollArea, 1, 0 );
+    mainLayout->addLayout( toolboxLayout, 1, 1, 1, 1, Qt::AlignTop | Qt::AlignLeft );     // TODO: Implement custom toolbar. Add here.
+    setLayout( mainLayout );
 }
 
 

@@ -7,9 +7,9 @@
 class QLabel;
 class QSvgWidget;
 class QPalette;
-class CustomCheckBox;
 
-#include "viewmodels/taskviewmodel.h"
+#include "customcheckbox.h"
+#include "taskviewmodel.h"
 
 
 
@@ -146,7 +146,7 @@ private:
     TaskViewModel* m_model;                     /*!< Reference to model that contains presentated data. */
 
     // Sub-widgets:
-    CustomCheckBox* m_checkBox;                 /*!< Displays 'isDone' attribute. Interactive. */
+    CustomGUI::CustomCheckBox* m_checkBox;      /*!< Displays 'isDone' attribute. Interactive. */
     QLabel* m_title;                            /*!< Displays model's 'title' attribute as text. */
     QLabel* m_comment;                          /*!< Displays model's 'comment' attribute as text. */
     QSvgWidget* m_calendarIcon;                 /*!< Calendar icon for that leads 'due date' presentation. */

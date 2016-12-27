@@ -6,6 +6,9 @@
 class QSvgWidget;
 
 
+namespace CustomGUI {
+
+
 class CustomCheckBox : public QWidget
 {
     Q_OBJECT
@@ -24,5 +27,7 @@ private:
 
     bool m_state;
 };
+
+} // namespace CustomGUI
 
 #endif // CUSTOMCHECKBOX_H

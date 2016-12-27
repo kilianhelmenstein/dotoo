@@ -6,6 +6,10 @@
 
 
 
+namespace CustomGUI {
+
+
+
 class CustomMenuBar : public QWidget
 {
     Q_OBJECT
@@ -66,5 +70,8 @@ private:
 
     QBoxLayout* m_mainLayout;   /*!< Pointer to main layout. Contains the icons. Init. within ctor. */
 };
+
+
+} // namespace CustomGUI
 
 #endif // CUSTOMMENUBAR_H

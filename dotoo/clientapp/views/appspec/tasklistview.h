@@ -5,9 +5,8 @@
 #include <QVBoxLayout>
 #include <QGraphicsBlurEffect>
 
-
 #include "viewmodels/tasklistviewmodel.h"
-#include "views/taskview.h"
+#include "taskview.h"
 
 
 
