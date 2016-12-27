@@ -108,15 +108,16 @@ void TaskListViewModel::onResponseGetAllTasks( QList<Task>* allTasks, Data::Erro
         // If m_modelList is greater than 'allTasks' --> Remove remaining task viewmodels:
         if ( oldListsEndReached == false )
         {
-            for ( ; currentOldTask != m_modelList.end()
-                  ; ++currentOldTask )
+            for ( QList<TaskViewModel*>::iterator toDelete = currentOldTask ; toDelete != m_modelList.end()
+                  ; ++toDelete )
             {
-                delete *currentOldTask;
-                m_modelList.erase( currentOldTask );
+                (*currentOldTask)->deleteLater();
             }
+            m_modelList.erase( currentOldTask, m_modelList.end() );
         }
     }
 
+    delete allTasks;
     emit changed();
 }
 
