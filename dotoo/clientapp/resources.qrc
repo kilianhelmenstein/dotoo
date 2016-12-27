@@ -14,5 +14,8 @@
         <file alias="change_icon_selected">res/svg/change_icon_selected.svg</file>
         <file alias="change_icon_normal">res/svg/change_icon_normal.svg</file>
         <file alias="change_icon_mover">res/svg/change_icon_mover.svg</file>
+        <file alias="update_icon_selected">res/svg/update_icon_selected.svg</file>
+        <file alias="update_icon_normal">res/svg/update_icon_normal.svg</file>
+        <file alias="update_icon_mover">res/svg/update_icon_mover.svg</file>
     </qresource>
 </RCC>

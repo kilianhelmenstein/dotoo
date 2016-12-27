@@ -76,6 +76,11 @@ TaskListView::TaskListView( const QString headlineText,
     scrollArea->setWidget( mainWidget );
 
     /*** Tool bar: ***/
+    CustomGUI::CustomIconButton* toolUpdate = new CustomGUI::CustomIconButton( ":svg/update_icon_normal",
+                                                                               ":svg/update_icon_mover",
+                                                                               ":svg/update_icon_selected",
+                                                                               false );
+    toolUpdate->setFixedSize( 70,70 );
     CustomGUI::CustomIconButton* toolAdd = new CustomGUI::CustomIconButton( ":svg/add_icon_normal",
                                                                             ":svg/add_icon_mover",
                                                                             ":svg/add_icon_selected",
@@ -89,7 +94,7 @@ TaskListView::TaskListView( const QString headlineText,
     CustomGUI::CustomIconButton* toolDelete = new CustomGUI::CustomIconButton( ":svg/delete_icon_normal",
                                                                                ":svg/delete_icon_mover",
                                                                                ":svg/delete_icon_selected",
-                                                                               true );
+                                                                               false );
     toolDelete->setFixedSize( 70,70 );
 
 
@@ -112,9 +117,10 @@ TaskListView::TaskListView( const QString headlineText,
 
     // Toolbox layout:
     QVBoxLayout* toolboxLayout = new QVBoxLayout();
-    toolboxLayout->addWidget( toolAdd, 0, Qt::AlignLeft );
-    toolboxLayout->addWidget( toolChange, 0, Qt::AlignLeft );
-    toolboxLayout->addWidget( toolDelete, 0, Qt::AlignLeft );
+    toolboxLayout->addWidget( toolUpdate );
+    toolboxLayout->addWidget( toolAdd );
+    toolboxLayout->addWidget( toolChange );
+    toolboxLayout->addWidget( toolDelete );
 
     /*** Main VBox layout. Contains headline, task list itself (contained within
      *   scroll area and tool bar (for manipulating task and task list): ***/
