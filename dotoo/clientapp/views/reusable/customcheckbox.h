@@ -13,11 +13,15 @@ class CustomCheckBox : public QWidget
 {
     Q_OBJECT
 public:
-    CustomCheckBox( QWidget* parent=nullptr );
+    CustomCheckBox( bool defaultState=false,
+                    QWidget* parent=nullptr );
     virtual ~CustomCheckBox() {}
 
+    bool state() const { return m_state; }
+    void setState( bool state );
+
 private slots:
-    void mouseReleaseEvent( QMouseEvent* event );
+    void mouseReleaseEvent( QMouseEvent* );
 
 signals:
     void toggled( bool state );

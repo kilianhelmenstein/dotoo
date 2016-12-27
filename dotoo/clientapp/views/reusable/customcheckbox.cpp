@@ -8,25 +8,24 @@ namespace CustomGUI {
 
 
 
-CustomCheckBox::CustomCheckBox( QWidget* parent )
+CustomCheckBox::CustomCheckBox( bool defaultState, QWidget* parent )
     : QWidget( parent ),
-      m_state( false )
+      m_state( defaultState )
 {
     QVBoxLayout* layout = new QVBoxLayout();
     layout->setSpacing(0);
 
-    m_icon = new QSvgWidget( ":/svg/checkbox" );
+    m_icon = new QSvgWidget();
     layout->addWidget( m_icon );
+    setState( m_state );
 
     setLayout( layout );
 }
 
 
-void CustomCheckBox::mouseReleaseEvent( QMouseEvent* event )
+void CustomCheckBox::setState( bool state )
 {
-    Q_UNUSED(event)
-
-    m_state = !m_state;             // toggle state
+    m_state = state;
 
     // Update presentation:
     if ( m_state )
@@ -34,9 +33,15 @@ void CustomCheckBox::mouseReleaseEvent( QMouseEvent* event )
         m_icon->load( QString(":/svg/checkbox_checked") );
     } else
     {
-         m_icon->load( QString(":/svg/checkbox") );
+        m_icon->load( QString(":/svg/checkbox") );
     }
 
+}
+
+
+void CustomCheckBox::mouseReleaseEvent( QMouseEvent* )
+{
+    setState( !state() );
     emit toggled( m_state );        // inform listeners
 }
 
