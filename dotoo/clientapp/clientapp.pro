@@ -36,7 +36,8 @@ HEADERS  += mainwindow.h \
 
 INCLUDEPATH += views/reusable \
                views/appspec \
-               viewmodels
+               viewmodels \
+               controller
 
 
 
