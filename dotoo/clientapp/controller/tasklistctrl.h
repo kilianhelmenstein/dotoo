@@ -3,11 +3,13 @@
 
 #include <QObject>
 
+#include "taskeditctrl.h"
+
 
 namespace Dotoo {
 namespace GUI {
 
-
+class TaskView;
 class TaskListView;
 class TaskListViewModel;
 
@@ -41,6 +43,20 @@ private slots:
     void onClickedAdd();
     void onClickedChange();
     void onClickedDelete();
+    void onDoubleClickedTask( TaskView* view );
+    void onIsDoneToggled( TaskView* view, bool isDone );
+
+private:
+    /*!
+     * \brief   Creates edit view for a task, a dummy model (that is used as data holder)
+     *          and the right controller for the edit view.
+     *
+     * \param   TaskEditCtrl::Mode modeSelection    Mode selection for behavior of controller: Create a new task or change a existing one.
+     *
+     * \return
+     */
+    TaskEditView* createEditView( TaskEditCtrl::Mode modeSelection,
+                                        TaskViewModel* usedModel ) const;
 
 private:
     TaskListViewModel* m_model;     /*!< Stored reference to my model. */
