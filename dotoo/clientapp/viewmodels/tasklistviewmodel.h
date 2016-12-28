@@ -53,6 +53,14 @@ public:
     Data::AsyncDataLyr_Task* dataLayer() const { return m_datalayer; }
     QList<TaskViewModel*> modelList() const { return m_modelList; }
 
+    /*!
+     * \brief   Creates a dummy task viewmodel. Caller takes parentship.
+     *
+     * \return  New, unparented instance of TaskViewModel class with same datalayer of this
+     *          object.
+     */
+    TaskViewModel* createDummy( QObject* parent=nullptr ) const;
+
 signals:
     /*!
      * \brief   This signal is emitted when data changes, e.g. by calling

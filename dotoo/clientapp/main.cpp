@@ -11,7 +11,8 @@
 
 #include "tasklistview.h"
 #include "tasklistctrl.h"
-
+#include "taskeditview.h"
+#include "taskeditctrl.h"
 
 using namespace Dotoo;
 using namespace Dotoo::GUI;
@@ -41,13 +42,7 @@ int main(int argc, char *argv[])
     view->setModel(model);
     TaskListCtrl* controller = new TaskListCtrl( model, view );
 
-    QVBoxLayout* layout = new QVBoxLayout();
-    layout->setSizeConstraint(QLayout::SetMinAndMaxSize);
-    layout->addWidget(view);
-
-    mainW.setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-    mainW.setLayout(layout);
-    mainW.show();
+    view->show();
 
     return a.exec();
 }

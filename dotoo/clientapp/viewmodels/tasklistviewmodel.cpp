@@ -70,6 +70,12 @@ void TaskListViewModel::deleteTask( UniqueId taskId )
 }
 
 
+TaskViewModel* TaskListViewModel::createDummy( QObject* parent ) const
+{
+    return new TaskViewModel( m_datalayer, parent );
+}
+
+
 /* Response slots: */
 
 void TaskListViewModel::onResponseGetAllTasks( QList<Task>* allTasks, Data::Error_t errorCode )
