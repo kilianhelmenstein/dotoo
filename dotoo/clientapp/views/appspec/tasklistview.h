@@ -78,7 +78,7 @@ public:
      * \return  TaskView*                       View of curently selected task.
      *                                          May be a null pointer.
      */
-    TaskView* getSelectedTask() const { return m_selectedTask; }
+    TaskView* selectedTask() const { return m_selectedTask; }
 
     /*!
      * \brief   Changes the current task selection.
@@ -89,6 +89,10 @@ public:
      *                          False if selected index is invalid.
      */
     bool setTaskSelection( int index );
+
+    bool blurring() const;
+
+    void setBlurring( bool blurring );
 
 signals:
     /*!
@@ -112,9 +116,25 @@ signals:
     void clickedDelete();
 
     /*!
+     * \brief   Emitted when a task was clicked double times.
+     *
+     * \param   TaskView* task      The double clicked task.
+     */
+    void doubleClickedTask( TaskView* task );
+
+    /*!
      * \brief   Emitted when someone changed current task selection.
      */
     void selectionChanged( TaskView* newSelection );
+
+    /*!
+     * \brief   Toggled when isDone state of a task was changed by an user.
+     *
+     * \param   TaskView* task      Impacted taskview.
+     *
+     * \param   bool isDone         New isDone state.
+     */
+    void isDoneToggled( TaskView* task, bool isDone );
 
 public slots:
 
@@ -142,6 +162,18 @@ private slots:
      * \brief   Handles a user click on a task item.
      */
     void onTaskClicked();
+
+    /*!
+     * \brief   Handles a user double click on a task item.
+     */
+    void onTaskDoubleClicked();
+
+    /*!
+     * \brief   Handles the toggle of a task's isDone state.
+     *
+     * \param   bool isDone     New isDone state.
+     */
+    void onIsDoneTogled( bool isDone );
 
 private:
     // Parameters:

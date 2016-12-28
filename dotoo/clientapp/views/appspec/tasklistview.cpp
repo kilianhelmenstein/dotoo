@@ -6,6 +6,7 @@
 #include <QRadialGradient>
 #include <QSizePolicy>
 #include <QLabel>
+#include <QPropertyAnimation>
 
 #include "customiconbutton.h"
 
@@ -60,8 +61,8 @@ TaskListView::TaskListView( const QString headlineText,
     /*** Task list: ***/
     // Use 'mainWidget' for usage of scroll area (takes only a widget, no layouts):
     QWidget* mainWidget = new QWidget( this );
-    mainWidget->setMinimumSize( 600, 500 );
-    mainWidget->setMaximumSize( 700, 2000 );
+    mainWidget->setMinimumSize( 600, 500 );             // TODO: Use TaskView's min. size
+    mainWidget->setMaximumSize( 700, 2000 );            // TODO: Evaluate better size hints
     mainWidget->setPalette( m_defaultPalette );
     mainWidget->installEventFilter( this );             // mainWidget does not have functionality. Forward events to true widet.
 
@@ -113,7 +114,7 @@ TaskListView::TaskListView( const QString headlineText,
     /*********               Widget's Effects:                *******/
     /****************************************************************/
     m_looseFocusEffect = new QGraphicsBlurEffect( this );   // TODO: Evaluate better teamwork of scroll area and this effect.
-    m_looseFocusEffect->setBlurRadius( 8.0 );
+    m_looseFocusEffect->setBlurRadius( 7 );
     m_looseFocusEffect->setEnabled( false );
     setGraphicsEffect( m_looseFocusEffect );
 
@@ -140,6 +141,8 @@ TaskListView::TaskListView( const QString headlineText,
     mainLayout->addWidget( scrollArea, 1, 0 );
     mainLayout->addLayout( toolboxLayout, 1, 1, 1, 1, Qt::AlignTop | Qt::AlignLeft );     // TODO: Implement custom toolbar. Add here.
     setLayout( mainLayout );
+
+    setMinimumWidth( toolboxLayout->minimumSize().width() + mainWidget->minimumWidth() );
 }
 
 
@@ -190,6 +193,18 @@ bool TaskListView::setTaskSelection( int index )
 }
 
 
+bool TaskListView::blurring() const
+{
+    return m_looseFocusEffect->isEnabled();
+}
+
+
+void TaskListView::setBlurring( bool blurring )
+{
+    m_looseFocusEffect->setEnabled( blurring );   // If focus shall be set to true, disable blur effect (and vice versa).
+}
+
+
 /* Private methods: */
 
 void TaskListView::changeTaskSelection( TaskView* newSelection )
@@ -210,9 +225,18 @@ void TaskListView::onModelChange()
     // Remove old ones
     foreach ( TaskView* view, m_taskViews )
     {
-        m_listLayout->removeWidget(view);
-        disconnect( view, 0, this, 0 );
-        view->deleteLater();
+        QPropertyAnimation* awayAnimation = new QPropertyAnimation(view,"windowOpacity",view);
+        awayAnimation->setDuration(0);
+        awayAnimation->setStartValue(1.0);
+        awayAnimation->setEndValue(0.0);
+
+        // Remove andd delete 'view' when animation finished:
+        connect( awayAnimation, &QPropertyAnimation::finished,
+                 [this, view]() { this->m_listLayout->removeWidget(view); } );
+        connect( awayAnimation, &QPropertyAnimation::finished,
+                 view, &TaskView::deleteLater );
+
+        awayAnimation->start();
     }
     m_taskViews.clear();
 
@@ -222,6 +246,8 @@ void TaskListView::onModelChange()
         TaskView* view = new TaskView(m_defaultPalette);
         view->setModel( taskModel );
         connect( view, &TaskView::mouseClicked, this, &TaskListView::onTaskClicked );
+        connect( view, &TaskView::mouseDoubleClicked, this, &TaskListView::onTaskDoubleClicked );
+        connect( view, &TaskView::isDoneToggled, this, &TaskListView::onIsDoneTogled );
         m_listLayout->addWidget( view );
         m_taskViews.append( view );
     }
@@ -231,6 +257,26 @@ void TaskListView::onModelChange()
 void TaskListView::onTaskClicked()
 {
     changeTaskSelection( qobject_cast<TaskView*>( QObject::sender() ) );
+}
+
+
+void TaskListView::onTaskDoubleClicked()
+{
+    TaskView* clickedTask = qobject_cast<TaskView*>( QObject::sender() );
+    if ( clickedTask ) // If cast was successfull, forward signal:
+    {
+        emit doubleClickedTask( clickedTask );
+    }
+}
+
+
+void TaskListView::onIsDoneTogled( bool isDone )
+{
+    TaskView* impactedTask = qobject_cast<TaskView*>( QObject::sender() );
+    if ( impactedTask ) // If cast was successfull, forward signal:
+    {
+        emit isDoneToggled( impactedTask, isDone );
+    }
 }
 
 

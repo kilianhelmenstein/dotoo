@@ -1,3 +1,5 @@
+#include "taskview.h"
+
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -8,9 +10,7 @@
 #include <QDebug>
 #include <QFontMetrics>
 
-#include "taskview.h"
 #include "customcheckbox.h"
-
 #include "utilz/textviewutilz.h"
 
 
@@ -68,9 +68,10 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     m_checkBox = new CustomGUI::CustomCheckBox();
     m_checkBox->setFixedSize( 60, 60 );
     connect( m_checkBox, &CustomGUI::CustomCheckBox::toggled, this, &TaskView::isDoneToggled );
+    connect( m_checkBox, &CustomGUI::CustomCheckBox::toggled, this, &TaskView::onCheckBoxStateChange );
+
     m_title = new QLabel();
     m_title->setFont(m_titleFont);
-    connect( m_checkBox, &CustomGUI::CustomCheckBox::toggled, this, &TaskView::onCheckBoxStateChange );
 
     m_comment = new QLabel();
     m_comment->setFont(m_commentFont);
@@ -137,7 +138,8 @@ void TaskView::setModel( TaskViewModel* model )
         m_model = model;
         connect( m_model, &TaskViewModel::changed,
                  this, &TaskView::onModelChange );
-
+        connect( m_model, &TaskViewModel::destroyed,
+                 this, &TaskView::onModelDeletion );
         onModelChange();
     }
 }
@@ -205,6 +207,8 @@ void TaskView::setSubInfoVisible( bool visible )
 
 void TaskView::changeIsDonePresentation( bool isDone )
 {
+    m_checkBox->setState( isDone );     // Update checkbox
+
     // Change backround color:
     setBackgroundRole( isDone ? QPalette::AlternateBase : QPalette::Base );
 
@@ -230,14 +234,19 @@ void TaskView::changeIsDonePresentation( bool isDone )
 
 void TaskView::onModelChange()
 {
-    if ( !m_model->getTitle().isEmpty() ) TextViewUtilz::SetTextToLabel( m_title, m_model->getTitle() );
-    else m_title->setText( "Server not reachable" );    // remove later, only for development
+    TextViewUtilz::SetTextToLabel( m_title, m_model->getTitle() );
     TextViewUtilz::SetTextToLabel( m_comment, m_model->getComment() );
-    TextViewUtilz::SetTextToLabel( m_dueDate, QDate::currentDate().toString() );
-    TextViewUtilz::SetTextToLabel( m_responsible, "Carolin Helmenstein" );
+    TextViewUtilz::SetTextToLabel( m_dueDate, m_model->getDueDate().toString() );
+    TextViewUtilz::SetTextToLabel( m_responsible, "Carolin Helmenstein" );      // TODO: Use PersonListViewModel for determining responsible's name.
 
     // Update 'isDone'-dependent presentation:
     changeIsDonePresentation( m_model->isDone() );
+}
+
+
+void TaskView::onModelDeletion()
+{
+    m_model = nullptr;
 }
 
 
@@ -248,7 +257,6 @@ void TaskView::onCheckBoxStateChange( bool state )
     // Change presentation immediatly (for better user experience):
     changeIsDonePresentation( state );
 }
-
 
 
 } // namespace GUI;

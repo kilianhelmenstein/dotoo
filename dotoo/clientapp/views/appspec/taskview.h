@@ -4,13 +4,16 @@
 #include <QWidget>
 #include <QFont>
 
+
+class QGridLayout;
+class QHBoxLayout;
 class QLabel;
 class QSvgWidget;
 class QPalette;
 
+
 #include "customcheckbox.h"
 #include "taskviewmodel.h"
-
 
 
 namespace Dotoo {
@@ -73,6 +76,11 @@ public:
     void setModel( TaskViewModel* model );
 
     /*!
+     * \brief   Delivers the view's model.
+     */
+    TaskViewModel* model() const { return m_model; }
+
+    /*!
      * \brief   Deliers the widget's state.
      */
     State state() const { return m_state; }
@@ -97,6 +105,8 @@ public:
      *                              selected that it appears highlighted.
      */
     void setHighlighted( bool highlighted );
+
+    bool isDone() const { return m_checkBox->state(); }
 
 signals:
     /*!
@@ -170,11 +180,17 @@ private slots:
     void onModelChange();
 
     /*!
+     * \brief   Handles the deletion of view's model.
+     */
+    void onModelDeletion();
+
+    /*!
      * \brief   Handles the state change of taksview'w checkbox.
      *
      * \param   bool state          New state of checkbox.
      */
     void onCheckBoxStateChange( bool state );
+
 
 private:
     TaskViewModel* m_model;                     /*!< Reference to model that contains presentated data. */
@@ -187,6 +203,7 @@ private:
     QLabel* m_comment;                          /*!< Displays model's 'comment' attribute as text. */
     QSvgWidget* m_calendarIcon;                 /*!< Calendar icon for that leads 'due date' presentation. */
     QLabel* m_dueDate;                          /*!< Displays model's 'due date' attribute. */
+
     QSvgWidget* m_personIcon;                   /*!< Person icon that leads model's 'responsible person' presentation. */
     QLabel* m_responsible;                      /*!< Displays model's 'responsible person' attribute. */
 
