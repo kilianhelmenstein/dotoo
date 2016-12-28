@@ -206,8 +206,24 @@ private:
      *
      * \return  Adapted name.
      */
-    static QString ParseName( const QString& fieldName );
+    static inline QString ParseName( const QString& fieldName );
 
+    /*!
+     * \brief   Surrounds value with "'".
+     *
+     * \param   constQString& value         Input value.
+     *
+     * \return  QString                     Output value string.
+     */
+    static inline QString ParseValue( const QString& value );
+
+    /*!
+     * \brief   Surrounds all values contained in 'values' with "'".
+     *
+     * \param   const QStringlist& values       Input values.
+     *
+     * \return  QStringlist                     Output values.
+     */
     static QStringList ParseValueList( const QStringList& values );
 
     /*!

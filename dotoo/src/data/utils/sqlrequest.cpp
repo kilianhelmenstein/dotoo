@@ -282,7 +282,7 @@ SqlRequest& SqlRequest::update( const QString tableName,
             if ( i != 0 ) { m_sqlRequest->append( SqlSyntax_ListingSeperator ); }
             m_sqlRequest->append( ParseName(columnNames.at(i))
                                  + SqlSyntax_Assignment
-                                 + ParseName(values.at(i) ));
+                                 + ParseValue(values.at(i) ));
         }
     }
     return *this;
@@ -311,6 +311,12 @@ QString SqlRequest::ParseName( const QString& fieldName )
 }
 
 
+QString SqlRequest::ParseValue( const QString& value )
+{
+    return "'" + value + "' ";
+}
+
+
 QStringList SqlRequest::ParseValueList( const QStringList& values )
 {
     QStringList valuesModified;
@@ -318,7 +324,7 @@ QStringList SqlRequest::ParseValueList( const QStringList& values )
     /* All values need "value marker" */
     foreach ( QString val, values )
     {
-        valuesModified.append( "'" + val + "'" );
+        valuesModified.append( ParseValue(val) );
     }
 
     return valuesModified;
