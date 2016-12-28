@@ -191,10 +191,12 @@ void DataLyr_TaskSql::changeTask( const Task& changedTask ) throw(Error_t)
                      << QString::number( changedTask.getPriority() )
                      << QString::number( changedTask.getRelatedProject() )
                      << changedTask.getComment() )
+            .where( "id", SqlRequest::Equal, QString::number(changedTask.getId()) )
             .end();
 
     QSqlQuery dbQuery( *m_database );
     dbQuery.exec( sqlRequest.toString() );
+    qDebug() << dbQuery.lastError();
 }
 
 
