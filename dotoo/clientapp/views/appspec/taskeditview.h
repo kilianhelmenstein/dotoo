@@ -35,7 +35,8 @@ private:
     static const quint8 ClmnIdxButtons = 1;
 
 public:
-    explicit TaskEditView( const QPalette& appPalette, QWidget* parent=nullptr );
+    TaskEditView( const QPalette& appPalette, QWidget* parent=nullptr );
+    ~TaskEditView();
 
 public:
     /*!

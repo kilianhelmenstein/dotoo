@@ -40,10 +40,6 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     QFormLayout* baseLayout = new QFormLayout();
     baseLayout->setLabelAlignment( Qt::AlignRight );
 
-    //baseLayout->addLayout( commentRowLayout, RowIdxComment, ClmnIdxComment );
-    //baseLayout->addLayout( subInfoRowLayout, RowIdxSubInformation, ClmnIdxSubInformation );
-    //baseLayout->addLayout( buttonsLayout, RowIdxButtons, ClmnIdxButtons );
-
 
     /****************************************************************/
     /*********                Widget's Style:                 *******/
@@ -105,23 +101,19 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
              this, &TaskEditView::clickedApply );
 
     baseLayout->addRow( m_lblTitle, m_titleEdit );
-
     baseLayout->addRow( m_lblComment, m_commentEdit );
-
     baseLayout->addRow( m_calendarIcon, m_dueDateEdit );
-
     baseLayout->addRow( m_personIcon, m_responsible );
 
-    baseLayout->addWidget( m_btnAbort );
-    baseLayout->addWidget( m_btnApply );
+    baseLayout->addRow( m_btnAbort, m_btnApply );
 
 
     /****************************************************************/
     /*********               Widget's Effects:                *******/
     /****************************************************************/
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect(this);
-    shadow->setOffset(2,2);
-    shadow->setBlurRadius(8);
+    shadow->setOffset(0,0);
+    shadow->setBlurRadius(20);
     setGraphicsEffect( shadow );
 
     setLayout( baseLayout );
@@ -130,10 +122,14 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     /****************************************************************/
     /*********             Initial Presenation:               *******/
     /****************************************************************/
-    //setMinimumSize( 550, 300 );
-    setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+    setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
     setBackgroundRole( QPalette::Base );
     setAutoFillBackground( true );
+}
+
+
+TaskEditView::~TaskEditView()
+{
 }
 
 
