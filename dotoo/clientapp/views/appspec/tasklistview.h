@@ -90,9 +90,9 @@ public:
      */
     bool setTaskSelection( int index );
 
-    bool blurring() const;
+    bool visualFocus() const;
 
-    void setBlurring( bool blurring );
+    void setVisualFocus( bool visualFocus );
 
 signals:
     /*!

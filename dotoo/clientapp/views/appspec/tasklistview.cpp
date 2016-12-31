@@ -193,15 +193,15 @@ bool TaskListView::setTaskSelection( int index )
 }
 
 
-bool TaskListView::blurring() const
+bool TaskListView::visualFocus() const
 {
-    return m_looseFocusEffect->isEnabled();
+    return !m_looseFocusEffect->isEnabled();
 }
 
 
-void TaskListView::setBlurring( bool blurring )
+void TaskListView::setVisualFocus( bool visualFocus )
 {
-    m_looseFocusEffect->setEnabled( blurring );   // If focus shall be set to true, disable blur effect (and vice versa).
+    m_looseFocusEffect->setEnabled( !visualFocus );   // If focus shall be set to true, disable blur effect (and vice versa).
 }
 
 
