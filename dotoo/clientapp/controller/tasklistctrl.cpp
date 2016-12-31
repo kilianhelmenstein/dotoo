@@ -102,7 +102,7 @@ TaskEditView* TaskListCtrl::createEditView( TaskEditCtrl::Mode modeSelection,
     editView->setModel( usedModel );
     TaskEditCtrl* editCtrl = new TaskEditCtrl( modeSelection, editView, m_model, editView );
 
-    QPropertyAnimation* fadeoutAnimation = QAnimationUtilz::CreateShrinkAnimation( editView, 20 );
+    QPropertyAnimation* fadeoutAnimation = QAnimationUtilz::CreateShrinkAnimation( editView, 1 );
 
     connect( editCtrl, &TaskEditCtrl::userFinished,
              [=]() { fadeoutAnimation->start(); } );
