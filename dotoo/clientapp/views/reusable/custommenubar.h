@@ -2,12 +2,14 @@
 #define CUSTOMMENUBAR_H
 
 #include <QWidget>
+#include <QMap>
 #include <QBoxLayout>
 
 
 
 namespace CustomGUI {
 
+class CustomIconButton;
 
 
 class CustomMenuBar : public QWidget
@@ -63,12 +65,19 @@ signals:
      */
     void selectionChanged( QWidget* selectedWidget );
 
-public slots:
+private slots:
+    /*!
+     * \brief   Handles click on an icon: Change menu selection if necessary.
+     */
+    void onIconClicked();
 
 private:
     const Direction m_dir;      /*!< Selected direction for this menu bar. */
 
-    QBoxLayout* m_mainLayout;   /*!< Pointer to main layout. Contains the icons. Init. within ctor. */
+    QBoxLayout* m_mainLayout;   /*!< Pointer to main layout. Contains icon bar and the menu widgets. */
+    QBoxLayout* m_iconLayout;   /*!< Pointer to layout that manages icon */
+
+    QMap<CustomIconButton*, QWidget*> m_menuWidgets;  /*!< List with references to all selectable */
 };
 
 
