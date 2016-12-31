@@ -23,7 +23,8 @@ SOURCES += main.cpp \
     views/reusable/custommenubar.cpp \
     controller/tasklistctrl.cpp \
     views/appspec/taskeditview.cpp \
-    controller/taskeditctrl.cpp
+    controller/taskeditctrl.cpp \
+    utilz/qanimationutilz.cpp
 
 HEADERS  += mainwindow.h \
     utilz/textviewutilz.h \
@@ -36,7 +37,8 @@ HEADERS  += mainwindow.h \
     views/reusable/custommenubar.h \
     controller/tasklistctrl.h \
     views/appspec/taskeditview.h \
-    controller/taskeditctrl.h
+    controller/taskeditctrl.h \
+    utilz/qanimationutilz.h
 
 INCLUDEPATH += views/reusable \
                views/appspec \
