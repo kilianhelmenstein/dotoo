@@ -1,5 +1,9 @@
 #include "tasklistctrl.h"
 
+#include <QPropertyAnimation>
+
+#include "utilz/qanimationutilz.h"
+
 #include "tasklistviewmodel.h"
 #include "tasklistview.h"
 #include "taskview.h"
@@ -40,21 +44,21 @@ void TaskListCtrl::onClickedUpdate()
 
 void TaskListCtrl::onClickedAdd()
 {
-    TaskViewModel* model = m_model->createDummy();
+    TaskViewModel* model = m_model->createDummy();      // Create new dummy as data holder
     TaskEditView* editView = createEditView( TaskEditCtrl::Create,
-                                                   model );
-    model->setParent( editView );   // Dummy model needs a parent!
+                                             model );
+    model->setParent( editView );
 
+    connect( editView, &TaskEditView::destroyed,
+             [this] () { m_view->setVisualFocus( true ); });
+    //m_view->setVisualFocus( false );
     editView->show();
 }
 
 
 void TaskListCtrl::onClickedChange()
 {
-    TaskEditView* editView = createEditView( TaskEditCtrl::Change,
-                                                   m_view->selectedTask()->model() );
-
-    editView->show();
+    onDoubleClickedTask( m_view->selectedTask() );
 }
 
 
@@ -71,12 +75,11 @@ void TaskListCtrl::onClickedDelete()
 void TaskListCtrl::onDoubleClickedTask( TaskView* view )
 {
     TaskEditView* editView = createEditView( TaskEditCtrl::Change,
-                                                   view->model() );
-
+                                             view->model() );
     connect( editView, &TaskEditView::destroyed,
-             [this] () { m_view->setBlurring( false ); });
+             [this] () { m_view->setVisualFocus( true ); });
 
-    m_view->setBlurring( true );
+    //m_view->setVisualFocus( false );
     editView->show();
 }
 
@@ -93,14 +96,25 @@ void TaskListCtrl::onIsDoneToggled( TaskView* view, bool isDone )
 
 
 TaskEditView* TaskListCtrl::createEditView( TaskEditCtrl::Mode modeSelection,
-                                                  TaskViewModel* usedModel ) const
+                                            TaskViewModel* usedModel ) const
 {
     TaskEditView* editView = new TaskEditView( QPalette() );
     editView->setModel( usedModel );
     TaskEditCtrl* editCtrl = new TaskEditCtrl( modeSelection, editView, m_model, editView );
 
+    QPropertyAnimation* fadeoutAnimation = QAnimationUtilz::CreateShrinkAnimation( editView, 20 );
+
     connect( editCtrl, &TaskEditCtrl::userFinished,
-             [=]() { editView->deleteLater(); } );
+             [=]() { fadeoutAnimation->start(); } );
+    connect( fadeoutAnimation, &QPropertyAnimation::finished,
+             [=]() { editView->deleteLater(); fadeoutAnimation->deleteLater(); } );
+
+    // Arrange within list view:
+    editView->setParent( m_view );
+    editView->setGeometry( m_view->width()/2 - editView->width()/2,
+                           m_view->height()/2 - editView->height()/2,
+                           editView->width(),
+                           editView->height() );        // Center in tasklist view.
 
     return editView;
 }
