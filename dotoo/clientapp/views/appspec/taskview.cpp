@@ -67,7 +67,6 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     /****************************************************************/
     m_checkBox = new CustomGUI::CustomCheckBox();
     m_checkBox->setFixedSize( 60, 60 );
-    connect( m_checkBox, &CustomGUI::CustomCheckBox::toggled, this, &TaskView::isDoneToggled );
     connect( m_checkBox, &CustomGUI::CustomCheckBox::toggled, this, &TaskView::onCheckBoxStateChange );
 
     m_title = new QLabel();
@@ -101,7 +100,7 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     /****************************************************************/
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect(this);
     shadow->setOffset(2,2);
-    shadow->setBlurRadius(8);
+    shadow->setBlurRadius(12);
     setGraphicsEffect( shadow );
 
     setLayout( baseLayout );
