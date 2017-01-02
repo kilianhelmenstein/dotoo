@@ -22,6 +22,28 @@ The server-side delivers the main data by running a http server (without ssl). H
 Currently there are two collection resources '/tasks' and '/persons'. To access particular resources, use '/tasks/<id>' respective '/persons/<id>'. (Ids starting at '1'. Id '0' is invalid within this REST-API.)
 
 ### /tasks
+#### Get all tasks: 
+- Req-Header: GET /tasks
+- Res-Body: { { "id": <id>, "is_done" <bool>, "comment": <string>, "due_date": <string> }, { "id": <id>, ... } }
+
+#### Get one task:
+- Req-Header: GET /tasks/<id>
+- Res-Header: Http status code
+- Res-Body: { "id": <id>, "is_done" <bool>, "comment": <string>, "due_date": <string>, ... }
+  
+#### Create a new task:
+- Req-Header: POST /tasks/<id>
+- Req-Body: { "is_done" <string>, "due_date": <string>, "comment": <string>, "creator": <id>, ... }
+- Res-Header: Http status code
+
+#### Change an existing task:
+- Req-Header: PUT /tasks/<id>
+- Req-Body: { "is_done" <string>, "due_date": <string>, "comment": <string>, "creator": <id>, ... }
+- Res-Header: Http status code
+
+#### Delete an existing person:
+- Req-Header: DELETE /tasks/<id>
+- Res-Header: Http status code
 
 ### /persons
 #### Get all persons: 
