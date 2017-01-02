@@ -8,7 +8,12 @@ namespace QPropertyFiltering {
 
 bool QPropertyFilter::applyFilter( const QObject& propertyContainer )
 {
-    bool result = m_appliedFilterSettings.isEmpty();    // No filtering if filter setting list is empty.
+    if ( m_appliedFilterSettings.isEmpty() )
+    {
+        return true;        // No filtering if filter setting list is empty.
+    }
+
+    bool result = false;
 
     foreach ( FilterSetting filterSetting, m_appliedFilterSettings )
     {
@@ -19,19 +24,12 @@ bool QPropertyFilter::applyFilter( const QObject& propertyContainer )
                               filterSetting.mode, filterSetting.logic ) )
             {
                 // Match:
-                if ( !m_matchAll )
-                {
-                    result = true;
-                    break;
-                }
+                result = true;
             } else
             {
                 // NO Match:
-                if ( m_matchAll )
-                {
-                    result = false;
-                    break;
-                }
+                result = false;
+                if ( filterSetting.matchIsMandatory ) break;
             }
         }
     }

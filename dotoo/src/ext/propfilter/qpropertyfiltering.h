@@ -37,6 +37,7 @@ struct FilterSetting {
     FilterMode mode;                /*!< Mode for this setting. */
     FilterLogic logic;              /*!< Logic for computing match. */
     QList<QVariant> matchValues;    /*!< Values that will be compared to property's current value. */
+    bool matchIsMandatory;
 };
 
 
@@ -48,10 +49,6 @@ struct FilterSetting {
 class QPropertyFilter
 {
 public:
-    QPropertyFilter( bool matchAll=false )
-        : m_matchAll( matchAll )
-    {}
-
     /*!
      * \brief   Installs new filter setting. Overwrites an existing one if
      *          a setting with same 'property' field already exists.
@@ -60,7 +57,7 @@ public:
      */
     void installFilterSetting( const FilterSetting& filterSetting )
     {
-        m_appliedFilterSettings[filterSetting.property] = filterSetting;
+        m_appliedFilterSettings.insert( filterSetting.property, filterSetting );
     }
 
     /*!
@@ -103,7 +100,6 @@ private:
                       FilterLogic logic );
 
 private:
-    bool m_matchAll;                  /*!< If true, all setting must match. If false only one. */
     QMap<QString,FilterSetting> m_appliedFilterSettings;    /*!< This settings will be applied while filtering process. */
 };
 
