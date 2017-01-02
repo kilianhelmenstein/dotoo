@@ -97,11 +97,11 @@ public:
     void setVisualFocus( bool visualFocus );
 
     /* Filter information: */
-    bool filterEnabled() { return m_filterEnabled->isChecked(); }
+    bool filterEnabled() { return m_chbFilterEnabled->isChecked(); }
 
-    bool filterValueIsDone() { return m_filterIsDone->currentData().toBool(); }
+    bool filterValueIsDone() { return m_cobFilterIsDone->currentData().toBool(); }
 
-    QString filterSearchString() { return m_filterSearchString->text(); }
+    QString filterSearchString() { return m_leFilterSearchString->text(); }
 
 
 signals:
@@ -199,9 +199,9 @@ private:
     QLabel* m_headline;                         /*!< Displays the headline. */
     QVBoxLayout* m_listLayout;                  /*!< Contains the TaskView widgets. Surrounded by a scroll area. */
 
-    QCheckBox* m_filterEnabled;
-    QComboBox* m_filterIsDone;
-    QLineEdit* m_filterSearchString;
+    QCheckBox* m_chbFilterEnabled;
+    QComboBox* m_cobFilterIsDone;
+    QLineEdit* m_leFilterSearchString;
 
     // View specific:
     QList<TaskView*> m_taskViews;               /*!< All task view instances, that are currently shown by this view. Each item is instantiated by this class. */

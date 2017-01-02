@@ -61,24 +61,24 @@ TaskListView::TaskListView( const QString headlineText,
     m_headline->setText( headlineText );
 
     /*** Filter selection: ***/
-    m_filterEnabled = new QCheckBox();
-    connect( m_filterEnabled, &QCheckBox::toggled,
+    m_chbFilterEnabled = new QCheckBox();
+    connect( m_chbFilterEnabled, &QCheckBox::toggled,
              this, &TaskListView::filterChanged );
 
     QLabel* lblFilterIsDone = new QLabel( "Erledigt:" );
-    m_filterIsDone = new QComboBox();
-    m_filterIsDone->setEnabled( m_filterEnabled->isChecked() );
-    m_filterIsDone->addItem( "Ja", QVariant(true) );
-    m_filterIsDone->addItem( "Nein", QVariant(false) );
-    QObject::connect( m_filterEnabled, &QCheckBox::toggled,
-                      m_filterIsDone, &QComboBox::setEnabled );
-    QObject::connect( m_filterIsDone,
+    m_cobFilterIsDone = new QComboBox();
+    m_cobFilterIsDone->setEnabled( m_chbFilterEnabled->isChecked() );
+    m_cobFilterIsDone->addItem( "Ja", QVariant(true) );
+    m_cobFilterIsDone->addItem( "Nein", QVariant(false) );
+    QObject::connect( m_chbFilterEnabled, &QCheckBox::toggled,
+                      m_cobFilterIsDone, &QComboBox::setEnabled );
+    QObject::connect( m_cobFilterIsDone,
                       static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
                       this, &TaskListView::filterChanged );
 
     QLabel* lblSearchString = new QLabel( "Suchbegriff:" );
-    m_filterSearchString = new QLineEdit();
-    connect( m_filterSearchString, &QLineEdit::textChanged,
+    m_leFilterSearchString = new QLineEdit();
+    connect( m_leFilterSearchString, &QLineEdit::textChanged,
              this, &TaskListView::filterChanged );
 
     /*** Task list: ***/
@@ -147,16 +147,17 @@ TaskListView::TaskListView( const QString headlineText,
     /****************************************************************/
     m_listLayout = new QVBoxLayout();
     m_listLayout->setSpacing( 10 );
+    m_listLayout->setContentsMargins( 0, 0, 10, 10 );
     m_listLayout->setSizeConstraint( QLayout::SetMinAndMaxSize );
     mainWidget->setLayout( m_listLayout );
 
     // Filter tools layout:
     QHBoxLayout* filterToolsLayout = new QHBoxLayout();
-    filterToolsLayout->addWidget( m_filterEnabled );
+    filterToolsLayout->addWidget( m_chbFilterEnabled );
     filterToolsLayout->addWidget( lblFilterIsDone );
-    filterToolsLayout->addWidget( m_filterIsDone );
+    filterToolsLayout->addWidget( m_cobFilterIsDone );
     filterToolsLayout->addWidget( lblSearchString );
-    filterToolsLayout->addWidget( m_filterSearchString );
+    filterToolsLayout->addWidget( m_leFilterSearchString );
 
     // Toolbox layout:
     QVBoxLayout* toolboxLayout = new QVBoxLayout();
