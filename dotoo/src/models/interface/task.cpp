@@ -29,7 +29,7 @@ Task::Task()
                              0,
                              QDate::currentDate(),
                              QDate::currentDate(),
-                             0,
+                             VeryImportant,
                              0,
                              "" ) )
 {
