@@ -13,12 +13,14 @@ CustomIconButton::CustomIconButton( const QString& iconNormal,
                                     const QString& iconMouseOver,
                                     const QString& iconSelected,
                                     bool selectable,
+                                    bool deselectableByMouse,
                                     QWidget* parent )
     : QWidget(parent),
       m_iconNormal(iconNormal),
       m_iconMouseOver(iconMouseOver),
       m_iconSelected(iconSelected),
       m_selectable(selectable),
+      m_deselectableByMouse(deselectableByMouse),
       m_isSelected(false)
 {
     m_icon = new QSvgWidget(m_iconNormal);
@@ -60,6 +62,8 @@ void CustomIconButton::mousePressEvent( QMouseEvent* event )
 void CustomIconButton::mouseReleaseEvent( QMouseEvent* event )
 {
     Q_UNUSED(event)
+
+    if ( !m_deselectableByMouse && selected() ) return; // If deselection by mouse is disabled, do nothing.
 
     setSelected( !selected() );
 

@@ -20,6 +20,7 @@ public:
                       const QString& iconMouseOver,
                       const QString& iconSelected,
                       bool selectable=false,
+                      bool deselectableByMouse=true,
                       QWidget* parent=nullptr );
     virtual ~CustomIconButton() {}
 
@@ -54,6 +55,7 @@ private:
     const QString m_iconSelected;
 
     const bool m_selectable;
+    const bool m_deselectableByMouse;
     bool m_isSelected;
 };
 
