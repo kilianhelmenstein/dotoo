@@ -16,7 +16,6 @@ TaskListViewModel::TaskListViewModel( Data::AsyncDataLyr_Task *datalayer,
     : QObject(parent),
       m_datalayer(datalayer)
 {
-
 }
 
 
@@ -124,6 +123,8 @@ void TaskListViewModel::onResponseGetAllTasks( QList<Task>* allTasks, Data::Erro
     }
 
     delete allTasks;
+
+    updateFilteredModelList();
     emit changed();
 }
 
@@ -142,6 +143,20 @@ void TaskListViewModel::onResponseDeleteTask( Data::Error_t errorCode )
     if ( errorCode == Data::None )
     {
         getAllTasks();
+    }
+}
+
+
+void TaskListViewModel::updateFilteredModelList()
+{
+    m_filteredModelList.clear();
+
+    foreach ( TaskViewModel* task, m_modelList )
+    {
+        if ( m_filter.applyFilter( *task ) )
+        {
+            m_filteredModelList.append( task );
+        }
     }
 }
 

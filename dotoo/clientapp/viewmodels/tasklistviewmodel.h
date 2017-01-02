@@ -7,7 +7,7 @@
 #include "models/interface/task.h"
 #include "data/interface/datalyr_fwddecl.h"
 #include "data/interface/datalyr_types.h"
-
+#include "ext/propfilter/qpropertyfiltering.h"
 
 
 /******************** Namespaces ********************/
@@ -52,6 +52,7 @@ public:
 
     Data::AsyncDataLyr_Task* dataLayer() const { return m_datalayer; }
     QList<TaskViewModel*> modelList() const { return m_modelList; }
+    QList<TaskViewModel*> modelListFiltered() const { return m_filteredModelList; }
 
     /*!
      * \brief   Creates a dummy task viewmodel. Caller takes parentship.
@@ -60,6 +61,18 @@ public:
      *          object.
      */
     TaskViewModel* createDummy( QObject* parent=nullptr ) const;
+
+    /*!
+     * \brief   Sets the used object for filtering the task list.
+     *
+     * \param   const QPropertyFiltering::QPropertyFilter& filter       Used filter object.
+     */
+    void setPropertyFilter( const QPropertyFiltering::QPropertyFilter& filter )
+    {
+        m_filter = filter;
+        updateFilteredModelList();
+        emit changed();
+    }
 
 signals:
     /*!
@@ -76,8 +89,14 @@ private slots:
     void onResponseDeleteTask( Data::Error_t errorCode );
 
 private:
-    Data::AsyncDataLyr_Task* m_datalayer;       /*!< Dependency: Used for accessing real data. */
-    QList<TaskViewModel*> m_modelList;          /*!< List with all task models. */
+    void updateFilteredModelList();
+
+private:
+    Data::AsyncDataLyr_Task* m_datalayer;           /*!< Dependency: Used for accessing real data. */
+    QList<TaskViewModel*> m_modelList;              /*!< List with all task models. */
+
+    QPropertyFiltering::QPropertyFilter m_filter;   /*!< Used to filter task list. */
+    QList<TaskViewModel*> m_filteredModelList;      /*!< Result of applying filter settings on 'm_modelList' */
 };
 
 
