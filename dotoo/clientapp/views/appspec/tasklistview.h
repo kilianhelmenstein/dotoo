@@ -5,7 +5,9 @@
 #include <QVBoxLayout>
 #include <QGraphicsBlurEffect>
 #include <QLabel>
-
+#include <QCheckBox>
+#include <QComboBox>
+#include <QLineEdit>
 
 namespace Dotoo {
 namespace GUI {
@@ -94,6 +96,14 @@ public:
 
     void setVisualFocus( bool visualFocus );
 
+    /* Filter information: */
+    bool filterEnabled() { return m_filterEnabled->isChecked(); }
+
+    bool filterValueIsDone() { return m_filterIsDone->currentData().toBool(); }
+
+    QString filterSearchString() { return m_filterSearchString->text(); }
+
+
 signals:
     /*!
      * \brief   Emitted when 'update task' button was clicked.
@@ -135,6 +145,8 @@ signals:
      * \param   bool isDone         New isDone state.
      */
     void isDoneToggled( TaskView* task, bool isDone );
+
+    void filterChanged();
 
 public slots:
 
@@ -186,6 +198,10 @@ private:
     // Widgets & Layouts:
     QLabel* m_headline;                         /*!< Displays the headline. */
     QVBoxLayout* m_listLayout;                  /*!< Contains the TaskView widgets. Surrounded by a scroll area. */
+
+    QCheckBox* m_filterEnabled;
+    QComboBox* m_filterIsDone;
+    QLineEdit* m_filterSearchString;
 
     // View specific:
     QList<TaskView*> m_taskViews;               /*!< All task view instances, that are currently shown by this view. Each item is instantiated by this class. */

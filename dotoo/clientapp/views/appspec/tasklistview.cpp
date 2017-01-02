@@ -7,6 +7,8 @@
 #include <QSizePolicy>
 #include <QLabel>
 #include <QPropertyAnimation>
+#include <QCheckBox>
+#include <QComboBox>
 
 #include "customiconbutton.h"
 
@@ -57,6 +59,24 @@ TaskListView::TaskListView( const QString headlineText,
     m_headline = new QLabel();
     m_headline->setFont( headlineFont );
     m_headline->setText( headlineText );
+
+    /*** Filter selection: ***/
+    m_filterEnabled = new QCheckBox();
+    connect( m_filterEnabled, &QCheckBox::toggled,
+             this, &TaskListView::filterChanged );
+
+    QLabel* lblFilterIsDone = new QLabel( "Erledigt:" );
+    m_filterIsDone = new QComboBox();
+    m_filterIsDone->addItem( "Ja", QVariant(true) );
+    m_filterIsDone->addItem( "Nein", QVariant(false) );
+    QObject::connect( m_filterIsDone,
+                      static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+                      this, &TaskListView::filterChanged );
+
+    QLabel* lblSearchString = new QLabel( "Suchbegriff:" );
+    m_filterSearchString = new QLineEdit();
+    connect( m_filterSearchString, &QLineEdit::textChanged,
+             this, &TaskListView::filterChanged );
 
     /*** Task list: ***/
     // Use 'mainWidget' for usage of scroll area (takes only a widget, no layouts):
@@ -122,11 +142,18 @@ TaskListView::TaskListView( const QString headlineText,
     /****************************************************************/
     /*********                Widget's Layout:                *******/
     /****************************************************************/
-
     m_listLayout = new QVBoxLayout();
     m_listLayout->setSpacing( 10 );
     m_listLayout->setSizeConstraint( QLayout::SetMinAndMaxSize );
     mainWidget->setLayout( m_listLayout );
+
+    // Filter tools layout:
+    QHBoxLayout* filterToolsLayout = new QHBoxLayout();
+    filterToolsLayout->addWidget( m_filterEnabled );
+    filterToolsLayout->addWidget( lblFilterIsDone );
+    filterToolsLayout->addWidget( m_filterIsDone );
+    filterToolsLayout->addWidget( lblSearchString );
+    filterToolsLayout->addWidget( m_filterSearchString );
 
     // Toolbox layout:
     QVBoxLayout* toolboxLayout = new QVBoxLayout();
@@ -139,8 +166,9 @@ TaskListView::TaskListView( const QString headlineText,
      *   scroll area and tool bar (for manipulating task and task list): ***/
     QGridLayout* mainLayout = new QGridLayout();
     mainLayout->addWidget( m_headline, 0, 0 );
-    mainLayout->addWidget( scrollArea, 1, 0 );
-    mainLayout->addLayout( toolboxLayout, 1, 1, 1, 1, Qt::AlignTop | Qt::AlignLeft );     // TODO: Implement custom toolbar. Add here.
+    mainLayout->addLayout( filterToolsLayout, 1, 0 );
+    mainLayout->addWidget( scrollArea, 2, 0 );
+    mainLayout->addLayout( toolboxLayout, 2, 1, 1, 1, Qt::AlignTop | Qt::AlignLeft );     // TODO: Implement custom toolbar. Add here.
     setLayout( mainLayout );
 
     setMinimumWidth( toolboxLayout->minimumSize().width() + mainWidget->minimumWidth() );
@@ -242,7 +270,7 @@ void TaskListView::onModelChange()
     m_taskViews.clear();
 
     // Insert new ones:
-    foreach ( TaskViewModel* taskModel, m_model->modelList() )
+    foreach ( TaskViewModel* taskModel, m_model->modelListFiltered() )
     {
         TaskView* view = new TaskView(m_defaultPalette);
         view->setModel( taskModel );
