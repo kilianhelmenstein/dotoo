@@ -38,7 +38,8 @@ PUBLIC_HEADERS += project/libsymbolsexport.h \
     data/utils/http.h \
     data/interface/datalyr_fwddecl.h
 
-HEADERS = $$PUBLIC_HEADERS $$PRIVATE_HEADERS
+HEADERS = $$PUBLIC_HEADERS $$PRIVATE_HEADERS \
+    ext/propfilter/qpropertyfiltering.h
 
 SOURCES += \
     models/implementation/taskimpl.cpp \
@@ -50,7 +51,8 @@ SOURCES += \
     data/utils/sqlrequest.cpp \
     data/implementation/datalyr_personsql.cpp \
     data/implementation/datalyr_tasksql.cpp \
-    data/implementation/asyncdatalyr_taskhttp.cpp
+    data/implementation/asyncdatalyr_taskhttp.cpp \
+    ext/propfilter/qpropertyfiltering.cpp
     #ext/parsing/route.cpp
 
 INCLUDEPATH += \
