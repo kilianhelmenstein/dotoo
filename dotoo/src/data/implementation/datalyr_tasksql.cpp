@@ -93,7 +93,7 @@ QList<Task> DataLyr_TaskSql::getAllTasks() throw(Error_t)
                              dbQuery.value("creator").toInt(),
                              QDate::fromString( dbQuery.value("creation_date").toString() ),
                              QDate::fromString( dbQuery.value("due_date").toString() ),
-                             dbQuery.value("priority").toInt(),
+                             static_cast<Dotoo::TaskPriority>( dbQuery.value("priority").toInt() ),
                              dbQuery.value("related_project").toInt(),
                              dbQuery.value("comment").toString()
                              ) );
@@ -124,7 +124,7 @@ Task DataLyr_TaskSql::getTask( const UniqueId taskId ) throw(Error_t)
                      dbQuery.value("creator").toInt(),
                      QDate::fromString( dbQuery.value("creation_date").toString() ),
                      QDate::fromString( dbQuery.value("due_date").toString() ),
-                     dbQuery.value("priority").toInt(),
+                     static_cast<TaskPriority>( dbQuery.value("priority").toInt() ),
                      dbQuery.value("related_project").toInt(),
                      dbQuery.value("comment").toString()
                      );
