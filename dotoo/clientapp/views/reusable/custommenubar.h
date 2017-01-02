@@ -12,17 +12,23 @@ namespace CustomGUI {
 class CustomIconButton;
 
 
+/*!
+ * \brief   The CustomMenuBar class implements a bar of icons, where every icon represents
+ *          a selectable menu
+ */
 class CustomMenuBar : public QWidget
 {
     Q_OBJECT
 public:
     /*!
-     *\brief    Contains all possible directions for menu bar.
+     *\brief    Contains all possible edges for menu bar.
      */
     typedef enum {
-        Horizontal  = QBoxLayout::LeftToRight,
-        Vertical    = QBoxLayout::TopToBottom
-    } Direction;
+        Left    = QBoxLayout::LeftToRight,
+        Right   = QBoxLayout::RightToLeft,
+        Top     = QBoxLayout::TopToBottom,
+        Bottom  = QBoxLayout::BottomToTop
+    } AttachedEdge;
 
 
 public:
@@ -31,13 +37,17 @@ public:
      *
      * \param   Direction dir       The direction of the menu bar. Cannot be changed.
      *
+     * \param   QPalette barPalette Palette used for this menu bar.
+     *
      * \param   QWidget* parent     Pointer to parent of new menu bar instance.
      */
-    CustomMenuBar( Direction dir,
+    CustomMenuBar( AttachedEdge attachedEdge,
+                   int maximumBarWidth,
+                   QPalette barPalette,
                    QWidget* parent=nullptr );
 
 
-    Direction direction() const { return m_dir; }
+    AttachedEdge direction() const { return m_attachedEdge; }
 
     /*!
      * \brief   Adds a new icon to menu bar that represents the widget referenced by
@@ -72,12 +82,19 @@ private slots:
     void onIconClicked();
 
 private:
-    const Direction m_dir;      /*!< Selected direction for this menu bar. */
+    /*!
+     * \brief   Updates the maximum size (depending on current menu).
+     */
+    void updateSize();
+
+private:
+    const AttachedEdge m_attachedEdge;                  /*!< Selected direction for this menu bar. */
 
     QBoxLayout* m_mainLayout;   /*!< Pointer to main layout. Contains icon bar and the menu widgets. */
     QBoxLayout* m_iconLayout;   /*!< Pointer to layout that manages icon */
 
-    QMap<CustomIconButton*, QWidget*> m_menuWidgets;  /*!< List with references to all selectable */
+    QMap<CustomIconButton*, QWidget*> m_menuWidgets;    /*!< List with references to all selectable */
+    QMap<CustomIconButton*, QWidget*>::iterator m_selectedMenu; /*!< Currently selected menu widget. */
 };
 
 
