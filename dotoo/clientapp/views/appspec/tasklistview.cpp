@@ -118,6 +118,7 @@ TaskListView::TaskListView( const QString headlineText,
     m_looseFocusEffect->setEnabled( false );
     setGraphicsEffect( m_looseFocusEffect );
 
+
     /****************************************************************/
     /*********                Widget's Layout:                *******/
     /****************************************************************/
