@@ -31,6 +31,7 @@ TaskListCtrl::TaskListCtrl( TaskListViewModel* model,
     connect( view, &TaskListView::clickedDelete, this, &TaskListCtrl::onClickedDelete );
     connect( view, &TaskListView::doubleClickedTask, this, &TaskListCtrl::onDoubleClickedTask );
     connect( view, &TaskListView::isDoneToggled, this, &TaskListCtrl::onIsDoneToggled );
+    connect( view, &TaskListView::filterChanged, this, &TaskListCtrl::onFilterChanged );
 }
 
 
@@ -92,6 +93,43 @@ void TaskListCtrl::onIsDoneToggled( TaskView* view, bool isDone )
         model->setDone( isDone );           // Update local model with aid of view.
         model->change();                    // Update remote model.
     }
+}
+
+
+void TaskListCtrl::onFilterChanged()
+{
+    QPropertyFiltering::QPropertyFilter newFilter;
+    QList<QVariant> matchValues;
+    QPropertyFiltering::FilterSetting prototypeFilter;
+    prototypeFilter.enabled = true;
+    prototypeFilter.logic = QPropertyFiltering::Included;
+
+    if ( m_view->filterEnabled() )
+    {
+        // Fill filtering object:
+        matchValues.clear();
+        matchValues.append( m_view->filterValueIsDone() );
+        prototypeFilter.property = "isDone";
+        prototypeFilter.mode = QPropertyFiltering::FullMatch;
+        prototypeFilter.matchValues = matchValues;
+        newFilter.installFilterSetting( prototypeFilter );
+    }
+
+    if ( !m_view->filterSearchString().isEmpty() )
+    {
+        matchValues.clear();
+        matchValues.append( m_view->filterSearchString() );
+        prototypeFilter.mode = QPropertyFiltering::PartialMatch;
+        prototypeFilter.matchValues = matchValues;
+
+        prototypeFilter.property = "title";
+        newFilter.installFilterSetting( prototypeFilter );
+
+        prototypeFilter.property = "comment";
+        newFilter.installFilterSetting( prototypeFilter );
+    }
+
+    m_model->setPropertyFilter( newFilter );
 }
 
 

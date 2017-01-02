@@ -74,6 +74,11 @@ private slots:
      */
     void onIsDoneToggled( TaskView* view, bool isDone );
 
+    /*!
+     * \brief   Applies the new filter setting.
+     */
+    void onFilterChanged();
+
 private:
     /*!
      * \brief   Creates edit view for a task, a dummy model (that is used as data holder)
