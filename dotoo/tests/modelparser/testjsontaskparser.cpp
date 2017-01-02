@@ -21,7 +21,7 @@ void TestJsonTaskParser::TaskToJsonToTask()
                    1,
                    QDate::fromString("2016-11-11"),
                    QDate::fromString("2016-11-22"),
-                   0,
+                   Dotoo::VeryImportant,
                    1,
                    "only a test" );
 
