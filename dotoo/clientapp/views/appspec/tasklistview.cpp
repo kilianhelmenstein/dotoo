@@ -67,8 +67,11 @@ TaskListView::TaskListView( const QString headlineText,
 
     QLabel* lblFilterIsDone = new QLabel( "Erledigt:" );
     m_filterIsDone = new QComboBox();
+    m_filterIsDone->setEnabled( m_filterEnabled->isChecked() );
     m_filterIsDone->addItem( "Ja", QVariant(true) );
     m_filterIsDone->addItem( "Nein", QVariant(false) );
+    QObject::connect( m_filterEnabled, &QCheckBox::toggled,
+                      m_filterIsDone, &QComboBox::setEnabled );
     QObject::connect( m_filterIsDone,
                       static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
                       this, &TaskListView::filterChanged );
