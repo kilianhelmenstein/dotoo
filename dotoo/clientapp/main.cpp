@@ -14,6 +14,9 @@
 #include "taskeditview.h"
 #include "taskeditctrl.h"
 
+#include "custommenubar.h"
+
+
 using namespace Dotoo;
 using namespace Dotoo::GUI;
 using namespace Dotoo::Data;
@@ -26,7 +29,10 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    QWidget mainW;
+    QPalette* appPalette = new QPalette();
+    appPalette->setColor( QPalette::All, QPalette::Background, QColor("grey") );
+
+    CustomGUI::CustomMenuBar menuBar( CustomGUI::CustomMenuBar::Left, 70, *appPalette );
 
     /* Dependencies used by MVC's: */
     AsyncDataLyr_Task* dataLayer = new AsyncDataLyr_TaskHttp( "http://localhost:8080",
@@ -35,14 +41,21 @@ int main(int argc, char *argv[])
     TaskListViewModel* model = new TaskListViewModel(dataLayer);
     model->getAllTasks();
 
-    QPalette* appPalette = new QPalette();
     appPalette->setColor( QPalette::All, QPalette::Background, QColor("white") );
     TaskListView* view = new TaskListView( QLatin1String("All Tasks"),
                                            *appPalette );
     view->setModel(model);
     TaskListCtrl* controller = new TaskListCtrl( model, view );
 
-    view->show();
+    menuBar.addWidget( view,
+                       ":svg/update_icon_normal",
+                       ":svg/update_icon_mover",
+                       ":svg/update_icon_selected" );
+    menuBar.addWidget( view,
+                       ":svg/delete_icon_normal",
+                       ":svg/delete_icon_mover",
+                       ":svg/delete_icon_selected" );
+    menuBar.show();
 
     return a.exec();
 }
