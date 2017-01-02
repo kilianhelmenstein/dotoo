@@ -7,6 +7,8 @@
 #include "data/interface/datalyr_fwddecl.h"
 #include "data/interface/datalyr_types.h"
 
+#include <QDate>
+#include <QString>
 
 
 /******************** Namespaces ********************/
@@ -26,6 +28,17 @@ namespace GUI {
 class TaskViewModel : public QObject, public Task
 {
     Q_OBJECT
+
+    Q_PROPERTY( QString title READ getTitle WRITE setTitle NOTIFY changed )
+    Q_PROPERTY( bool isDone READ isDone WRITE setDone NOTIFY changed )
+    Q_PROPERTY( UniqueId responsible READ getResponsible WRITE setResponsible NOTIFY changed )
+    Q_PROPERTY( UniqueId creator READ getCreator WRITE setCreator NOTIFY changed )
+    Q_PROPERTY( QDate creationDate READ getCreationDate WRITE setCreationDate NOTIFY changed )
+    Q_PROPERTY( QDate dueDate READ getDueDate WRITE setDueDate NOTIFY changed )
+    Q_PROPERTY( TaskPriority priority READ getPriority WRITE setPriority NOTIFY changed )
+    Q_PROPERTY( UniqueId relatedProject READ getRelatedProject WRITE setRelatedProject NOTIFY changed )
+    Q_PROPERTY( QString comment READ getComment WRITE setComment NOTIFY changed )
+
 public:
     TaskViewModel( Data::AsyncDataLyr_Task* datalayer,
                    QObject* parent=nullptr );
@@ -39,6 +52,7 @@ public:
     virtual TaskViewModel& operator =( const Task&& other );
 
     void setDone( const bool isDone );
+    void setTitle( const QString& title );
     void setResponsible( const UniqueId responsible );
     void setCreator( const UniqueId creator );
     void setCreationDate( const QDate& creationDate );

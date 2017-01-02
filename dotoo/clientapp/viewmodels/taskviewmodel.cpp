@@ -61,6 +61,12 @@ void TaskViewModel::setDone( const bool isDone )
     emit changed();
 }
 
+void TaskViewModel::setTitle( const QString& title )
+{
+    Task::setTitle( title );
+    emit changed();
+}
+
 void TaskViewModel::setResponsible( const UniqueId responsible )
 {
     Task::setResponsible( responsible );
