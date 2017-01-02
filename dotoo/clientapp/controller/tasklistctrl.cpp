@@ -110,23 +110,32 @@ void TaskListCtrl::onFilterChanged()
         matchValues.clear();
         matchValues.append( m_view->filterValueIsDone() );
         prototypeFilter.property = "isDone";
+        prototypeFilter.matchIsMandatory = true;
         prototypeFilter.mode = QPropertyFiltering::FullMatch;
         prototypeFilter.matchValues = matchValues;
-        newFilter.installFilterSetting( prototypeFilter );
+
+        QList<QPropertyFiltering::FilterSetting> filterGroup;
+        filterGroup.append( prototypeFilter );
+        newFilter.installFilterSettingGroup( filterGroup, QPropertyFiltering::AllMatching );
     }
 
     if ( !m_view->filterSearchString().isEmpty() )
     {
+        QList<QPropertyFiltering::FilterSetting> filterGroup;
+
         matchValues.clear();
         matchValues.append( m_view->filterSearchString() );
         prototypeFilter.mode = QPropertyFiltering::PartialMatch;
         prototypeFilter.matchValues = matchValues;
+        prototypeFilter.matchIsMandatory = false;
 
         prototypeFilter.property = "title";
-        newFilter.installFilterSetting( prototypeFilter );
+        filterGroup.append( prototypeFilter );
 
         prototypeFilter.property = "comment";
-        newFilter.installFilterSetting( prototypeFilter );
+        filterGroup.append( prototypeFilter );
+
+        newFilter.installFilterSettingGroup( filterGroup, QPropertyFiltering::OneMatching );
     }
 
     m_model->setPropertyFilter( newFilter );
