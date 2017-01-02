@@ -10,6 +10,11 @@
 namespace QPropertyFiltering {
 
 
+typedef enum {
+    AllMatching,
+    OneMatching
+} FilterConjunction;
+
 /*!
  * \brief   Contains all appliable modes for QProperty filtering.
  */
@@ -37,7 +42,7 @@ struct FilterSetting {
     FilterMode mode;                /*!< Mode for this setting. */
     FilterLogic logic;              /*!< Logic for computing match. */
     QList<QVariant> matchValues;    /*!< Values that will be compared to property's current value. */
-    bool matchIsMandatory;
+    bool matchIsMandatory;          /*!< Match is voluntary, but minimum one voluntary match must be occur! */
 };
 
 
@@ -55,18 +60,8 @@ public:
      *
      * \param   const FilterSetting& filterSetting      New filter setting.
      */
-    void installFilterSetting( const FilterSetting& filterSetting )
-    {
-        m_appliedFilterSettings.insert( filterSetting.property, filterSetting );
-    }
-
-    /*!
-     * \brief   Removes the filter setting for the given property name.
-     */
-    void removeFilterSetting( const QString& propertyName )
-    {
-        m_appliedFilterSettings.remove( propertyName );
-    }
+    void installFilterSettingGroup( const QList<FilterSetting>& filterSettingGroup,
+                                    FilterConjunction conj );
 
     /*!
      * \brief   Removes all installed filter settings.
@@ -100,7 +95,7 @@ private:
                       FilterLogic logic );
 
 private:
-    QMap<QString,FilterSetting> m_appliedFilterSettings;    /*!< This settings will be applied while filtering process. */
+    QMap<FilterConjunction,QList<FilterSetting> > m_appliedFilterSettings;      /*!< This settings will be applied while filtering process. */
 };
 
 

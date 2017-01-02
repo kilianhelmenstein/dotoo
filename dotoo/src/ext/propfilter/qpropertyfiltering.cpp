@@ -6,6 +6,13 @@ namespace QPropertyFiltering {
 
 
 
+void QPropertyFilter::installFilterSettingGroup( const QList<FilterSetting>& filterSettingGroup,
+                                                 FilterConjunction conj )
+{
+    m_appliedFilterSettings.insertMulti( conj, filterSettingGroup );
+}
+
+
 bool QPropertyFilter::applyFilter( const QObject& propertyContainer )
 {
     if ( m_appliedFilterSettings.isEmpty() )
@@ -13,28 +20,51 @@ bool QPropertyFilter::applyFilter( const QObject& propertyContainer )
         return true;        // No filtering if filter setting list is empty.
     }
 
+
     bool result = false;
 
-    foreach ( FilterSetting filterSetting, m_appliedFilterSettings )
+    for ( QMap<FilterConjunction,QList<FilterSetting> >::iterator currentFilterGroup = m_appliedFilterSettings.begin() ;
+          currentFilterGroup != m_appliedFilterSettings.end() ;
+          ++currentFilterGroup )
     {
-        if ( filterSetting.enabled )    // Only apply setting if 'enabled' is true!
+
+        foreach ( FilterSetting filterSetting, currentFilterGroup.value() )
         {
-            if ( matchValues( propertyContainer.property(filterSetting.property.toLatin1()),
-                              filterSetting.matchValues,
-                              filterSetting.mode, filterSetting.logic ) )
+            if ( filterSetting.enabled )    // Only apply setting if 'enabled' is true!
             {
-                // Match:
-                result = true;
-            } else
-            {
-                // NO Match:
-                result = false;
-                if ( filterSetting.matchIsMandatory ) break;
+                if ( matchValues( propertyContainer.property(filterSetting.property.toLatin1()),
+                                  filterSetting.matchValues,
+                                  filterSetting.mode, filterSetting.logic ) )
+                {
+                    // Match:
+                    result = true;
+                    if ( currentFilterGroup.key() == OneMatching )
+                    {
+                        break;  // Match is given for this filter group.
+                    }
+                } else
+                {
+                    // NO Match:
+                    if ( currentFilterGroup.key() == AllMatching )
+                    {
+                        result = false;
+                        break;  // Match is NOT given for this filter group.
+                    }
+                }
             }
+        }
+
+        // Check matching result for this filter group:
+        if ( result == false )
+        {
+            return false;
+        } else
+        {
+            result = false;     // reset for next filter setting group
         }
     }
 
-    return result;
+    return true;
 }
 
 
@@ -48,8 +78,6 @@ bool QPropertyFilter::matchValues( const QVariant& prop,
         switch ( mode )
         {
         case PartialMatch:
-            if ( prop == filterVal ) return (logic == Included);
-        case FullMatch:
             if ( prop.type() == QVariant::String )
             {
                 if ( prop.toString().contains( filterVal.toString(),
@@ -58,6 +86,10 @@ bool QPropertyFilter::matchValues( const QVariant& prop,
             {
                 if ( prop == filterVal ) return (logic == Included);
             }
+            break;
+        case FullMatch:
+            if ( prop == filterVal ) return ( logic == Included);
+            break;
         }
     }
 
