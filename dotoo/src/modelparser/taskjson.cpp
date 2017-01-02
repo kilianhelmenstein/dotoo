@@ -25,7 +25,7 @@ Task JsonToTask( const json& jsonData )
             jsonData["creator"],
             QDate::fromString( QString::fromStdString( jsonData["creationDate"] ) ),
             QDate::fromString( QString::fromStdString( jsonData["dueDate"] )  ),
-            jsonData["priority"],
+            static_cast<Dotoo::TaskPriority>( (int) jsonData["priority"]),
             jsonData["relatedProject"],
             QString::fromStdString(jsonData["comment"]) );
 }
