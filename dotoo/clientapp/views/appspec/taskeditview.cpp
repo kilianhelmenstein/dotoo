@@ -89,8 +89,8 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     m_personIcon->setFixedSize( 22,22);
     m_responsible = new QComboBox();
     m_responsible->setFont(m_subInfoFont);
-    m_responsible->addItem( "Kilian Helmenstein" );
-    m_responsible->addItem( "Carolin Helmenstein" );
+    m_responsible->addItem( "Kilian Helmenstein", QVariant(1) );
+    m_responsible->addItem( "Carolin Helmenstein", QVariant(1) );
 
     m_btnAbort = new QPushButton( tr("Abort") );
     connect( m_btnAbort, &QPushButton::clicked,
