@@ -16,7 +16,12 @@ namespace Dotoo {
 /*!
  * \brief   Represents the type for task priorities.
  */
-typedef int TaskPriority;
+typedef enum
+{
+    VeryImportant,
+    Important,
+    LessImportant
+} TaskPriority;
 
 } // namespace Dotoo
 
