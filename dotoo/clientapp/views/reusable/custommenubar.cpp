@@ -60,6 +60,8 @@ void CustomMenuBar::addWidget( QWidget* w,
                                const QString &iconMouseOver,
                                const QString &iconSelected )
 {
+    w->setHidden(true);
+
     // Create new icon that represents widget in bar:
     CustomIconButton* widgetIcon = new CustomIconButton( iconNormal,
                                                          iconMouseOver,
@@ -99,7 +101,7 @@ void CustomMenuBar::onIconClicked()
          && newSelection != m_menuWidgets.end() )   // Pointer isn't null, but it is not valid too!
     {
         // Make selected menu invisible and new selection visible:
-        //m_mainLayout->replaceWidget( m_selectedMenu.value(), newSelection.value() );
+        m_mainLayout->replaceWidget( m_selectedMenu.value(), newSelection.value() );
         m_selectedMenu.key()->setSelected(false);
         m_selectedMenu.value()->setVisible(false);
 
