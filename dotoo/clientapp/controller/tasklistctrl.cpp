@@ -9,7 +9,6 @@
 #include "taskview.h"
 
 #include "taskeditview.h"
-#include "taskeditctrl.h"
 
 
 namespace Dotoo {
@@ -147,6 +146,7 @@ TaskEditView* TaskListCtrl::createEditView( TaskEditCtrl::Mode modeSelection,
 {
     TaskEditView* editView = new TaskEditView( QPalette() );
     editView->setModel( usedModel );
+    editView->setPersonsModel( m_view->personsModel() );
     TaskEditCtrl* editCtrl = new TaskEditCtrl( modeSelection, editView, m_model, editView );
 
     QPropertyAnimation* fadeoutAnimation = QAnimationUtilz::CreateShrinkAnimation( editView, 1 );
