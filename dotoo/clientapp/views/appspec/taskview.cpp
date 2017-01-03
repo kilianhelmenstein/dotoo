@@ -109,8 +109,6 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     /****************************************************************/
     /*********             Initial Presenation:               *******/
     /****************************************************************/
-    setMinimumSize( 550, 115 );
-    setMaximumSize( 580, 135 );
     setBackgroundRole( QPalette::Base );
     setAutoFillBackground( true );
     updatePalette();
@@ -218,10 +216,12 @@ void TaskView::changeIsDonePresentation( bool isDone )
     // Size depends on checkbox state:
     if ( isDone )
     {
-        setFixedSize( 550, 75 );
+        setMinimumSize( 550, 75 );
+        setMaximumSize( 800, 75 );
     } else
     {
-        setFixedSize( 550, 115 );
+        setMinimumSize( 550, 115 );
+        setMaximumSize( 800, 115 );
     }
 
     // Sub info (comment, due date, responsible person)
