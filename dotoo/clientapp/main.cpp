@@ -20,6 +20,7 @@
 #include "taskeditctrl.h"
 
 #include "personlistview.h"
+#include "personlistctrl.h"
 
 
 #include "custommenubar.h"
@@ -42,21 +43,6 @@ int main(int argc, char *argv[])
 
     CustomGUI::CustomMenuBar menuBar( CustomGUI::CustomMenuBar::Left, 70, *appPalette );
 
-    /********************** TASK LIST **************************/
-    /* Dependencies used by MVC's: */
-    AsyncDataLyr_Task* dataLayer = new AsyncDataLyr_TaskHttp( "http://localhost:8080",
-                                                              "tasks",
-                                                              new JsonTaskParser() );
-    TaskListViewModel* model = new TaskListViewModel(dataLayer);
-    model->getAllTasks();
-
-    appPalette->setColor( QPalette::All, QPalette::Background, QColor("white") );
-    TaskListView* view = new TaskListView( QLatin1String("All Tasks"),
-                                           *appPalette,
-                                           &menuBar);
-    view->setModel(model);
-    TaskListCtrl* controller = new TaskListCtrl( model, view );
-
 
     /********************** PERSON LIST **************************/
     /* Dependencies used by MVC's: */
@@ -70,7 +56,25 @@ int main(int argc, char *argv[])
                                                       *appPalette,
                                                       &menuBar );
     viewPersons->setModel(modelPersons);
-    //PersonListCtrl* controllerPersons = new TaskListCtrl( modelPersons, viewPersons );
+    PersonListCtrl* controllerPersons = new PersonListCtrl( modelPersons, viewPersons );
+
+
+    /********************** TASK LIST **************************/
+    /* Dependencies used by MVC's: */
+    AsyncDataLyr_Task* dataLayer = new AsyncDataLyr_TaskHttp( "http://localhost:8080",
+                                                              "tasks",
+                                                              new JsonTaskParser() );
+    TaskListViewModel* model = new TaskListViewModel(dataLayer);
+    model->getAllTasks();
+
+    appPalette->setColor( QPalette::All, QPalette::Background, QColor("white") );
+    TaskListView* view = new TaskListView( QLatin1String("All Tasks"),
+                                           *appPalette,
+                                           &menuBar);
+    view->setModel(model);
+    view->setPersonsModel(modelPersons);
+    TaskListCtrl* controller = new TaskListCtrl( model, view );
+
 
     menuBar.addWidget( view,
                        ":svg/update_icon_normal",
