@@ -4,8 +4,8 @@
 #include <QWidget>
 #include <QString>
 
-class QSvgWidget;
 
+class QSvgWidget;
 
 
 namespace CustomGUI {

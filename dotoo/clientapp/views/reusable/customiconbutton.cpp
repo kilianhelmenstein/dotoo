@@ -4,7 +4,6 @@
 #include <QSvgWidget>
 
 
-
 namespace CustomGUI {
 
 
@@ -46,7 +45,7 @@ void CustomIconButton::setSelected( bool selected )
         m_icon->load( QString(m_iconSelected) );
     } else
     {
-         m_icon->load( QString(m_iconNormal) );
+        m_icon->load( QString(m_iconNormal) );
     }
 }
 
@@ -87,7 +86,6 @@ void CustomIconButton::leaveEvent(QEvent*)
         m_icon->load( QString(m_iconNormal) );
     }
 }
-
 
 
 } // namespace CustomGUI
