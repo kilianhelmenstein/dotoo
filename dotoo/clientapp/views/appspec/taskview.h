@@ -49,7 +49,7 @@ public:
     typedef enum {
         Normal,     /*!< Normal status. */
         Focussed,   /*!< Selected by user, e.g. */
-        Disabled    /*!< Not selectable by user. */
+        Disabled    /*!< Not selectable. */
     } State;
 
 private:
