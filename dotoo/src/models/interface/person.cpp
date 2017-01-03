@@ -94,6 +94,11 @@ PersonName_t Person::getName() const
     return m_pImpl->getName();
 }
 
+QString Person::getFullName() const
+{
+    return m_pImpl->getName().fullName();
+}
+
 QString Person::getComment() const
 {
     return m_pImpl->getComment();

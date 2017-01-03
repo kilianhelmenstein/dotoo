@@ -59,6 +59,7 @@ public:
 
     UniqueId getId() const;
     PersonName_t getName() const;
+    QString getFullName() const;
     QString getComment() const;
 
     virtual void setId( const UniqueId id );
