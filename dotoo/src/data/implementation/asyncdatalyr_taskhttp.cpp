@@ -1,8 +1,9 @@
+#include "asyncdatalyr_taskhttp.h"
+
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-#include "asyncdatalyr_taskhttp.h"
 #include "data/utils/http.h"
 #include "models/interface/task.h"
 #include "modelparser/interface/bytestreamtaskparser.h"
