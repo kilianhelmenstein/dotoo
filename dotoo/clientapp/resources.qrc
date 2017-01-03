@@ -17,5 +17,11 @@
         <file alias="update_icon_selected">res/svg/update_icon_selected.svg</file>
         <file alias="update_icon_normal">res/svg/update_icon_normal.svg</file>
         <file alias="update_icon_mover">res/svg/update_icon_mover.svg</file>
+        <file alias="task_menu_selected">res/svg/task_menu_selected.svg</file>
+        <file alias="task_menu_normal">res/svg/task_menu_normal.svg</file>
+        <file alias="task_menu_mover">res/svg/task_menu_mover.svg</file>
+        <file alias="persons_menu_selected">res/svg/persons_menu_selected.svg</file>
+        <file alias="persons_menu_normal">res/svg/persons_menu_normal.svg</file>
+        <file alias="persons_menu_mover">res/svg/persons_menu_mover.svg</file>
     </qresource>
 </RCC>

@@ -42,6 +42,7 @@ int main(int argc, char *argv[])
     appPalette->setColor( QPalette::All, QPalette::Background, QColor("grey") );
 
     CustomGUI::CustomMenuBar menuBar( CustomGUI::CustomMenuBar::Left, 70, *appPalette );
+    appPalette->setColor( QPalette::All, QPalette::Background, QColor("white") );
 
 
     /********************** PERSON LIST **************************/
@@ -67,7 +68,6 @@ int main(int argc, char *argv[])
     TaskListViewModel* model = new TaskListViewModel(dataLayer);
     model->getAllTasks();
 
-    appPalette->setColor( QPalette::All, QPalette::Background, QColor("white") );
     TaskListView* view = new TaskListView( QLatin1String("All Tasks"),
                                            *appPalette,
                                            &menuBar);
@@ -77,13 +77,13 @@ int main(int argc, char *argv[])
 
 
     menuBar.addWidget( view,
-                       ":svg/update_icon_normal",
-                       ":svg/update_icon_mover",
-                       ":svg/update_icon_selected" );
+                       ":svg/task_menu_normal",
+                       ":svg/task_menu_mover",
+                       ":svg/task_menu_selected" );
     menuBar.addWidget( viewPersons,
-                       ":svg/delete_icon_normal",
-                       ":svg/delete_icon_mover",
-                       ":svg/delete_icon_selected" );
+                       ":svg/persons_menu_normal",
+                       ":svg/persons_menu_mover",
+                       ":svg/persons_menu_selected" );
     menuBar.show();
 
     return a.exec();
