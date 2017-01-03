@@ -6,6 +6,7 @@ namespace Data {
 
 class AsyncDataLyr_Task;
 class DataLyr_Task;
+class AsyncDataLyr_Person;
 class DataLyr_Person;
 
 } // namespace Data
