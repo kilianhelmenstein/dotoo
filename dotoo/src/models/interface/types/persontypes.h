@@ -14,6 +14,11 @@ namespace Dotoo {
 
 typedef struct _PersonName
 {
+public:
+    QString forename;
+    QString name;
+
+public:
     _PersonName( const QString& argForename, const QString& argName )
         : forename( argForename ),
           name( argName )
@@ -25,9 +30,17 @@ typedef struct _PersonName
     }
     bool operator !=( const _PersonName& other ) { return !(*this == other); }
 
+    QString fullName( bool forenameLeading=true) const
+    {
+        if ( forenameLeading )
+        {
+            return forename + " " + name;
+        } else
+        {
+            return name + " " + forename;
+        }
+    }
 
-    QString forename;
-    QString name;
 } PersonName_t;
 
 
