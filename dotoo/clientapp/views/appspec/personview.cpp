@@ -24,6 +24,7 @@ PersonView::PersonView( const QPalette &appPalette, QWidget* parent )
       m_model( nullptr ),
       m_state( Normal ),
       m_highlighted( false ),
+      m_forename( nullptr ),
       m_name( nullptr ),
       m_comment( nullptr ),
       m_personIcon( nullptr )
@@ -32,11 +33,6 @@ PersonView::PersonView( const QPalette &appPalette, QWidget* parent )
     /*********                Widget's Layout:                *******/
     /****************************************************************/
     QGridLayout* baseLayout = new QGridLayout();
-    QHBoxLayout* nameLayout = new QHBoxLayout();
-    QHBoxLayout* commentRowLayout = new QHBoxLayout();
-
-    baseLayout->addLayout( commentRowLayout, 0, 0 );
-    baseLayout->addLayout( nameLayout, 1, 0 );
 
 
     /****************************************************************/
@@ -46,17 +42,25 @@ PersonView::PersonView( const QPalette &appPalette, QWidget* parent )
     setPalette(appPalette);
 
     // Init fonts:
+    m_forenameFont.setPointSize(20);
+    m_forenameFont.setStyleHint(QFont::Monospace);
+    m_forenameFont.setWeight(30);
+
     m_nameFont.setPointSize(35);
-    m_nameFont.setStyleHint(QFont::SansSerif);
+    m_nameFont.setStyleHint(QFont::Monospace);
     m_nameFont.setWeight(30);
 
     m_commentFont.setPointSize(12);
+    m_commentFont.setStyleHint(QFont::Monospace);
     m_commentFont.setWeight(50);
 
 
     /****************************************************************/
     /*********             Widget's sub-widgets:              *******/
     /****************************************************************/
+
+    m_forename = new QLabel();
+    m_forename->setFont(m_forenameFont);
 
     m_name = new QLabel();
     m_name->setFont(m_nameFont);
@@ -65,11 +69,12 @@ PersonView::PersonView( const QPalette &appPalette, QWidget* parent )
     m_comment->setFont(m_commentFont);
 
     m_personIcon = new QSvgWidget( ":/svg/collaboration_icon" );
-    m_personIcon->setFixedSize( 22,22);
+    m_personIcon->setFixedSize( 40, 40 );
 
-    nameLayout->addWidget( m_personIcon );
-    nameLayout->addWidget( m_name );
-    commentRowLayout->addWidget( m_comment );
+    //baseLayout->addWidget( m_personIcon, 0, 0, 2, 1, Qt::AlignCenter );
+    baseLayout->addWidget( m_forename, 0, 1 );
+    baseLayout->addWidget( m_name, 1, 1 );
+    baseLayout->addWidget( m_comment, 2, 1 );
 
 
     /****************************************************************/
@@ -86,6 +91,8 @@ PersonView::PersonView( const QPalette &appPalette, QWidget* parent )
     /****************************************************************/
     /*********             Initial Presenation:               *******/
     /****************************************************************/
+    setMinimumSize( 250, 120 );
+    setMaximumSize( 400, 120 );
     setBackgroundRole( QPalette::Base );
     setAutoFillBackground( true );
     updatePalette();
@@ -167,7 +174,8 @@ void PersonView::updatePalette()
 
 void PersonView::onModelChange()
 {
-    TextViewUtilz::SetTextToLabel( m_name, m_model->getName().fullName() );
+    TextViewUtilz::SetTextToLabel( m_forename, m_model->getName().forename );
+    TextViewUtilz::SetTextToLabel( m_name, m_model->getName().name );
     TextViewUtilz::SetTextToLabel( m_comment, m_model->getComment() );
 }
 

@@ -29,7 +29,7 @@ PersonListView::PersonListView( const QString headlineText,
       m_model( nullptr ),
       m_defaultPalette( appPalette ),
       m_listLayout( nullptr ),
-      m_selectedTask( nullptr )
+      m_selectedPerson( nullptr )
 {
     /****************************************************************/
     /*********             Initial Presenation:               *******/
@@ -61,12 +61,12 @@ PersonListView::PersonListView( const QString headlineText,
     m_headline->setText( headlineText );
 
     /*** Filter selection: ***/
-    QLabel* lblSearchString = new QLabel( "Suchbegriff:" );
+    QLabel* lblSearchString = new QLabel( "Search string:" );
     m_leFilterSearchString = new QLineEdit();
     connect( m_leFilterSearchString, &QLineEdit::textChanged,
              this, &PersonListView::filterChanged );
 
-    /*** Task list: ***/
+    /*** Person list: ***/
     // Use 'mainWidget' for usage of scroll area (takes only a widget, no layouts):
     QWidget* mainWidget = new QWidget( this );
     mainWidget->setMinimumSize( 600, 500 );             // TODO: Use PersonView's min. size
@@ -148,8 +148,8 @@ PersonListView::PersonListView( const QString headlineText,
     toolboxLayout->addWidget( toolChange );
     toolboxLayout->addWidget( toolDelete );
 
-    /*** Main VBox layout. Contains headline, task list itself (contained within
-     *   scroll area and tool bar (for manipulating task and task list): ***/
+    /*** Main VBox layout. Contains headline, Person list itself (contained within
+     *   scroll area and tool bar (for manipulating Person and Person list): ***/
     QGridLayout* mainLayout = new QGridLayout();
     mainLayout->addWidget( m_headline, 0, 0 );
     mainLayout->addLayout( filterToolsLayout, 1, 0 );
@@ -163,6 +163,7 @@ PersonListView::PersonListView( const QString headlineText,
 
 PersonListView::~PersonListView()
 {
+    m_looseFocusEffect = nullptr;
 }
 
 
@@ -194,12 +195,12 @@ void PersonListView::setModel( PersonListViewModel* model )
 }
 
 
-bool PersonListView::setTaskSelection( int index )
+bool PersonListView::setPersonSelection( int index )
 {
     if ( index < m_PersonViews.size() )
     {
         PersonView* newSelection = m_PersonViews.at( index );
-        changeTaskSelection( newSelection );
+        changePersonSelection( newSelection );
         return true;
     } else
     {
@@ -216,18 +217,19 @@ bool PersonListView::visualFocus() const
 
 void PersonListView::setVisualFocus( bool visualFocus )
 {
-    m_looseFocusEffect->setEnabled( !visualFocus );   // If focus shall be set to true, disable blur effect (and vice versa).
+    if ( m_looseFocusEffect )
+        m_looseFocusEffect->setEnabled( !visualFocus );   // If focus shall be set to true, disable blur effect (and vice versa).
 }
 
 
 /* Private methods: */
 
-void PersonListView::changeTaskSelection( PersonView* newSelection )
+void PersonListView::changePersonSelection( PersonView* newSelection )
 {
-    if ( m_selectedTask ) m_selectedTask->setState( PersonView::Normal );
-    m_selectedTask = newSelection;
-    if ( m_selectedTask ) m_selectedTask->setState( PersonView::Focussed );
-    emit selectionChanged( m_selectedTask );
+    if ( m_selectedPerson ) m_selectedPerson->setState( PersonView::Normal );
+    m_selectedPerson = newSelection;
+    if ( m_selectedPerson ) m_selectedPerson->setState( PersonView::Focussed );
+    emit selectionChanged( m_selectedPerson );
 }
 
 
@@ -235,7 +237,7 @@ void PersonListView::changeTaskSelection( PersonView* newSelection )
 
 void PersonListView::onModelChange()
 {
-    m_selectedTask = nullptr;       // Don't know whether selected task is now invalid.
+    m_selectedPerson = nullptr;       // Don't know whether selected Person is now invalid.
 
     // Remove old ones
     foreach ( PersonView* view, m_PersonViews )
@@ -256,41 +258,30 @@ void PersonListView::onModelChange()
     m_PersonViews.clear();
 
     // Insert new ones:
-    foreach ( PersonViewModel* taskModel, m_model->modelListFiltered() )
+    foreach ( PersonViewModel* PersonModel, m_model->modelListFiltered() )
     {
         PersonView* view = new PersonView(m_defaultPalette);
-        view->setModel( taskModel );
-        connect( view, &PersonView::mouseClicked, this, &PersonListView::onTaskClicked );
-        connect( view, &PersonView::mouseDoubleClicked, this, &PersonListView::onTaskDoubleClicked );
-        connect( view, &PersonView::isDoneToggled, this, &PersonListView::onIsDoneTogled );
+        view->setModel( PersonModel );
+        connect( view, &PersonView::mouseClicked, this, &PersonListView::onPersonClicked );
+        connect( view, &PersonView::mouseDoubleClicked, this, &PersonListView::onPersonDoubleClicked );
         m_listLayout->addWidget( view );
         m_PersonViews.append( view );
     }
 }
 
 
-void PersonListView::onTaskClicked()
+void PersonListView::onPersonClicked()
 {
-    changeTaskSelection( qobject_cast<PersonView*>( QObject::sender() ) );
+    changePersonSelection( qobject_cast<PersonView*>( QObject::sender() ) );
 }
 
 
-void PersonListView::onTaskDoubleClicked()
+void PersonListView::onPersonDoubleClicked()
 {
-    PersonView* clickedTask = qobject_cast<PersonView*>( QObject::sender() );
-    if ( clickedTask ) // If cast was successfull, forward signal:
+    PersonView* clickedPerson = qobject_cast<PersonView*>( QObject::sender() );
+    if ( clickedPerson ) // If cast was successfull, forward signal:
     {
-        emit doubleClickedTask( clickedTask );
-    }
-}
-
-
-void PersonListView::onIsDoneTogled( bool isDone )
-{
-    PersonView* impactedTask = qobject_cast<PersonView*>( QObject::sender() );
-    if ( impactedTask ) // If cast was successfull, forward signal:
-    {
-        emit isDoneToggled( impactedTask, isDone );
+        emit doubleClickedPerson( clickedPerson );
     }
 }
 

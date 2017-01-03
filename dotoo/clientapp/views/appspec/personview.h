@@ -75,13 +75,6 @@ public:
     void setHighlighted( bool highlighted );
 
 signals:
-    /*!
-     * \brief   This signal is emitted when the 'isDone' state of the task was changed.
-     *
-     * \param   boool isDone        New state of 'isDone' attribute.
-     */
-    void isDoneToggled( bool isDone );
-
     void mouseClicked();
     void mouseDoubleClicked();
     void mouseReleased();
@@ -140,12 +133,14 @@ private:
     bool m_highlighted;                         /*!< Stores highlighted (by mouse over event e.g.) state. */
 
     // Sub-widgets:
+    QLabel* m_forename;
     QLabel* m_name;                             /*!< Displays model's 'title' attribute as text. */
     QLabel* m_comment;                          /*!< Displays model's 'comment' attribute as text. */
 
     QSvgWidget* m_personIcon;                   /*!< Person icon that leads model's 'responsible person' presentation. */
 
     // Style:
+    QFont m_forenameFont;
     QFont m_nameFont;                           /*!< Font for title. The biggest font. */
     QFont m_commentFont;                        /*!< Font for the comment text. Smaller than title. */
 };

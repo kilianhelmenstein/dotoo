@@ -63,22 +63,22 @@ public:
     PersonListViewModel* model() const { return m_model; }
 
     /*!
-     * \brief   Delivers the currently selected task (its view).
+     * \brief   Delivers the currently selected Person (its view).
      *
-     * \return  PersonView*                       View of curently selected task.
+     * \return  PersonView*                       View of curently selected Person.
      *                                          May be a null pointer.
      */
-    PersonView* selectedTask() const { return m_selectedTask; }
+    PersonView* selectedPerson() const { return m_selectedPerson; }
 
     /*!
-     * \brief   Changes the current task selection.
+     * \brief   Changes the current Person selection.
      *
-     * \param   uint index      The index of the next selected task.
+     * \param   uint index      The index of the next selected Person.
      *
      * \return bool             True if selection is done.
      *                          False if selected index is invalid.
      */
-    bool setTaskSelection( int index );
+    bool setPersonSelection( int index );
 
     bool visualFocus() const;
 
@@ -90,46 +90,40 @@ public:
 
 signals:
     /*!
-     * \brief   Emitted when 'update task' button was clicked.
+     * \brief   Emitted when 'update Person' button was clicked.
      */
     void clickedUpdate();
 
     /*!
-     * \brief   Emitted when 'add task' button was clicked.
+     * \brief   Emitted when 'add Person' button was clicked.
      */
     void clickedAdd();
 
     /*!
-     * \brief   Emitted when 'change task' button was clicked.
+     * \brief   Emitted when 'change Person' button was clicked.
      */
     void clickedChange();
 
     /*!
-     * \brief   Emitted when 'delete task' button was clicked.
+     * \brief   Emitted when 'delete Person' button was clicked.
      */
     void clickedDelete();
 
     /*!
-     * \brief   Emitted when a task was clicked double times.
+     * \brief   Emitted when a person was clicked double times.
      *
-     * \param   PersonView* task      The double clicked task.
+     * \param   PersonView* person      The double clicked person.
      */
-    void doubleClickedTask( PersonView* task );
+    void doubleClickedPerson( PersonView* Person );
 
     /*!
-     * \brief   Emitted when someone changed current task selection.
+     * \brief   Emitted when someone changed current Person selection.
      */
     void selectionChanged( PersonView* newSelection );
 
     /*!
-     * \brief   Toggled when isDone state of a task was changed by an user.
-     *
-     * \param   PersonView* task      Impacted PersonView.
-     *
-     * \param   bool isDone         New isDone state.
+     * \brief   Emitted when a filter setting was changed by user.
      */
-    void isDoneToggled( PersonView* task, bool isDone );
-
     void filterChanged();
 
 public slots:
@@ -137,14 +131,14 @@ public slots:
 
 private:
     /*!
-     * \brief   Does the work, that has to be done when task selection changes:
+     * \brief   Does the work, that has to be done when Person selection changes:
      *          - Set state of currently selected PersonView to normal
      *          - Set member to new pointer
      *          - Set state of new selected PersonView to focussed.
      *
      * \param   PersonView* newSelection          Pointer to new selected PersonView.
      */
-    void changeTaskSelection( PersonView* newSelection );
+    void changePersonSelection( PersonView* newSelection );
 
 private slots:
     /*!
@@ -155,21 +149,15 @@ private slots:
     void onModelChange();
 
     /*!
-     * \brief   Handles a user click on a task item.
+     * \brief   Handles a user click on a Person item.
      */
-    void onTaskClicked();
+    void onPersonClicked();
 
     /*!
-     * \brief   Handles a user double click on a task item.
+     * \brief   Handles a user double click on a Person item.
      */
-    void onTaskDoubleClicked();
+    void onPersonDoubleClicked();
 
-    /*!
-     * \brief   Handles the toggle of a task's isDone state.
-     *
-     * \param   bool isDone     New isDone state.
-     */
-    void onIsDoneTogled( bool isDone );
 
 private:
     // Parameters:
@@ -177,7 +165,7 @@ private:
 
     // Style:
     QPalette m_defaultPalette;                  /*!< Default palette of whole application. Used to maintain a consistent look. */
-    QGraphicsBlurEffect* m_looseFocusEffect;    /*!< Used to show task list as unfocussed. */
+    QGraphicsBlurEffect* m_looseFocusEffect;    /*!< Used to show Person list as unfocussed. */
 
     // Widgets & Layouts:
     QLabel* m_headline;                         /*!< Displays the headline. */
@@ -187,8 +175,8 @@ private:
     QLineEdit* m_leFilterSearchString;
 
     // View specific:
-    QList<PersonView*> m_PersonViews;               /*!< All task view instances, that are currently shown by this view. Each item is instantiated by this class. */
-    PersonView* m_selectedTask;                   /*!< Holds currently selected task. */
+    QList<PersonView*> m_PersonViews;               /*!< All Person view instances, that are currently shown by this view. Each item is instantiated by this class. */
+    PersonView* m_selectedPerson;                   /*!< Holds currently selected Person. */
 };
 
 
