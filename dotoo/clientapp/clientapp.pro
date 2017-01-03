@@ -28,7 +28,10 @@ SOURCES += main.cpp \
     viewmodels/personviewmodel.cpp \
     viewmodels/personlistviewmodel.cpp \
     views/appspec/personview.cpp \
-    views/appspec/personlistview.cpp
+    views/appspec/personlistview.cpp \
+    views/appspec/personeditview.cpp \
+    controller/personeditctrl.cpp \
+    controller/personlistctrl.cpp
 
 HEADERS  += mainwindow.h \
     utilz/textviewutilz.h \
@@ -46,7 +49,10 @@ HEADERS  += mainwindow.h \
     viewmodels/personviewmodel.h \
     viewmodels/personlistviewmodel.h \
     views/appspec/personview.h \
-    views/appspec/personlistview.h
+    views/appspec/personlistview.h \
+    views/appspec/personeditview.h \
+    controller/personeditctrl.h \
+    controller/personlistctrl.h
 
 INCLUDEPATH += views/reusable \
                views/appspec \
