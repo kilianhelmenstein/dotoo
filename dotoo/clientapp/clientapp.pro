@@ -24,7 +24,11 @@ SOURCES += main.cpp \
     controller/tasklistctrl.cpp \
     views/appspec/taskeditview.cpp \
     controller/taskeditctrl.cpp \
-    utilz/qanimationutilz.cpp
+    utilz/qanimationutilz.cpp \
+    viewmodels/personviewmodel.cpp \
+    viewmodels/personlistviewmodel.cpp \
+    views/appspec/personview.cpp \
+    views/appspec/personlistview.cpp
 
 HEADERS  += mainwindow.h \
     utilz/textviewutilz.h \
@@ -38,7 +42,11 @@ HEADERS  += mainwindow.h \
     controller/tasklistctrl.h \
     views/appspec/taskeditview.h \
     controller/taskeditctrl.h \
-    utilz/qanimationutilz.h
+    utilz/qanimationutilz.h \
+    viewmodels/personviewmodel.h \
+    viewmodels/personlistviewmodel.h \
+    views/appspec/personview.h \
+    views/appspec/personlistview.h
 
 INCLUDEPATH += views/reusable \
                views/appspec \
