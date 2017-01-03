@@ -29,6 +29,7 @@ class TaskViewModel : public QObject, public Task
 {
     Q_OBJECT
 
+    Q_PROPERTY( UniqueId id READ getId WRITE setId NOTIFY changed )
     Q_PROPERTY( QString title READ getTitle WRITE setTitle NOTIFY changed )
     Q_PROPERTY( bool isDone READ isDone WRITE setDone NOTIFY changed )
     Q_PROPERTY( UniqueId responsible READ getResponsible WRITE setResponsible NOTIFY changed )

@@ -1,6 +1,7 @@
+#include "taskviewmodel.h"
+
 #include <utility>
 
-#include "taskviewmodel.h"
 #include "data/interface/asyncdatalyr_task.h"
 
 
