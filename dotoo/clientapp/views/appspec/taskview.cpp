@@ -11,6 +11,8 @@
 #include <QFontMetrics>
 
 #include "customcheckbox.h"
+#include "personlistviewmodel.h"
+#include "personviewmodel.h"
 #include "utilz/textviewutilz.h"
 
 
@@ -23,6 +25,7 @@ namespace GUI {
 TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     : QWidget( parent ),
       m_model( nullptr ),
+      m_personsModel( nullptr ),
       m_state( Normal ),
       m_highlighted( false ),
       m_checkBox( nullptr ),
@@ -142,6 +145,25 @@ void TaskView::setModel( TaskViewModel* model )
 }
 
 
+void TaskView::setPersonsModel( PersonListViewModel* personsModel )
+{
+    if ( personsModel && personsModel != m_personsModel )
+    {
+        if ( m_personsModel )
+        {
+            disconnect( m_personsModel, 0, this, 0 );
+        }
+
+        m_personsModel = personsModel;
+        connect( m_personsModel, &PersonListViewModel::changed,
+                 this, &TaskView::onPersonsModelChange );
+        connect( m_personsModel, &PersonListViewModel::destroyed,
+                 this, &TaskView::onPersonsModelChange );
+        onModelChange();
+    }
+}
+
+
 void TaskView::setState( State state )
 {
     if ( state != m_state ) // Only act if necessary.
@@ -233,10 +255,12 @@ void TaskView::changeIsDonePresentation( bool isDone )
 
 void TaskView::onModelChange()
 {
+    if ( !m_model ) return;
+
     TextViewUtilz::SetTextToLabel( m_title, m_model->getTitle() );
     TextViewUtilz::SetTextToLabel( m_comment, m_model->getComment() );
     TextViewUtilz::SetTextToLabel( m_dueDate, m_model->getDueDate().toString() );
-    TextViewUtilz::SetTextToLabel( m_responsible, "Carolin Helmenstein" );      // TODO: Use PersonListViewModel for determining responsible's name.
+    onPersonsModelChange();
 
     // Update 'isDone'-dependent presentation:
     changeIsDonePresentation( m_model->isDone() );
@@ -246,6 +270,38 @@ void TaskView::onModelChange()
 void TaskView::onModelDeletion()
 {
     m_model = nullptr;
+}
+
+
+void TaskView::onPersonsModelChange()
+{
+    if ( !m_personsModel ) return;
+
+    // Get right person model:
+    PersonViewModel* myPersonModel = nullptr;
+    foreach ( PersonViewModel* personModel, m_personsModel->modelList() )
+    {
+        if ( personModel->getId() == m_model->getResponsible() )
+        {
+            myPersonModel = personModel;
+            break;
+        }
+    }
+
+    // If model could be found, set label:
+    if ( myPersonModel )
+    {
+        TextViewUtilz::SetTextToLabel( m_responsible, myPersonModel->getFullName() );
+    } else
+    {
+        m_responsible->setText("-");    // Sign for user: no responsible selected
+    }
+}
+
+
+void TaskView::onPersonsModelDeletion()
+{
+    m_personsModel = nullptr;
 }
 
 

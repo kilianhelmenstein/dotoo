@@ -18,6 +18,10 @@ namespace Dotoo {
 namespace GUI {
 
 
+class PersonListViewModel;
+
+
+
 class TaskEditView : public QWidget
 {
     Q_OBJECT
@@ -51,6 +55,17 @@ public:
      */
     TaskViewModel* model() const { return m_model; }
 
+    /*!
+     * \brief   Sets the reference to the person list data model.
+     */
+    void setPersonsModel( PersonListViewModel* personsModel );
+
+    /*!
+     * \brief   Delivers the reference to the person list data model.
+     */
+    PersonListViewModel* personsModel() const { return m_personsModel; }
+
+    /* Getters: */
     QString title() const;
     QString comment() const;
     QDate dueDate() const;
@@ -82,9 +97,21 @@ private slots:
      */
     void onModelDeletion();
 
+    /*!
+     * \brief   Handles changes of model's data.
+     *
+     * \note    See 'setMode()'.
+     */
+    void onPersonsModelChange();
+
+    /*!
+     * \brief   Handles the deletion of view's model.
+     */
+    void onPersonsModelDeletion();
 
 private:
     TaskViewModel* m_model;                     /*!< Reference to model that contains presentated data. */
+    PersonListViewModel* m_personsModel;        /*!< Ref. to person list data model. */
 
     // Sub-widgets:
     QLabel* m_lblTitle;

@@ -27,6 +27,7 @@ TaskListView::TaskListView( const QString headlineText,
                             QWidget* parent )
     : QWidget( parent ),
       m_model( nullptr ),
+      m_personsModel( nullptr ),
       m_defaultPalette( appPalette ),
       m_listLayout( nullptr ),
       m_selectedTask( nullptr )
@@ -65,18 +66,18 @@ TaskListView::TaskListView( const QString headlineText,
     connect( m_chbFilterEnabled, &QCheckBox::toggled,
              this, &TaskListView::filterChanged );
 
-    QLabel* lblFilterIsDone = new QLabel( "Erledigt:" );
+    QLabel* lblFilterIsDone = new QLabel( "Done:" );
     m_cobFilterIsDone = new QComboBox();
     m_cobFilterIsDone->setEnabled( m_chbFilterEnabled->isChecked() );
-    m_cobFilterIsDone->addItem( "Ja", QVariant(true) );
-    m_cobFilterIsDone->addItem( "Nein", QVariant(false) );
+    m_cobFilterIsDone->addItem( "Yes", QVariant(true) );
+    m_cobFilterIsDone->addItem( "No", QVariant(false) );
     QObject::connect( m_chbFilterEnabled, &QCheckBox::toggled,
                       m_cobFilterIsDone, &QComboBox::setEnabled );
     QObject::connect( m_cobFilterIsDone,
                       static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
                       this, &TaskListView::filterChanged );
 
-    QLabel* lblSearchString = new QLabel( "Suchbegriff:" );
+    QLabel* lblSearchString = new QLabel( "Search string:" );
     m_leFilterSearchString = new QLineEdit();
     connect( m_leFilterSearchString, &QLineEdit::textChanged,
              this, &TaskListView::filterChanged );
@@ -181,6 +182,7 @@ TaskListView::TaskListView( const QString headlineText,
 
 TaskListView::~TaskListView()
 {
+    m_looseFocusEffect = nullptr;
 }
 
 
@@ -234,7 +236,8 @@ bool TaskListView::visualFocus() const
 
 void TaskListView::setVisualFocus( bool visualFocus )
 {
-    m_looseFocusEffect->setEnabled( !visualFocus );   // If focus shall be set to true, disable blur effect (and vice versa).
+    if ( m_looseFocusEffect )
+        m_looseFocusEffect->setEnabled( !visualFocus );   // If focus shall be set to true, disable blur effect (and vice versa).
 }
 
 
@@ -278,6 +281,7 @@ void TaskListView::onModelChange()
     {
         TaskView* view = new TaskView(m_defaultPalette);
         view->setModel( taskModel );
+        view->setPersonsModel( m_personsModel );
         connect( view, &TaskView::mouseClicked, this, &TaskListView::onTaskClicked );
         connect( view, &TaskView::mouseDoubleClicked, this, &TaskListView::onTaskDoubleClicked );
         connect( view, &TaskView::isDoneToggled, this, &TaskListView::onIsDoneTogled );

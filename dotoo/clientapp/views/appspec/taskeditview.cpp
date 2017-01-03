@@ -15,6 +15,9 @@
 #include <QComboBox>
 #include <QStringList>
 
+#include "personlistviewmodel.h"
+#include "personviewmodel.h"
+
 
 namespace Dotoo {
 namespace GUI {
@@ -23,6 +26,7 @@ namespace GUI {
 TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     : QWidget( parent ),
       m_model( nullptr ),
+      m_personsModel( nullptr ),
       m_lblTitle( nullptr ),
       m_titleEdit( nullptr ),
       m_lblComment( nullptr ),
@@ -38,6 +42,7 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     /*********                Widget's Layout:                *******/
     /****************************************************************/
     QFormLayout* baseLayout = new QFormLayout();
+    baseLayout->setSizeConstraint( QLayout::SetMaximumSize );
     baseLayout->setLabelAlignment( Qt::AlignRight );
 
 
@@ -89,8 +94,6 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     m_personIcon->setFixedSize( 22,22);
     m_responsible = new QComboBox();
     m_responsible->setFont(m_subInfoFont);
-    m_responsible->addItem( "Kilian Helmenstein", QVariant(1) );
-    m_responsible->addItem( "Carolin Helmenstein", QVariant(1) );
 
     m_btnAbort = new QPushButton( tr("Abort") );
     connect( m_btnAbort, &QPushButton::clicked,
@@ -122,7 +125,7 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     /****************************************************************/
     /*********             Initial Presenation:               *******/
     /****************************************************************/
-    setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
+    setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred );
     setBackgroundRole( QPalette::Base );
     setAutoFillBackground( true );
 }
@@ -151,10 +154,30 @@ void TaskEditView::setModel( TaskViewModel* model )
     }
 }
 
+
+void TaskEditView::setPersonsModel( PersonListViewModel* personsModel )
+{
+    if ( personsModel && personsModel != m_personsModel )
+    {
+        if ( m_personsModel )
+        {
+            disconnect( m_personsModel, 0, this, 0 );
+        }
+
+        m_personsModel = personsModel;
+        connect( m_personsModel, &PersonListViewModel::changed,
+                 this, &TaskEditView::onPersonsModelChange );
+        connect( m_personsModel, &PersonListViewModel::destroyed,
+                 this, &TaskEditView::onModelDeletion );
+        onPersonsModelChange();
+    }
+}
+
+
 QString TaskEditView::title() const { return m_titleEdit->text(); }
 QString TaskEditView::comment() const { return m_commentEdit->text(); }
 QDate TaskEditView::dueDate() const { return m_dueDateEdit->date(); }
-UniqueId TaskEditView::responsible() const { return 0; } // TODO: Use model for this!
+UniqueId TaskEditView::responsible() const { return m_responsible->currentData().toInt(); } // TODO: Use model for this!
 UniqueId TaskEditView::creator() const { return 0; } // TODO: Use model for this!
 
 
@@ -162,16 +185,39 @@ UniqueId TaskEditView::creator() const { return 0; } // TODO: Use model for this
 
 void TaskEditView::onModelChange()
 {
+    if ( !m_model ) return;
+
     m_titleEdit->setText( m_model->getTitle() );
 
     m_commentEdit->setText( m_model->getComment() );
     m_dueDateEdit->setDate( m_model->getDueDate() );
+
+    onPersonsModelChange();
 }
 
 
 void TaskEditView::onModelDeletion()
 {
     m_model = nullptr;
+}
+
+
+void TaskEditView::onPersonsModelChange()
+{
+    if ( !m_personsModel ) return;
+
+    m_responsible->setMaxCount(0);
+    m_responsible->setMaxCount(m_personsModel->modelList().size());
+    foreach ( PersonViewModel* personModel, m_personsModel->modelList() )
+    {
+        m_responsible->addItem( personModel->getFullName(), personModel->getId() );
+    }
+}
+
+
+void TaskEditView::onPersonsModelDeletion()
+{
+    m_personsModel = nullptr;
 }
 
 

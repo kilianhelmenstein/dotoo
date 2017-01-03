@@ -20,6 +20,9 @@ namespace Dotoo {
 namespace GUI {
 
 
+class PersonListViewModel;
+
+
 /*!
  * \brief   The TaskView class is the presentation of a task model.
  *
@@ -79,6 +82,16 @@ public:
      * \brief   Delivers the view's model.
      */
     TaskViewModel* model() const { return m_model; }
+
+    /*!
+     * \brief   Sets the reference to the person list data model.
+     */
+    void setPersonsModel( PersonListViewModel* personsModel );
+
+    /*!
+     * \brief   Delivers the reference to the person list data model.
+     */
+    PersonListViewModel* personsModel() const { return m_personsModel; }
 
     /*!
      * \brief   Deliers the widget's state.
@@ -185,6 +198,18 @@ private slots:
     void onModelDeletion();
 
     /*!
+     * \brief   Handles changes of model's data.
+     *
+     * \note    See 'setMode()'.
+     */
+    void onPersonsModelChange();
+
+    /*!
+     * \brief   Handles the deletion of view's model.
+     */
+    void onPersonsModelDeletion();
+
+    /*!
      * \brief   Handles the state change of taksview'w checkbox.
      *
      * \param   bool state          New state of checkbox.
@@ -194,6 +219,7 @@ private slots:
 
 private:
     TaskViewModel* m_model;                     /*!< Reference to model that contains presentated data. */
+    PersonListViewModel* m_personsModel;        /*!< Ref. to person list data model. */
     State m_state;                              /*!< View's current state. */
     bool m_highlighted;                         /*!< Stores highlighted (by mouse over event e.g.) state. */
 

@@ -16,6 +16,7 @@ namespace GUI {
 
 class TaskListViewModel;
 class TaskView;
+class PersonListViewModel;
 
 
 
@@ -74,6 +75,16 @@ public:
      * \brief   Delivers the view's model.
      */
     TaskListViewModel* model() const { return m_model; }
+
+    /*!
+     * \brief   Sets the reference to the person list data model.
+     */
+    void setPersonsModel( PersonListViewModel* personsModel ) { m_personsModel = personsModel; }
+
+    /*!
+     * \brief   Delivers the reference to the person list data model.
+     */
+    PersonListViewModel* personsModel() const { return m_personsModel; }
 
     /*!
      * \brief   Delivers the currently selected task (its view).
@@ -191,6 +202,7 @@ private slots:
 private:
     // Parameters:
     TaskListViewModel* m_model;                 /*!< Reference to data model. */
+    PersonListViewModel* m_personsModel;        /*!< Reference to persons data model. */
 
     // Style:
     QPalette m_defaultPalette;                  /*!< Default palette of whole application. Used to maintain a consistent look. */
