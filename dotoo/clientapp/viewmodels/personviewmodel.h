@@ -30,6 +30,7 @@ class PersonViewModel : public QObject, public Person
 
     Q_PROPERTY( UniqueId id READ getId WRITE setId NOTIFY changed )
     Q_PROPERTY( PersonName_t name READ getName WRITE setName NOTIFY changed )
+    Q_PROPERTY( QString fullName READ getFullName NOTIFY changed )
     Q_PROPERTY( QString comment READ getComment WRITE setComment NOTIFY changed )
 
 public:
