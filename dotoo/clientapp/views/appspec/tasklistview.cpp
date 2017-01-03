@@ -25,7 +25,7 @@ namespace GUI {
 TaskListView::TaskListView( const QString headlineText,
                             const QPalette& appPalette,
                             QWidget* parent )
-    : QWidget( parent) ,
+    : QWidget( parent ),
       m_model( nullptr ),
       m_defaultPalette( appPalette ),
       m_listLayout( nullptr ),

@@ -9,6 +9,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 
+
 namespace Dotoo {
 namespace GUI {
 
