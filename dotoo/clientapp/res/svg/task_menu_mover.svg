@@ -17,6 +17,13 @@
    sodipodi:docname="task_menu_mover.svg">
   <defs
      id="defs2987">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 425.71429 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="851.42859 : 425.71429 : 1"
+       inkscape:persp3d-origin="425.71429 : 283.80953 : 1"
+       id="perspective7325" />
     <filter
        color-interpolation-filters="sRGB"
        inkscape:collect="always"
@@ -35,8 +42,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="0"
      inkscape:zoom="0.35"
-     inkscape:cx="588.34187"
-     inkscape:cy="206.84095"
+     inkscape:cx="341.199"
+     inkscape:cy="329.6981"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -53,7 +60,7 @@
      inkscape:window-maximized="1">
     <sodipodi:guide
        orientation="0,1"
-       position="-118.57141,1001.4285"
+       position="161.42858,1124.2856"
        id="guide3796" />
   </sodipodi:namedview>
   <metadata
@@ -72,30 +79,30 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Shader"
-     transform="translate(1161.4286,-108.07643)" />
+     transform="translate(1441.4286,-230.93358)" />
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline"
-     transform="translate(1161.4286,-108.07643)">
+     transform="translate(1441.4286,-230.93358)">
     <rect
-       style="fill:#e4e4e4;fill-opacity:1;stroke:none"
+       style="fill:#3f3f3f;fill-opacity:1;stroke:none;display:inline"
        id="rect2993"
        width="851.42859"
        height="851.42859"
-       x="-1161.4286"
-       y="108.07643" />
+       x="-1441.4286"
+       y="230.93358" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:50;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m -1030,652.36218 185.71429,168.57135 402.85713,-574.28564"
-       id="path3763"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#171717;stroke-width:50;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter3792-3)"
-       d="m -1040.0001,670.93364 197.143,182.85706 417.14281,-594.28564"
-       id="path3763-3-6"
+       style="fill:none;stroke:#171717;stroke-width:50;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m -1315.7143,798.07647 197.1429,182.8571 417.14276,-594.28565"
+       id="path3763-3"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc" />
+    <path
+       style="fill:none;stroke:#d2d2d2;stroke-width:50;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m -1310,775.21937 185.7143,168.5713 402.85709,-574.28563"
+       id="path3763"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
