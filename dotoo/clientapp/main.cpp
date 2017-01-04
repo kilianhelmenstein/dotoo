@@ -1,6 +1,5 @@
-#include "mainwindow.h"
 #include <QApplication>
-#include <QVBoxLayout>
+#include <QMainWindow>
 #include <QPalette>
 
 #include "data/implementation/asyncdatalyr_taskhttp.h"
@@ -22,8 +21,11 @@
 #include "personlistview.h"
 #include "personlistctrl.h"
 
-
 #include "custommenubar.h"
+
+#include "settingsview.h"
+#include "settingsctrl.h"
+#include "utilz/languagesetting.h"
 
 
 using namespace Dotoo;
@@ -37,6 +39,7 @@ int main(int argc, char *argv[])
     using namespace Dotoo;
 
     QApplication a(argc, argv);
+    QMainWindow mainWindow;
 
     QPalette* appPalette = new QPalette();
     appPalette->setColor( QPalette::All, QPalette::Background, QColor("grey") );
@@ -73,6 +76,13 @@ int main(int argc, char *argv[])
     view->setPersonsModel(modelPersons);
     TaskListCtrl* controller = new TaskListCtrl( model, view );
 
+    // Settings menu:
+    LanguageSetting langSetting( "lang" );
+    SettingsView* viewSettings = new SettingsView( *appPalette );
+    viewSettings->setLanguageModel( &langSetting );
+    SettingsCtrl* controllerSettings = new SettingsCtrl( viewSettings,
+                                                         &langSetting );
+
 
     menuBar.addWidget( view,
                        ":svg/task_menu_normal",
@@ -82,11 +92,14 @@ int main(int argc, char *argv[])
                        ":svg/persons_menu_normal",
                        ":svg/persons_menu_mover",
                        ":svg/persons_menu_selected" );
-    menuBar.addWidget( viewPersons,
+    menuBar.addWidget( viewSettings,
                        ":svg/settings_menu_normal",
                        ":svg/settings_menu_mover",
                        ":svg/settings_menu_selected" );
+
     menuBar.show();
+//    mainWindow.setCentralWidget( &menuBar );
+//    mainWindow.show();
 
     return a.exec();
 }
