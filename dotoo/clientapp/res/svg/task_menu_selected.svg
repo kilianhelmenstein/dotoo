@@ -14,9 +14,27 @@
    id="svg2985"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="task_menu_mvoer.svg">
+   sodipodi:docname="task_menu_selected.svg">
   <defs
-     id="defs2987" />
+     id="defs2987">
+    <filter
+       inkscape:collect="always"
+       id="filter3792">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="23.072725"
+         id="feGaussianBlur3794" />
+    </filter>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter3792-3">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="23.072725"
+         id="feGaussianBlur3794-5" />
+    </filter>
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,8 +43,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="0"
      inkscape:zoom="0.35"
-     inkscape:cx="588.34187"
-     inkscape:cy="206.84095"
+     inkscape:cx="289.77044"
+     inkscape:cy="321.12666"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -54,7 +72,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -76,6 +94,12 @@
        height="851.42859"
        x="-1161.4286"
        y="108.07643" />
+    <path
+       style="fill:none;stroke:#171717;stroke-width:50;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter3792)"
+       d="m -1035.7143,675.21935 197.14288,182.85706 417.14281,-594.28564"
+       id="path3763-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
     <path
        style="fill:none;stroke:#d2d2d2;stroke-width:50;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        d="m -1030,652.36218 185.71429,168.57135 402.85713,-574.28564"

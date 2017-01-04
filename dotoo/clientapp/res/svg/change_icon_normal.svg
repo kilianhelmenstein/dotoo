@@ -15,7 +15,7 @@
    id="svg2985"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="delete_icon_mover.svg">
+   sodipodi:docname="change_icon_normal.svg">
   <defs
      id="defs2987">
     <linearGradient
@@ -49,8 +49,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="0"
      inkscape:zoom="0.35000001"
-     inkscape:cx="31.711702"
-     inkscape:cy="369.04287"
+     inkscape:cx="63.140273"
+     inkscape:cy="337.6143"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -71,7 +71,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -92,7 +92,7 @@
        transform="matrix(1.1538117,0,0,1.1538117,-240.49187,-333.2862)" />
     <path
        sodipodi:type="arc"
-       style="fill:#f9d400;fill-opacity:1;stroke:none"
+       style="fill:#6796e8;fill-opacity:1;stroke:none"
        id="path2993"
        sodipodi:cx="201.42857"
        sodipodi:cy="696.64789"

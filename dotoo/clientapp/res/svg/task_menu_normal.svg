@@ -15,7 +15,7 @@
    id="svg2985"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Neues Dokument 2">
+   sodipodi:docname="task_menu_normal.svg">
   <defs
      id="defs2987">
     <linearGradient
@@ -51,6 +51,15 @@
        fy="785.2193"
        r="450"
        gradientTransform="matrix(1.2825397,0,0,1.2825397,-1024.6349,93.858669)" />
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter3792-6">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="23.072725"
+         id="feGaussianBlur3794-7" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -63,7 +72,7 @@
      inkscape:cx="588.34187"
      inkscape:cy="206.84095"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -89,7 +98,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -116,5 +125,11 @@
        d="m -1030,652.36218 185.71429,168.57135 402.85713,-574.28564"
        id="path3763"
        inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#171717;stroke-width:50;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter3792-6)"
+       d="m -1042.8572,670.93364 197.14296,182.85702 417.14281,-594.2856"
+       id="path3763-3-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
   </g>
 </svg>

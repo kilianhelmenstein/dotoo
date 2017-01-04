@@ -14,9 +14,19 @@
    id="svg2985"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="task_menu_normal.svg">
+   sodipodi:docname="task_menu_mover.svg">
   <defs
-     id="defs2987" />
+     id="defs2987">
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter3792-3">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="23.072725"
+         id="feGaussianBlur3794-5" />
+    </filter>
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -54,7 +64,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -81,5 +91,11 @@
        d="m -1030,652.36218 185.71429,168.57135 402.85713,-574.28564"
        id="path3763"
        inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#171717;stroke-width:50;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;filter:url(#filter3792-3)"
+       d="m -1040.0001,670.93364 197.143,182.85706 417.14281,-594.28564"
+       id="path3763-3-6"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
   </g>
 </svg>
