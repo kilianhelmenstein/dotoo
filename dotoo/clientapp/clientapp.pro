@@ -9,6 +9,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 # Using Qt's core and gui module:
 QT       += core gui svg
 
+TRANSLATIONS = lang/dotoo_en.ts  lang/dotoo_de.ts
 
 # Files we need:
 SOURCES += main.cpp \
