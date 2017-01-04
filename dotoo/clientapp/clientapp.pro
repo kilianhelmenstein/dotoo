@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     views/appspec/personlistview.cpp \
     views/appspec/personeditview.cpp \
     controller/personeditctrl.cpp \
-    controller/personlistctrl.cpp
+    controller/personlistctrl.cpp \
+    views/appspec/settingsview.cpp
 
 HEADERS  += mainwindow.h \
     utilz/textviewutilz.h \
@@ -53,7 +54,8 @@ HEADERS  += mainwindow.h \
     views/appspec/personlistview.h \
     views/appspec/personeditview.h \
     controller/personeditctrl.h \
-    controller/personlistctrl.h
+    controller/personlistctrl.h \
+    views/appspec/settingsview.h
 
 INCLUDEPATH += views/reusable \
                views/appspec \
