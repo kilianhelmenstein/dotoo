@@ -54,14 +54,14 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     setPalette(appPalette);
 
     // Init fonts:
-    m_titleFont.setPointSize(35);
+    m_titleFont.setPointSize(25);
     m_titleFont.setStyleHint(QFont::SansSerif);
     m_titleFont.setWeight(30);
 
-    m_commentFont.setPointSize(12);
+    m_commentFont.setPointSize(11);
     m_commentFont.setWeight(50);
 
-    m_subInfoFont.setPointSize(12);
+    m_subInfoFont.setPointSize(11);
     m_subInfoFont.setWeight(50);
 
 
@@ -69,7 +69,7 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     /*********             Widget's sub-widgets:              *******/
     /****************************************************************/
     m_checkBox = new CustomGUI::CustomCheckBox();
-    m_checkBox->setFixedSize( 60, 60 );
+    m_checkBox->setFixedSize( 45, 45 );
     connect( m_checkBox, &CustomGUI::CustomCheckBox::toggled, this, &TaskView::onCheckBoxStateChange );
 
     m_title = new QLabel();
@@ -194,15 +194,15 @@ void TaskView::updatePalette()
     {
     case Normal:
         newPalette.setColor( QPalette::All, QPalette::Base,                 // 'isDone = false'-presentation
-                             highlighted() ? "#ffe69290" : "#ffde6d6a" );
+                             highlighted() ? "#ffdd8f8d" : "#ffd8807d" );
         newPalette.setColor( QPalette::All, QPalette::AlternateBase,        // 'isDone = true'-presentation
-                             highlighted() ? "#ffbfeac4" : "#ff8fdb9b" );
+                             highlighted() ? "#ffc5e4c8" : "#ffb0d7b4" );
         break;
     case Focussed:
         newPalette.setColor( QPalette::All, QPalette::Base,                 // 'isDone = false'-presentation
-                             "#ffe69290" );
+                             "#fffda4a0" );
         newPalette.setColor( QPalette::All, QPalette::AlternateBase,        // 'isDone = true'-presentation
-                             "#ffbfeac4" );
+                             "#ffdbfede" );
         break;
     case Disabled:
         newPalette.setColor( QPalette::All, QPalette::Base,                 // 'isDone = false'-presentation
@@ -238,12 +238,12 @@ void TaskView::changeIsDonePresentation( bool isDone )
     // Size depends on checkbox state:
     if ( isDone )
     {
-        setMinimumSize( 550, 75 );
-        setMaximumSize( 800, 75 );
+        setMinimumSize( 550, 60 );
+        setMaximumSize( 800, 60 );
     } else
     {
-        setMinimumSize( 550, 115 );
-        setMaximumSize( 800, 115 );
+        setMinimumSize( 550, 100 );
+        setMaximumSize( 800, 100 );
     }
 
     // Sub info (comment, due date, responsible person)

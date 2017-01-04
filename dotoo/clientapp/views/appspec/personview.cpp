@@ -42,15 +42,15 @@ PersonView::PersonView( const QPalette &appPalette, QWidget* parent )
     setPalette(appPalette);
 
     // Init fonts:
-    m_forenameFont.setPointSize(20);
+    m_forenameFont.setPointSize(14);
     m_forenameFont.setStyleHint(QFont::Monospace);
     m_forenameFont.setWeight(30);
 
-    m_nameFont.setPointSize(35);
+    m_nameFont.setPointSize(20);
     m_nameFont.setStyleHint(QFont::Monospace);
     m_nameFont.setWeight(30);
 
-    m_commentFont.setPointSize(12);
+    m_commentFont.setPointSize(11);
     m_commentFont.setStyleHint(QFont::Monospace);
     m_commentFont.setWeight(50);
 
@@ -91,8 +91,8 @@ PersonView::PersonView( const QPalette &appPalette, QWidget* parent )
     /****************************************************************/
     /*********             Initial Presenation:               *******/
     /****************************************************************/
-    setMinimumSize( 250, 120 );
-    setMaximumSize( 400, 120 );
+    setMinimumSize( 200, 110 );
+    setMaximumSize( 300, 110 );
     setBackgroundRole( QPalette::Base );
     setAutoFillBackground( true );
     updatePalette();
@@ -146,6 +146,14 @@ void PersonView::setHighlighted( bool highlighted )
 }
 
 
+/* Public slots: */
+
+void PersonView::updateDisplayedTexts()
+{
+    // No texts to update currently
+}
+
+
 /* Private methods: */
 
 void PersonView::updatePalette()
@@ -155,7 +163,8 @@ void PersonView::updatePalette()
     {
     case Normal:
         newPalette.setColor( QPalette::All, QPalette::Base,
-                             highlighted() ? "#ff9eb8e5" : "#ff799cd5" );
+                             //highlighted() ? "#ff9eb8e5" : "#ff799cd5" );
+                             highlighted() ? "#ffbac8de" : "#ffa1abbe" );
         break;
     case Focussed:
         newPalette.setColor( QPalette::All, QPalette::Base,

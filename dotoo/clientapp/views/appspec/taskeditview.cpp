@@ -15,6 +15,7 @@
 #include <QComboBox>
 #include <QStringList>
 
+#include "utilz/textviewutilz.h"
 #include "personlistviewmodel.h"
 #include "personviewmodel.h"
 
@@ -71,7 +72,6 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     QFont titleFontBold( m_titleFont );
     titleFontBold.setWeight( m_titleFont.weight() * 1.15 );
     m_lblTitle->setFont( titleFontBold );           // Take a bold-version of title font
-    m_lblTitle->setText( tr("Title") );
     m_titleEdit = new QLineEdit();
     m_titleEdit->setFont(m_titleFont);
 
@@ -79,7 +79,6 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     QFont commentFontBold( m_commentFont );
     commentFontBold.setWeight( m_commentFont.weight() * 1.2 );
     m_lblComment->setFont( commentFontBold );       // Take a bold-version of comment font
-    m_lblComment->setText( tr("Comment") );
     m_commentEdit = new QLineEdit();
     m_commentEdit->setFont(m_commentFont);
 
@@ -95,11 +94,11 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     m_responsible = new QComboBox();
     m_responsible->setFont(m_subInfoFont);
 
-    m_btnAbort = new QPushButton( tr("Abort") );
+    m_btnAbort = new QPushButton();
     connect( m_btnAbort, &QPushButton::clicked,
              this, &TaskEditView::clickedAbort );
 
-    m_btnApply = new QPushButton( tr("Apply") );
+    m_btnApply = new QPushButton();
     connect( m_btnApply, &QPushButton::clicked,
              this, &TaskEditView::clickedApply );
 
@@ -126,8 +125,10 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     /*********             Initial Presenation:               *******/
     /****************************************************************/
     setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred );
+    setMaximumHeight( 200 );
     setBackgroundRole( QPalette::Base );
     setAutoFillBackground( true );
+    updateDisplayedTexts();
 }
 
 
@@ -174,11 +175,46 @@ void TaskEditView::setPersonsModel( PersonListViewModel* personsModel )
 }
 
 
-QString TaskEditView::title() const { return m_titleEdit->text(); }
-QString TaskEditView::comment() const { return m_commentEdit->text(); }
-QDate TaskEditView::dueDate() const { return m_dueDateEdit->date(); }
-UniqueId TaskEditView::responsible() const { return m_responsible->currentData().toInt(); } // TODO: Use model for this!
-UniqueId TaskEditView::creator() const { return 0; } // TODO: Use model for this!
+QString TaskEditView::title() const
+{
+    return m_titleEdit->text();
+}
+
+
+QString TaskEditView::comment() const
+{
+    return m_commentEdit->text();
+}
+
+
+QDate TaskEditView::dueDate() const
+{
+    return m_dueDateEdit->date();
+}
+
+
+UniqueId TaskEditView::responsible() const
+{
+    return m_responsible->currentData().toInt();
+}
+
+
+UniqueId TaskEditView::creator() const
+{
+    return 0; // TODO: Use model for this!
+}
+
+
+/* Public slots: */
+
+void TaskEditView::updateDisplayedTexts()
+{
+    // Child widgets:
+    TextViewUtilz::SetTextToLabel( m_lblTitle, tr("Forename") );
+    TextViewUtilz::SetTextToLabel( m_lblComment, tr("Comment") );
+    m_btnAbort->setText( tr("Abort") );
+    m_btnApply->setText( tr("Apply") );
+}
 
 
 /* Private slots: */

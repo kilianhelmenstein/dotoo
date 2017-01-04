@@ -43,6 +43,7 @@ CustomMenuBar::CustomMenuBar( AttachedEdge attachedEdge,
         iconWidget->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Expanding );
         iconWidget->setMaximumWidth( maximumBarWidth );
     }
+    m_maxIconSize  = maximumBarWidth;
     iconWidget->setLayout( m_iconLayout );
 
     iconWidget->setGeometry( 0, 0, iconWidget->width(), iconWidget->height() );
@@ -68,10 +69,10 @@ void CustomMenuBar::addWidget( QWidget* w,
                                                          iconSelected,
                                                          /*selectable:*/ true,
                                                          /*deselectable by mouse:*/ false );
-    widgetIcon->setFixedSize( 70, 70 );
+    widgetIcon->setFixedSize( m_maxIconSize, m_maxIconSize );
 
     // Add icon to bar:
-    m_iconLayout->addWidget( widgetIcon );
+    m_iconLayout->addWidget( widgetIcon, 0, Qt::AlignTop );
     connect( widgetIcon, &CustomIconButton::clicked,
              this, &CustomMenuBar::onIconClicked );
 

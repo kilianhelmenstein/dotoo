@@ -9,6 +9,7 @@
 #include <QPropertyAnimation>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QGroupBox>
 
 #include "customiconbutton.h"
 
@@ -22,8 +23,7 @@ namespace GUI {
 
 
 
-TaskListView::TaskListView( const QString headlineText,
-                            const QPalette& appPalette,
+TaskListView::TaskListView( const QPalette& appPalette,
                             QWidget* parent )
     : QWidget( parent ),
       m_model( nullptr ),
@@ -59,25 +59,31 @@ TaskListView::TaskListView( const QString headlineText,
     headlineFont.setWeight( 30 );
     m_headline = new QLabel();
     m_headline->setFont( headlineFont );
-    m_headline->setText( headlineText );
 
     /*** Filter selection: ***/
+    m_lblFilterEnabled = new QLabel();
     m_chbFilterEnabled = new QCheckBox();
     connect( m_chbFilterEnabled, &QCheckBox::toggled,
              this, &TaskListView::filterChanged );
 
-    QLabel* lblFilterIsDone = new QLabel( "Done:" );
+    m_lblFilterIsDone = new QLabel();
+    m_lblFilterIsDone->setVisible( m_chbFilterEnabled->isChecked() );
+    QObject::connect( m_chbFilterEnabled, &QCheckBox::toggled,
+                      m_lblFilterIsDone, &QLabel::setVisible );
     m_cobFilterIsDone = new QComboBox();
+    m_cobFilterIsDone->setVisible( m_chbFilterEnabled->isChecked() );
     m_cobFilterIsDone->setEnabled( m_chbFilterEnabled->isChecked() );
-    m_cobFilterIsDone->addItem( "Yes", QVariant(true) );
-    m_cobFilterIsDone->addItem( "No", QVariant(false) );
+    m_cobFilterIsDone->addItem( "", QVariant(true) );   // Text will be set later
+    m_cobFilterIsDone->addItem( "", QVariant(false) );  // Text will be set later
+    QObject::connect( m_chbFilterEnabled, &QCheckBox::toggled,
+                      m_cobFilterIsDone, &QComboBox::setVisible );
     QObject::connect( m_chbFilterEnabled, &QCheckBox::toggled,
                       m_cobFilterIsDone, &QComboBox::setEnabled );
     QObject::connect( m_cobFilterIsDone,
                       static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
                       this, &TaskListView::filterChanged );
 
-    QLabel* lblSearchString = new QLabel( "Search string:" );
+    m_lblSearchString = new QLabel();
     m_leFilterSearchString = new QLineEdit();
     connect( m_leFilterSearchString, &QLineEdit::textChanged,
              this, &TaskListView::filterChanged );
@@ -148,17 +154,21 @@ TaskListView::TaskListView( const QString headlineText,
     /****************************************************************/
     m_listLayout = new QVBoxLayout();
     m_listLayout->setSpacing( 10 );
-    m_listLayout->setContentsMargins( 0, 0, 10, 10 );
+    m_listLayout->setContentsMargins( 8, 8, 8, 8 );
     m_listLayout->setSizeConstraint( QLayout::SetMinAndMaxSize );
     mainWidget->setLayout( m_listLayout );
 
     // Filter tools layout:
-    QHBoxLayout* filterToolsLayout = new QHBoxLayout();
-    filterToolsLayout->addWidget( m_chbFilterEnabled );
-    filterToolsLayout->addWidget( lblFilterIsDone );
-    filterToolsLayout->addWidget( m_cobFilterIsDone );
-    filterToolsLayout->addWidget( lblSearchString );
-    filterToolsLayout->addWidget( m_leFilterSearchString );
+    QGridLayout* filterToolsLayout = new QGridLayout();
+    filterToolsLayout->addWidget( m_lblFilterEnabled, 0, 0 );
+    filterToolsLayout->addWidget( m_chbFilterEnabled, 0, 1, 1, 3 );
+    filterToolsLayout->addWidget( m_lblFilterIsDone, 1, 0 );
+    filterToolsLayout->addWidget( m_cobFilterIsDone, 1, 1, 1, 3 );
+    filterToolsLayout->addWidget( m_lblSearchString, 2, 0 );
+    filterToolsLayout->addWidget( m_leFilterSearchString, 2, 1, 1, 3 );
+    QGroupBox* filterGroup = new QGroupBox();
+    filterGroup->setLayout( filterToolsLayout );
+
 
     // Toolbox layout:
     QVBoxLayout* toolboxLayout = new QVBoxLayout();
@@ -171,12 +181,13 @@ TaskListView::TaskListView( const QString headlineText,
      *   scroll area and tool bar (for manipulating task and task list): ***/
     QGridLayout* mainLayout = new QGridLayout();
     mainLayout->addWidget( m_headline, 0, 0 );
-    mainLayout->addLayout( filterToolsLayout, 1, 0 );
-    mainLayout->addWidget( scrollArea, 2, 0 );
-    mainLayout->addLayout( toolboxLayout, 2, 1, 1, 1, Qt::AlignTop | Qt::AlignLeft );     // TODO: Implement custom toolbar. Add here.
+    mainLayout->addWidget( filterGroup, 1, 0 );
+    mainLayout->addWidget( scrollArea, 3, 0 );
+    mainLayout->addLayout( toolboxLayout, 3, 1, 1, 1, Qt::AlignTop | Qt::AlignLeft );     // TODO: Implement custom toolbar. Add here.
     setLayout( mainLayout );
 
     setMinimumWidth( toolboxLayout->minimumSize().width() + mainWidget->minimumWidth() );
+    updateDisplayedTexts();
 }
 
 
@@ -187,12 +198,6 @@ TaskListView::~TaskListView()
 
 
 /* Public methods: */
-
-void TaskListView::setHeadline( const QString& headlineText )
-{
-    TextViewUtilz::SetTextToLabel( m_headline, headlineText );
-}
-
 
 void TaskListView::setModel( TaskListViewModel* model )
 {
@@ -238,6 +243,27 @@ void TaskListView::setVisualFocus( bool visualFocus )
 {
     if ( m_looseFocusEffect )
         m_looseFocusEffect->setEnabled( !visualFocus );   // If focus shall be set to true, disable blur effect (and vice versa).
+}
+
+
+/* Public slots: */
+
+void TaskListView::updateDisplayedTexts()
+{
+    // Child widgets:
+    TextViewUtilz::SetTextToLabel( m_headline, tr("All Tasks") );
+    TextViewUtilz::SetTextToLabel( m_lblFilterEnabled, tr("Enable filter:") );
+    TextViewUtilz::SetTextToLabel( m_lblFilterIsDone, tr("Enable filter:") );
+    TextViewUtilz::SetTextToLabel( m_lblFilterIsDone, tr("Done:") );
+    m_cobFilterIsDone->setItemText( 0, tr("Yes") );
+    m_cobFilterIsDone->setItemText( 1, tr("No") );
+    TextViewUtilz::SetTextToLabel( m_lblSearchString, tr("Search:") );
+
+    // Person views:
+    foreach ( TaskView* taskView, m_taskViews )
+    {
+        taskView->updateDisplayedTexts();
+    }
 }
 
 

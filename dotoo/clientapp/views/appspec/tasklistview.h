@@ -39,29 +39,18 @@ public:
     /*!
      * \brief   Ctor of TaskListView class.
      *
-     * \param   const QString headlineText      Init. headline.
-     *
      * \param   const QPalette& appPalette      App's color palette. Use this for
      *                                          maintain a consistent color scheme.
      *
      * \param   QWidget* parent                 Parent of new TaskListView object.
      */
-    TaskListView( const QString headlineText,
-                  const QPalette& appPalette,
+    TaskListView( const QPalette& appPalette,
                   QWidget* parent=nullptr );
 
     /*!
      * \brief   Dtor of TaskListViewClass.
      */
     virtual ~TaskListView();
-
-
-    /*!
-     * \brief   Updates the headline text.
-     *
-     * \param   const QString& headlineText     New headline.
-     */
-    void setHeadline( const QString& headlineText );
 
     /*!
      * \brief   Takes new model instance and updates presentation. Connects this object wiht
@@ -116,6 +105,13 @@ public:
     QString filterSearchString() { return m_leFilterSearchString->text(); }
 
 
+public slots:
+    /*!
+     * \brief   Updates all displayed texts (they may depend on selected language).
+     */
+    void updateDisplayedTexts();
+
+
 signals:
     /*!
      * \brief   Emitted when 'update task' button was clicked.
@@ -159,9 +155,6 @@ signals:
     void isDoneToggled( TaskView* task, bool isDone );
 
     void filterChanged();
-
-public slots:
-
 
 private:
     /*!
@@ -212,8 +205,11 @@ private:
     QLabel* m_headline;                         /*!< Displays the headline. */
     QVBoxLayout* m_listLayout;                  /*!< Contains the TaskView widgets. Surrounded by a scroll area. */
 
+    QLabel* m_lblFilterEnabled;
     QCheckBox* m_chbFilterEnabled;
+    QLabel* m_lblFilterIsDone;
     QComboBox* m_cobFilterIsDone;
+    QLabel* m_lblSearchString;
     QLineEdit* m_leFilterSearchString;
 
     // View specific:

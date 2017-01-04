@@ -74,6 +74,13 @@ public:
      */
     void setHighlighted( bool highlighted );
 
+
+public slots:
+    /*!
+     * \brief   Updates all displayed texts (they may depend on selected language).
+     */
+    void updateDisplayedTexts();
+
 signals:
     void mouseClicked();
     void mouseDoubleClicked();

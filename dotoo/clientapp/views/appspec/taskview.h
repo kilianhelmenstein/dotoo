@@ -121,6 +121,12 @@ public:
 
     bool isDone() const { return m_checkBox->state(); }
 
+public slots:
+    /*!
+     * \brief   Updates all displayed texts (they may depend on selected language).
+     */
+    void updateDisplayedTexts() { /* Currently nothing to do here. */ }
+
 signals:
     /*!
      * \brief   This signal is emitted when the 'isDone' state of the task was changed.

@@ -93,6 +93,8 @@ private:
     QBoxLayout* m_mainLayout;   /*!< Pointer to main layout. Contains icon bar and the menu widgets. */
     QBoxLayout* m_iconLayout;   /*!< Pointer to layout that manages icon */
 
+    int m_maxIconSize;
+
     QMap<CustomIconButton*, QWidget*> m_menuWidgets;    /*!< List with references to all selectable */
     QMap<CustomIconButton*, QWidget*>::iterator m_selectedMenu; /*!< Currently selected menu widget. */
 };

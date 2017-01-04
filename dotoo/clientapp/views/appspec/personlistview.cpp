@@ -9,6 +9,7 @@
 #include <QPropertyAnimation>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QGroupBox>
 
 #include "customiconbutton.h"
 
@@ -22,13 +23,16 @@ namespace GUI {
 
 
 
-PersonListView::PersonListView( const QString headlineText,
-                                const QPalette& appPalette,
+PersonListView::PersonListView( const QPalette& appPalette,
                                 QWidget* parent )
     : QWidget( parent ),
       m_model( nullptr ),
       m_defaultPalette( appPalette ),
+      m_looseFocusEffect( nullptr ),
+      m_headline( nullptr ),
       m_listLayout( nullptr ),
+      m_lblSearchString( nullptr ),
+      m_leFilterSearchString( nullptr ),
       m_selectedPerson( nullptr )
 {
     /****************************************************************/
@@ -58,10 +62,9 @@ PersonListView::PersonListView( const QString headlineText,
     headlineFont.setWeight( 30 );
     m_headline = new QLabel();
     m_headline->setFont( headlineFont );
-    m_headline->setText( headlineText );
 
     /*** Filter selection: ***/
-    QLabel* lblSearchString = new QLabel( "Search string:" );
+    m_lblSearchString = new QLabel( tr("Search:") );
     m_leFilterSearchString = new QLineEdit();
     connect( m_leFilterSearchString, &QLineEdit::textChanged,
              this, &PersonListView::filterChanged );
@@ -130,16 +133,18 @@ PersonListView::PersonListView( const QString headlineText,
     /****************************************************************/
     /*********                Widget's Layout:                *******/
     /****************************************************************/
-    m_listLayout = new QVBoxLayout();
+    m_listLayout = new QGridLayout();
     m_listLayout->setSpacing( 10 );
-    m_listLayout->setContentsMargins( 0, 0, 10, 10 );
+    m_listLayout->setContentsMargins( 8, 8, 8, 8 );
     m_listLayout->setSizeConstraint( QLayout::SetMinAndMaxSize );
     mainWidget->setLayout( m_listLayout );
 
     // Filter tools layout:
     QHBoxLayout* filterToolsLayout = new QHBoxLayout();
-    filterToolsLayout->addWidget( lblSearchString );
+    filterToolsLayout->addWidget( m_lblSearchString );
     filterToolsLayout->addWidget( m_leFilterSearchString );
+    QGroupBox* filterGroup = new QGroupBox();
+    filterGroup->setLayout( filterToolsLayout );
 
     // Toolbox layout:
     QVBoxLayout* toolboxLayout = new QVBoxLayout();
@@ -152,12 +157,13 @@ PersonListView::PersonListView( const QString headlineText,
      *   scroll area and tool bar (for manipulating Person and Person list): ***/
     QGridLayout* mainLayout = new QGridLayout();
     mainLayout->addWidget( m_headline, 0, 0 );
-    mainLayout->addLayout( filterToolsLayout, 1, 0 );
+    mainLayout->addWidget( filterGroup, 1, 0 );
     mainLayout->addWidget( scrollArea, 2, 0 );
     mainLayout->addLayout( toolboxLayout, 2, 1, 1, 1, Qt::AlignTop | Qt::AlignLeft );     // TODO: Implement custom toolbar. Add here.
     setLayout( mainLayout );
 
     setMinimumWidth( toolboxLayout->minimumSize().width() + mainWidget->minimumWidth() );
+    updateDisplayedTexts();
 }
 
 
@@ -168,12 +174,6 @@ PersonListView::~PersonListView()
 
 
 /* Public methods: */
-
-void PersonListView::setHeadline( const QString& headlineText )
-{
-    TextViewUtilz::SetTextToLabel( m_headline, headlineText );
-}
-
 
 void PersonListView::setModel( PersonListViewModel* model )
 {
@@ -197,9 +197,9 @@ void PersonListView::setModel( PersonListViewModel* model )
 
 bool PersonListView::setPersonSelection( int index )
 {
-    if ( index < m_PersonViews.size() )
+    if ( index < m_personViews.size() )
     {
-        PersonView* newSelection = m_PersonViews.at( index );
+        PersonView* newSelection = m_personViews.at( index );
         changePersonSelection( newSelection );
         return true;
     } else
@@ -222,6 +222,22 @@ void PersonListView::setVisualFocus( bool visualFocus )
 }
 
 
+/* Public slots: */
+
+void PersonListView::updateDisplayedTexts()
+{
+    // Child widgets:
+    TextViewUtilz::SetTextToLabel( m_headline, tr("All Persons") );
+    TextViewUtilz::SetTextToLabel( m_lblSearchString, tr("Search:") );
+
+    // Person views:
+    foreach ( PersonView* personView, m_personViews )
+    {
+        personView->updateDisplayedTexts();
+    }
+}
+
+
 /* Private methods: */
 
 void PersonListView::changePersonSelection( PersonView* newSelection )
@@ -240,7 +256,7 @@ void PersonListView::onModelChange()
     m_selectedPerson = nullptr;       // Don't know whether selected Person is now invalid.
 
     // Remove old ones
-    foreach ( PersonView* view, m_PersonViews )
+    foreach ( PersonView* view, m_personViews )
     {
         QPropertyAnimation* awayAnimation = new QPropertyAnimation(view,"windowOpacity",view);
         awayAnimation->setDuration(0);
@@ -255,17 +271,20 @@ void PersonListView::onModelChange()
 
         awayAnimation->start();
     }
-    m_PersonViews.clear();
+    m_personViews.clear();
 
     // Insert new ones:
+    const int numColumns = 2;
+    int row = 0;
     foreach ( PersonViewModel* PersonModel, m_model->modelListFiltered() )
     {
         PersonView* view = new PersonView(m_defaultPalette);
         view->setModel( PersonModel );
         connect( view, &PersonView::mouseClicked, this, &PersonListView::onPersonClicked );
         connect( view, &PersonView::mouseDoubleClicked, this, &PersonListView::onPersonDoubleClicked );
-        m_listLayout->addWidget( view );
-        m_PersonViews.append( view );
+        m_listLayout->addWidget( view, row - (row%numColumns), row%numColumns );
+        ++row;
+        m_personViews.append( view );
     }
 }
 

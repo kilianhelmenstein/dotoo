@@ -55,6 +55,12 @@ public:
     QString forename() const;
     QString comment() const;
 
+public slots:
+    /*!
+     * \brief   Updates all displayed texts (they may depend on selected language).
+     */
+    void updateDisplayedTexts();
+
 signals:
     /*!
      * \brief   Emitted when 'abort'-button was released.

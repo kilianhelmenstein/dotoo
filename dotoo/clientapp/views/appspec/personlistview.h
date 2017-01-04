@@ -25,29 +25,18 @@ public:
     /*!
      * \brief   Ctor of PersonListView class.
      *
-     * \param   const QString headlineText      Init. headline.
-     *
      * \param   const QPalette& appPalette      App's color palette. Use this for
      *                                          maintain a consistent color scheme.
      *
      * \param   QWidget* parent                 Parent of new PersonListView object.
      */
-    PersonListView( const QString headlineText,
-                  const QPalette& appPalette,
-                  QWidget* parent=nullptr );
+    PersonListView( const QPalette& appPalette,
+                    QWidget* parent=nullptr );
 
     /*!
      * \brief   Dtor of PersonListViewClass.
      */
     virtual ~PersonListView();
-
-
-    /*!
-     * \brief   Updates the headline text.
-     *
-     * \param   const QString& headlineText     New headline.
-     */
-    void setHeadline( const QString& headlineText );
 
     /*!
      * \brief   Takes new model instance and updates presentation. Connects this object wiht
@@ -88,6 +77,12 @@ public:
     QString filterSearchString() { return m_leFilterSearchString->text(); }
 
 
+public slots:
+    /*!
+     * \brief   Updates all displayed texts (they may depend on selected language).
+     */
+    void updateDisplayedTexts();
+
 signals:
     /*!
      * \brief   Emitted when 'update Person' button was clicked.
@@ -125,9 +120,6 @@ signals:
      * \brief   Emitted when a filter setting was changed by user.
      */
     void filterChanged();
-
-public slots:
-
 
 private:
     /*!
@@ -169,13 +161,14 @@ private:
 
     // Widgets & Layouts:
     QLabel* m_headline;                         /*!< Displays the headline. */
-    QVBoxLayout* m_listLayout;                  /*!< Contains the PersonView widgets. Surrounded by a scroll area. */
+    QGridLayout* m_listLayout;                  /*!< Contains the PersonView widgets. Surrounded by a scroll area. */
 
     // Widgets for filter list:
+    QLabel* m_lblSearchString;
     QLineEdit* m_leFilterSearchString;
 
     // View specific:
-    QList<PersonView*> m_PersonViews;               /*!< All Person view instances, that are currently shown by this view. Each item is instantiated by this class. */
+    QList<PersonView*> m_personViews;               /*!< All Person view instances, that are currently shown by this view. Each item is instantiated by this class. */
     PersonView* m_selectedPerson;                   /*!< Holds currently selected Person. */
 };
 
