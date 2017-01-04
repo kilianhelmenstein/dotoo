@@ -25,14 +25,19 @@ CustomMenuBar::CustomMenuBar( AttachedEdge attachedEdge,
     m_mainLayout->setSpacing(0);
     m_mainLayout->setMargin(0);
 
+    QBoxLayout* barLayout = new QBoxLayout( attachedEdge == Bottom || attachedEdge == Top ? QBoxLayout::LeftToRight
+                                                                                         : QBoxLayout::TopToBottom );
     m_iconLayout = new QBoxLayout( attachedEdge == Bottom || attachedEdge == Top ? QBoxLayout::LeftToRight
                                                                                  : QBoxLayout::TopToBottom );
     m_iconLayout->setMargin(0);
+    m_iconLayout->setAlignment( Qt::AlignCenter | Qt::AlignTop );
+
 
     QWidget* iconWidget = new QWidget(this);
     iconWidget->setPalette( barPalette );
     iconWidget->setBackgroundRole( QPalette::Background );
     iconWidget->setAutoFillBackground( true );
+
     if ( m_attachedEdge == Top
          || m_attachedEdge == Bottom )
     {
@@ -46,7 +51,6 @@ CustomMenuBar::CustomMenuBar( AttachedEdge attachedEdge,
     m_maxIconSize  = maximumBarWidth;
     iconWidget->setLayout( m_iconLayout );
 
-    iconWidget->setGeometry( 0, 0, iconWidget->width(), iconWidget->height() );
     m_mainLayout->addWidget( iconWidget );
     setLayout( m_mainLayout );
 
