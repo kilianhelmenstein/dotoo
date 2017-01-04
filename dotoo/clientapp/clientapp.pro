@@ -13,7 +13,6 @@ TRANSLATIONS = lang/dotoo_en.ts  lang/dotoo_de.ts
 
 # Files we need:
 SOURCES += main.cpp \
-        mainwindow.cpp \
     utilz/textviewutilz.cpp \
     viewmodels/taskviewmodel.cpp \
     viewmodels/tasklistviewmodel.cpp \
@@ -33,10 +32,11 @@ SOURCES += main.cpp \
     views/appspec/personeditview.cpp \
     controller/personeditctrl.cpp \
     controller/personlistctrl.cpp \
-    views/appspec/settingsview.cpp
+    views/appspec/settingsview.cpp \
+    utilz/languagesetting.cpp \
+    controller/settingsctrl.cpp
 
-HEADERS  += mainwindow.h \
-    utilz/textviewutilz.h \
+HEADERS  += utilz/textviewutilz.h \
     viewmodels/taskviewmodel.h \
     viewmodels/tasklistviewmodel.h \
     views/appspec/taskview.h \
@@ -55,7 +55,9 @@ HEADERS  += mainwindow.h \
     views/appspec/personeditview.h \
     controller/personeditctrl.h \
     controller/personlistctrl.h \
-    views/appspec/settingsview.h
+    views/appspec/settingsview.h \
+    utilz/languagesetting.h \
+    controller/settingsctrl.h
 
 INCLUDEPATH += views/reusable \
                views/appspec \
