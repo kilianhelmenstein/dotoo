@@ -22,13 +22,21 @@ class QTranslator;
 class LanguageSetting : public QObject
 {
     Q_OBJECT
+public:
+    /*!
+     * \brief   Contains necessary informatioon about a language.
+     */
+    typedef struct {
+        QString locale;         /*!< Locale, e.g.'de' */
+        QString langName;       /*!< Lang. name, e.g.'Deutsch' */
+    } LanguageInformation;
+
 private:
     /*!
      * \brief   Contains all necessary information about a translation file.
      */
     typedef struct {
-        QString locale;         /*!< Locale, e.g.'de' */
-        QString langName;       /*!< Lang. name, e.g.'Deutsch' */
+        LanguageInformation langInfo;
         QString fileName;       /*!< File name, e.g.'SomeName_de.qm' */
     } TranslationFileInfo;
 
@@ -57,7 +65,7 @@ public:
      *
      * \return  QMap<QString,QString>           Key: Locale; Value: Language name
      */
-    QMap<QString,QString> availableLanguages() const;
+    QList<LanguageInformation> availableLanguages() const;
 
 
     /*!
@@ -70,7 +78,7 @@ public:
      * \brief   Delivers language name of current selected language.
      * \return
      */
-    QString currentLanguageName() const { return m_availableLang.value(m_currLang).langName; }
+    QString currentLanguageName() const { return m_availableLang.value(m_currLang).langInfo.langName; }
 
 
     /*!
@@ -78,7 +86,7 @@ public:
      *
      * \param   const QString& lang     Language (locale) to load
      */
-    void loadLanguage( const QString& localeName );
+    bool loadLanguage( const QString& localeName );
 
 
 signals:

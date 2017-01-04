@@ -33,34 +33,40 @@ LanguageSetting::LanguageSetting( const QString& languageDirectory,
 }
 
 
-QMap<QString,QString> LanguageSetting::availableLanguages() const
+QList<LanguageSetting::LanguageInformation> LanguageSetting::availableLanguages() const
 {
-    QMap<QString,QString> result;
+    QList<LanguageInformation> result;
 
     for ( QMap<QString, TranslationFileInfo>::const_iterator translation = m_availableLang.begin() ;
           translation != m_availableLang.end() ;
           ++translation )
     {
-        result.insert( (*translation).locale, (*translation).langName );
+        result.append( (*translation).langInfo );
     }
 
     return result;
 }
 
 
-void LanguageSetting::loadLanguage( const QString& localeName )
+bool LanguageSetting::loadLanguage( const QString& localeName )
 {
-    if ( m_currLang != localeName && m_availableLang.contains(localeName) )
+    if ( m_currLang == localeName ) return true;
+
+    if ( m_availableLang.contains(localeName) )
     {
-        m_currLang = localeName;
-        QLocale locale = QLocale( m_currLang );
+        QLocale locale = QLocale( localeName );
         QLocale::setDefault( locale );
 
-        if ( switchTranslator( *m_translator, m_availableLang.value(localeName).fileName ))
+        if ( switchTranslator( *m_translator,
+                               m_langPath + "/" + m_availableLang.value(localeName).fileName ))
         {
+            m_currLang = localeName;
             emit languageChanged();
+            return true;
         }
     }
+
+    return false;
 }
 
 
