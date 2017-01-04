@@ -1,5 +1,6 @@
 #include "personeditview.h"
 
+#include <QEvent>
 #include <QFormLayout>
 #include <QGridLayout>
 #include <QVBoxLayout>
@@ -176,6 +177,17 @@ void PersonEditView::updateDisplayedTexts()
 
 
 /* Private slots: */
+
+void PersonEditView::changeEvent( QEvent* event )
+{
+    if ( event->type() == QEvent::LanguageChange )
+    {
+        updateDisplayedTexts();
+    }
+
+    QWidget::changeEvent( event );
+}
+
 
 void PersonEditView::onModelChange()
 {

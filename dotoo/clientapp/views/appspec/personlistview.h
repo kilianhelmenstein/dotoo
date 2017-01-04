@@ -122,6 +122,13 @@ signals:
     void filterChanged();
 
 private:
+
+    /*!
+     * \brief   Overrides changeEvent of QWidget.
+     *          Currently only updating displayed texts on QEvent::LanguageChange event.
+     */
+    void changeEvent( QEvent* event );
+
     /*!
      * \brief   Does the work, that has to be done when Person selection changes:
      *          - Set state of currently selected PersonView to normal

@@ -1,5 +1,6 @@
 #include "tasklistview.h"
 
+#include <QEvent>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QScrollArea>
@@ -279,6 +280,17 @@ void TaskListView::changeTaskSelection( TaskView* newSelection )
 
 
 /* Private slots: */
+
+void TaskListView::changeEvent( QEvent* event )
+{
+    if ( event->type() == QEvent::LanguageChange )
+    {
+        updateDisplayedTexts();
+    }
+
+    QWidget::changeEvent( event );
+}
+
 
 void TaskListView::onModelChange()
 {

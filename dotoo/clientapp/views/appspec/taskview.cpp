@@ -54,7 +54,7 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     setPalette(appPalette);
 
     // Init fonts:
-    m_titleFont.setPointSize(25);
+    m_titleFont.setPointSize(20);
     m_titleFont.setStyleHint(QFont::SansSerif);
     m_titleFont.setWeight(30);
 
@@ -74,6 +74,7 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
 
     m_title = new QLabel();
     m_title->setFont(m_titleFont);
+    m_title->setWordWrap(true);
 
     m_comment = new QLabel();
     m_comment->setFont(m_commentFont);
@@ -113,6 +114,7 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     /*********             Initial Presenation:               *******/
     /****************************************************************/
     setBackgroundRole( QPalette::Base );
+    setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Minimum );
     setAutoFillBackground( true );
     updatePalette();
 }
@@ -234,6 +236,7 @@ void TaskView::changeIsDonePresentation( bool isDone )
     // Strike out title if isDone is true:
     m_titleFont.setStrikeOut(isDone);
     m_title->setFont(m_titleFont);
+    m_title->setWordWrap(!isDone);
 
     // Size depends on checkbox state:
     if ( isDone )
@@ -243,7 +246,7 @@ void TaskView::changeIsDonePresentation( bool isDone )
     } else
     {
         setMinimumSize( 550, 100 );
-        setMaximumSize( 800, 100 );
+        setMaximumSize( 800, 300 );
     }
 
     // Sub info (comment, due date, responsible person)
@@ -257,13 +260,15 @@ void TaskView::onModelChange()
 {
     if ( !m_model ) return;
 
+    // Update 'isDone'-dependent presentation:
+    changeIsDonePresentation( m_model->isDone() );
+
     TextViewUtilz::SetTextToLabel( m_title, m_model->getTitle() );
     TextViewUtilz::SetTextToLabel( m_comment, m_model->getComment() );
+    if ( m_comment->isVisible() ) m_comment->setHidden( m_comment->text().isEmpty() );
     TextViewUtilz::SetTextToLabel( m_dueDate, m_model->getDueDate().toString() );
     onPersonsModelChange();
 
-    // Update 'isDone'-dependent presentation:
-    changeIsDonePresentation( m_model->isDone() );
 }
 
 

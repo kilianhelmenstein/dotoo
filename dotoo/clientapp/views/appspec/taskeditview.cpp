@@ -1,5 +1,6 @@
 #include "taskeditview.h"
 
+#include <QEvent>
 #include <QFormLayout>
 #include <QGridLayout>
 #include <QVBoxLayout>
@@ -44,7 +45,7 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     /****************************************************************/
     QFormLayout* baseLayout = new QFormLayout();
     baseLayout->setSizeConstraint( QLayout::SetMaximumSize );
-    baseLayout->setLabelAlignment( Qt::AlignRight );
+    baseLayout->setLabelAlignment( Qt::AlignRight | Qt::AlignBaseline );
 
 
     /****************************************************************/
@@ -69,8 +70,8 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     /*********             Widget's sub-widgets:              *******/
     /****************************************************************/
     m_lblTitle = new QLabel();
-    QFont titleFontBold( m_titleFont );
-    titleFontBold.setWeight( m_titleFont.weight() * 1.15 );
+    QFont titleFontBold( m_commentFont );
+    titleFontBold.setWeight( m_commentFont.weight() * 1.2 );
     m_lblTitle->setFont( titleFontBold );           // Take a bold-version of title font
     m_titleEdit = new QLineEdit();
     m_titleEdit->setFont(m_titleFont);
@@ -210,7 +211,7 @@ UniqueId TaskEditView::creator() const
 void TaskEditView::updateDisplayedTexts()
 {
     // Child widgets:
-    TextViewUtilz::SetTextToLabel( m_lblTitle, tr("Forename") );
+    TextViewUtilz::SetTextToLabel( m_lblTitle, tr("Title") );
     TextViewUtilz::SetTextToLabel( m_lblComment, tr("Comment") );
     m_btnAbort->setText( tr("Abort") );
     m_btnApply->setText( tr("Apply") );
@@ -218,6 +219,17 @@ void TaskEditView::updateDisplayedTexts()
 
 
 /* Private slots: */
+
+void TaskEditView::changeEvent( QEvent* event )
+{
+    if ( event->type() == QEvent::LanguageChange )
+    {
+        updateDisplayedTexts();
+    }
+
+    QWidget::changeEvent( event );
+}
+
 
 void TaskEditView::onModelChange()
 {

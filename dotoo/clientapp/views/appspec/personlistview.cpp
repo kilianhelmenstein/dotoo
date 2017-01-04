@@ -1,5 +1,6 @@
 #include "personlistview.h"
 
+#include <QEvent>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QScrollArea>
@@ -239,6 +240,17 @@ void PersonListView::updateDisplayedTexts()
 
 
 /* Private methods: */
+
+void PersonListView::changeEvent( QEvent* event )
+{
+    if ( event->type() == QEvent::LanguageChange )
+    {
+        updateDisplayedTexts();
+    }
+
+    QWidget::changeEvent( event );
+}
+
 
 void PersonListView::changePersonSelection( PersonView* newSelection )
 {

@@ -168,6 +168,13 @@ private:
     void changeTaskSelection( TaskView* newSelection );
 
 private slots:
+
+    /*!
+     * \brief   Overrides changeEvent of QWidget.
+     *          Currently only updating displayed texts on QEvent::LanguageChange event.
+     */
+    void changeEvent( QEvent* event );
+
     /*!
      * \brief   Handles changes of model's data.
      *
