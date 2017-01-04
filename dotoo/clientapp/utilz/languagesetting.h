@@ -3,6 +3,7 @@
 
 
 #include <QObject>
+#include <QMap>
 
 class QTranslator;
 
@@ -40,6 +41,7 @@ public:
     LanguageSetting( const QString& languageDirectory,
                      QObject* parent=nullptr );
 
+
     /*!
      * \brief   Sets the absolute path to language file directory.
      */
@@ -49,6 +51,7 @@ public:
         scanLanguageFiles();
     }
 
+
     /*!
      * \brief   Returns a locale-LangName-map with all currently selectable languages.
      *
@@ -56,11 +59,19 @@ public:
      */
     QMap<QString,QString> availableLanguages() const;
 
-private:
+
     /*!
-     * \brief   Creates the language menu dynamically from the content of m_langPath
+     * \brief   Delivers locale name of current selected language.
      */
-    void scanLanguageFiles();
+    QString currentLanguage() const { return m_currLang; }
+
+
+    /*!
+     * \brief   Delivers language name of current selected language.
+     * \return
+     */
+    QString currentLanguageName() const { return m_availableLang.value(m_currLang).langName; }
+
 
     /*!
      * \brief   Loads a language by the given language shortcur (e.g. de, en, …)
@@ -68,6 +79,21 @@ private:
      * \param   const QString& lang     Language (locale) to load
      */
     void loadLanguage( const QString& localeName );
+
+
+signals:
+    /*!
+     * \brief   Emitted when language selection changed.
+     *
+     * \see     loadLanguage()
+     */
+    void languageChanged();
+
+private:
+    /*!
+     * \brief   Creates the language menu dynamically from the content of m_langPath
+     */
+    void scanLanguageFiles();
 
 
 private:

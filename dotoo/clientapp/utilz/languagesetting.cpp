@@ -6,7 +6,7 @@
 #include <QLocale>
 
 
-void switchTranslator( QTranslator& translator, const QString& filename )
+bool switchTranslator( QTranslator& translator, const QString& filename )
 {
     // remove the old translator
     QApplication::instance()->removeTranslator(&translator);
@@ -15,6 +15,10 @@ void switchTranslator( QTranslator& translator, const QString& filename )
     if( translator.load(filename) )
     {
         QApplication::instance()->installTranslator( &translator );
+        return true;    // Success.
+    } else
+    {
+        return false;   // Error.
     }
 }
 
@@ -44,6 +48,22 @@ QMap<QString,QString> LanguageSetting::availableLanguages() const
 }
 
 
+void LanguageSetting::loadLanguage( const QString& localeName )
+{
+    if ( m_currLang != localeName && m_availableLang.contains(localeName) )
+    {
+        m_currLang = localeName;
+        QLocale locale = QLocale( m_currLang );
+        QLocale::setDefault( locale );
+
+        if ( switchTranslator( *m_translator, m_availableLang.value(localeName).fileName ))
+        {
+            emit languageChanged();
+        }
+    }
+}
+
+
 void LanguageSetting::scanLanguageFiles()
 {
     // Format systems language:
@@ -70,15 +90,3 @@ void LanguageSetting::scanLanguageFiles()
     }
 }
 
-
-void LanguageSetting::loadLanguage( const QString& localeName )
-{
-    if ( m_currLang != localeName && m_availableLang.contains(localeName) )
-    {
-        m_currLang = localeName;
-        QLocale locale = QLocale( m_currLang );
-        QLocale::setDefault( locale );
-
-        switchTranslator( m_translator, m_availableLang.value(localeName).fileName );
-    }
-}
