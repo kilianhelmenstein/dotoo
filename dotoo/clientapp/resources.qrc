@@ -23,5 +23,8 @@
         <file alias="persons_menu_selected">res/svg/persons_menu_selected.svg</file>
         <file alias="persons_menu_normal">res/svg/persons_menu_normal.svg</file>
         <file alias="persons_menu_mover">res/svg/persons_menu_mover.svg</file>
+        <file alias="settings_menu_selected">res/svg/settings_menu_selected.svg</file>
+        <file alias="settings_menu_normal">res/svg/settings_menu_normal.svg</file>
+        <file alias="settings_menu_mover">res/svg/settings_menu_mover.svg</file>
     </qresource>
 </RCC>
