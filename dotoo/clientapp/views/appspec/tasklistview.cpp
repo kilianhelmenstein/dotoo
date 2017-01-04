@@ -36,8 +36,6 @@ TaskListView::TaskListView( const QPalette& appPalette,
     /****************************************************************/
     /*********             Initial Presenation:               *******/
     /****************************************************************/
-    setMinimumSize( 600, 500 );
-    setMaximumSize( 700, 2000 );
     setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Expanding );
     setAutoFillBackground( true );
 
@@ -55,7 +53,7 @@ TaskListView::TaskListView( const QPalette& appPalette,
 
     /*** Headline: ***/
     QFont headlineFont;
-    headlineFont.setPointSize( 40 );
+    headlineFont.setPointSize( 30 );
     headlineFont.setStyleHint( QFont::SansSerif );
     headlineFont.setWeight( 30 );
     m_headline = new QLabel();
@@ -93,7 +91,6 @@ TaskListView::TaskListView( const QPalette& appPalette,
     // Use 'mainWidget' for usage of scroll area (takes only a widget, no layouts):
     QWidget* mainWidget = new QWidget( this );
     mainWidget->setMinimumSize( 600, 500 );             // TODO: Use TaskView's min. size
-    mainWidget->setMaximumSize( 700, 2000 );            // TODO: Evaluate better size hints
     mainWidget->setPalette( m_defaultPalette );
     mainWidget->installEventFilter( this );             // mainWidget does not have functionality. Forward events to true widet.
 
