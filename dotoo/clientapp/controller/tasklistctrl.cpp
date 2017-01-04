@@ -58,7 +58,7 @@ void TaskListCtrl::onClickedAdd()
 
 void TaskListCtrl::onClickedChange()
 {
-    onDoubleClickedTask( m_view->selectedTask() );
+    if ( m_view->selectedTask() ) onDoubleClickedTask( m_view->selectedTask() );
 }
 
 
