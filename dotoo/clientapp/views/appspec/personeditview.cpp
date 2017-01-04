@@ -115,7 +115,7 @@ PersonEditView::PersonEditView( const QPalette& appPalette, QWidget* parent )
     /*********             Initial Presenation:               *******/
     /****************************************************************/
     setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
-    setBackgroundRole( QPalette::Base );
+    setBackgroundRole( QPalette::Background );
     setAutoFillBackground( true );
     updateDisplayedTexts();
 }

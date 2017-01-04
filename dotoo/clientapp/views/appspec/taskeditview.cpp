@@ -127,7 +127,7 @@ TaskEditView::TaskEditView( const QPalette& appPalette, QWidget* parent )
     /****************************************************************/
     setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred );
     setMaximumHeight( 200 );
-    setBackgroundRole( QPalette::Base );
+    setBackgroundRole( QPalette::Background );
     setAutoFillBackground( true );
     updateDisplayedTexts();
 }

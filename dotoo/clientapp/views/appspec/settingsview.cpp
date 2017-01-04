@@ -42,7 +42,6 @@ SettingsView::SettingsView( const QPalette& appPalette,
     setLayout( baseLayout );
 
 
-
     /****************************************************************/
     /*********                Widget's Style:                 *******/
     /****************************************************************/
@@ -50,7 +49,7 @@ SettingsView::SettingsView( const QPalette& appPalette,
     setPalette(appPalette);
 
     // Init fonts:
-    m_headlineFont.setPointSize(35);
+    m_headlineFont.setPointSize(30);
     m_headlineFont.setStyleHint(QFont::SansSerif);
     m_headlineFont.setWeight(30);
 
@@ -69,6 +68,7 @@ SettingsView::SettingsView( const QPalette& appPalette,
     m_lblLanguage = new QLabel();
     m_lblLanguage->setFont( m_settingsFont );
     m_cobLanguageSel = new QComboBox();
+    m_cobLanguageSel->setMaximumWidth( 150 );
 
     m_btnAbort = new QPushButton();
     connect( m_btnAbort, &QPushButton::clicked,
@@ -98,7 +98,7 @@ SettingsView::SettingsView( const QPalette& appPalette,
     /*********             Initial Presenation:               *******/
     /****************************************************************/
     setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
-    setBackgroundRole( QPalette::Base );
+    setBackgroundRole( QPalette::Background );
     setAutoFillBackground( true );
     updateDisplayedTexts();
 }
