@@ -109,6 +109,7 @@ TaskListView::TaskListView( const QPalette& appPalette,
     scrollArea->installEventFilter( this );
     scrollArea->setWidget( mainWidget );
 
+
     /*** Tool bar: ***/
     m_toolUpdate = new CustomGUI::CustomIconButton( ":svg/update_icon_normal",
                                                     ":svg/update_icon_mover",
@@ -144,7 +145,7 @@ TaskListView::TaskListView( const QPalette& appPalette,
     /*********               Widget's Effects:                *******/
     /****************************************************************/
     m_looseFocusEffect = new QGraphicsBlurEffect( this );   // TODO: Evaluate better teamwork of scroll area and this effect.
-    m_looseFocusEffect->setBlurRadius( 7 );
+    m_looseFocusEffect->setBlurRadius( 15 );
     m_looseFocusEffect->setEnabled( false );
     setGraphicsEffect( m_looseFocusEffect );
 
@@ -242,7 +243,9 @@ bool TaskListView::visualFocus() const
 void TaskListView::setVisualFocus( bool visualFocus )
 {
     if ( m_looseFocusEffect )
+    {
         m_looseFocusEffect->setEnabled( !visualFocus );   // If focus shall be set to true, disable blur effect (and vice versa).
+    }
 }
 
 
@@ -263,7 +266,7 @@ void TaskListView::updateDisplayedTexts()
     m_toolUpdate->setToolTip( tr("Update task list") );
     m_toolAdd->setToolTip( tr("Add a new task") );
     m_toolChange->setToolTip( tr("Edit selected task") );
-    m_toolDelete->setToolTip( tr("Delete selected task") );
+    m_toolDelete->setToolTip( tr("Delete selected task irreversible") );
     m_chbFilterEnabled->setToolTip( tr("Enable filtering of task list") );
     m_cobFilterIsDone->setToolTip( tr("Filter done/not done tasks") );
     m_leFilterSearchString->setToolTip( tr("Enter phrase to search") );

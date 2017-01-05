@@ -234,7 +234,7 @@ void PersonListView::updateDisplayedTexts()
     m_toolUpdate->setToolTip( tr("Update person list") );
     m_toolAdd->setToolTip( tr("Add a new person") );
     m_toolChange->setToolTip( tr("Edit selected person") );
-    m_toolDelete->setToolTip( tr("Delete selected person") );
+    m_toolDelete->setToolTip( tr("Delete selected person irreversible") );
     m_leFilterSearchString->setToolTip( tr("Enter phrase to search") );
 
     // Person views:
