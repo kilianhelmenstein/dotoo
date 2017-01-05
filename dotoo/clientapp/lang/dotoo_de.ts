@@ -121,6 +121,16 @@
         <source>Apply</source>
         <translation>Übernehmen</translation>
     </message>
+    <message>
+        <location filename="../views/appspec/taskeditview.cpp" line="222"/>
+        <source>Due date of this task</source>
+        <translation>Fälligkeitsdatum dieser Aufgabe</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/taskeditview.cpp" line="223"/>
+        <source>Repsonsible for this task</source>
+        <translation>Verantwortlich für diese Aufgabe </translation>
+    </message>
 </context>
 <context>
     <name>Dotoo::GUI::TaskListView</name>
@@ -173,7 +183,7 @@
     <message>
         <location filename="../views/appspec/tasklistview.cpp" line="266"/>
         <source>Delete selected task irreversible</source>
-        <translation type="unfinished">Ausgewählte Aufgabe unwiderruflich löschen</translation>
+        <translation>Ausgewählte Aufgabe unwiderruflich löschen</translation>
     </message>
     <message>
         <source>Delete selected task</source>
