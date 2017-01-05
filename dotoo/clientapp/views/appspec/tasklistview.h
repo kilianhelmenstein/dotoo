@@ -36,6 +36,9 @@ class TaskListView : public QWidget
 {
     Q_OBJECT
 public:
+    static const unsigned int ToolboxIconSize = 80; /*!< Size of toolbox icons. */
+
+public:
     /*!
      * \brief   Ctor of TaskListView class.
      *

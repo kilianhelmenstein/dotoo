@@ -112,28 +112,28 @@ TaskListView::TaskListView( const QPalette& appPalette,
                                                                                ":svg/update_icon_mover",
                                                                                ":svg/update_icon_selected",
                                                                                false );
-    toolUpdate->setFixedSize( 70,70 );
+    toolUpdate->setFixedSize( ToolboxIconSize, ToolboxIconSize );
     connect( toolUpdate, &CustomGUI::CustomIconButton::clicked,
              this, &TaskListView::clickedUpdate );      // Forward buttons signal.
     CustomGUI::CustomIconButton* toolAdd = new CustomGUI::CustomIconButton( ":svg/add_icon_normal",
                                                                             ":svg/add_icon_mover",
                                                                             ":svg/add_icon_selected",
                                                                             false );
-    toolAdd->setFixedSize( 70,70 );
+    toolAdd->setFixedSize( ToolboxIconSize, ToolboxIconSize );
     connect( toolAdd, &CustomGUI::CustomIconButton::clicked,
              this, &TaskListView::clickedAdd );         // Forward buttons signal.
     CustomGUI::CustomIconButton* toolChange = new CustomGUI::CustomIconButton( ":svg/change_icon_normal",
                                                                                ":svg/change_icon_mover",
                                                                                ":svg/change_icon_selected",
                                                                                false );
-    toolChange->setFixedSize(70,70);
+    toolChange->setFixedSize( ToolboxIconSize, ToolboxIconSize );
     connect( toolChange, &CustomGUI::CustomIconButton::clicked,
              this, &TaskListView::clickedChange );      // Forward buttons signal.
     CustomGUI::CustomIconButton* toolDelete = new CustomGUI::CustomIconButton( ":svg/delete_icon_normal",
                                                                                ":svg/delete_icon_mover",
                                                                                ":svg/delete_icon_selected",
                                                                                false );
-    toolDelete->setFixedSize( 70,70 );
+    toolDelete->setFixedSize( ToolboxIconSize, ToolboxIconSize );
     connect( toolDelete, &CustomGUI::CustomIconButton::clicked,
              this, &TaskListView::clickedDelete );      // Forward buttons signal.
 
