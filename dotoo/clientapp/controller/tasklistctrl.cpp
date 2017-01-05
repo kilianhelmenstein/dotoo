@@ -48,10 +48,6 @@ void TaskListCtrl::onClickedAdd()
     TaskEditView* editView = createEditView( TaskEditCtrl::Create,
                                              model );
     model->setParent( editView );
-
-    connect( editView, &TaskEditView::destroyed,
-             [this] () { m_view->setVisualFocus( true ); });
-    //m_view->setVisualFocus( false );
     editView->show();
 }
 
@@ -76,10 +72,6 @@ void TaskListCtrl::onDoubleClickedTask( TaskView* view )
 {
     TaskEditView* editView = createEditView( TaskEditCtrl::Change,
                                              view->model() );
-    connect( editView, &TaskEditView::destroyed,
-             [this] () { m_view->setVisualFocus( true ); });
-
-    //m_view->setVisualFocus( false );
     editView->show();
 }
 
