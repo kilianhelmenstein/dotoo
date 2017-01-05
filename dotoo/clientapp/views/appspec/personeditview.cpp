@@ -173,6 +173,11 @@ void PersonEditView::updateDisplayedTexts()
     TextViewUtilz::SetTextToLabel( m_lblComment, tr("Comment") );
     m_btnAbort->setText( tr("Abort") );
     m_btnApply->setText( tr("Apply") );
+
+    // Tooltips
+    m_forenameEdit->setToolTip( m_lblForename->text() ); // Set this just for consistency
+    m_nameEdit->setToolTip( m_lblName->text() );         // Set this just for consistency
+    m_commentEdit->setToolTip( m_lblComment->text() );   // Set this just for consistency
 }
 
 

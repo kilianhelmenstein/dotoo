@@ -215,6 +215,12 @@ void TaskEditView::updateDisplayedTexts()
     TextViewUtilz::SetTextToLabel( m_lblComment, tr("Comment") );
     m_btnAbort->setText( tr("Abort") );
     m_btnApply->setText( tr("Apply") );
+
+    // Tooltips
+    m_titleEdit->setToolTip( m_lblTitle->text() );  // Set this just for consistency
+    m_commentEdit->setToolTip( m_lblComment->text() );
+    m_dueDateEdit->setToolTip( tr("Due date of this task") );
+    m_responsible->setToolTip( tr("Repsonsible for this task") );
 }
 
 
