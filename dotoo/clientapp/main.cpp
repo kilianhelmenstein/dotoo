@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     appPalette->setColor( QPalette::All, QPalette::Background, QColor("grey") );
 
     // Menu bar:
-    CustomGUI::CustomMenuBar menuBar( CustomGUI::CustomMenuBar::Left, 70, *appPalette );
+    CustomGUI::CustomMenuBar menuBar( CustomGUI::CustomMenuBar::Left, 60, *appPalette );
     appPalette->setColor( QPalette::All, QPalette::Background, QColor("#fff5f5f5") );
 
 
