@@ -59,7 +59,7 @@
     </message>
     <message>
         <location filename="../views/appspec/personlistview.cpp" line="237"/>
-        <source>Delete selected person</source>
+        <source>Delete selected person irreversible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -164,7 +164,7 @@
     </message>
     <message>
         <location filename="../views/appspec/tasklistview.cpp" line="266"/>
-        <source>Delete selected task</source>
+        <source>Delete selected task irreversible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

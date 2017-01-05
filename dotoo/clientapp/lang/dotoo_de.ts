@@ -59,8 +59,12 @@
     </message>
     <message>
         <location filename="../views/appspec/personlistview.cpp" line="237"/>
+        <source>Delete selected person irreversible</source>
+        <translation>Ausgewählte Person unwiderruflich löschen</translation>
+    </message>
+    <message>
         <source>Delete selected person</source>
-        <translation>Ausgewählte Person löschen</translation>
+        <translation type="vanished">Ausgewählte Person löschen</translation>
     </message>
     <message>
         <location filename="../views/appspec/personlistview.cpp" line="238"/>
@@ -168,8 +172,12 @@
     </message>
     <message>
         <location filename="../views/appspec/tasklistview.cpp" line="266"/>
+        <source>Delete selected task irreversible</source>
+        <translation type="unfinished">Ausgewählte Aufgabe unwiderruflich löschen</translation>
+    </message>
+    <message>
         <source>Delete selected task</source>
-        <translation>Ausgewählte Aufgabe löschen</translation>
+        <translation type="vanished">Ausgewählte Aufgabe löschen</translation>
     </message>
     <message>
         <location filename="../views/appspec/tasklistview.cpp" line="267"/>
