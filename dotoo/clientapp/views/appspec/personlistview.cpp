@@ -95,28 +95,28 @@ PersonListView::PersonListView( const QPalette& appPalette,
                                                     ":svg/update_icon_mover",
                                                     ":svg/update_icon_selected",
                                                     false );
-    m_toolUpdate->setFixedSize( 70,70 );
+    m_toolUpdate->setFixedSize( ToolboxIconSize, ToolboxIconSize );
     connect( m_toolUpdate, &CustomGUI::CustomIconButton::clicked,
              this, &PersonListView::clickedUpdate );      // Forward buttons signal.
     m_toolAdd = new CustomGUI::CustomIconButton( ":svg/add_icon_normal",
                                                  ":svg/add_icon_mover",
                                                  ":svg/add_icon_selected",
                                                  false );
-    m_toolAdd->setFixedSize( 70,70 );
+    m_toolAdd->setFixedSize( ToolboxIconSize, ToolboxIconSize );
     connect( m_toolAdd, &CustomGUI::CustomIconButton::clicked,
              this, &PersonListView::clickedAdd );         // Forward buttons signal.
     m_toolChange = new CustomGUI::CustomIconButton( ":svg/change_icon_normal",
                                                     ":svg/change_icon_mover",
                                                     ":svg/change_icon_selected",
                                                     false );
-    m_toolChange->setFixedSize(70,70);
+    m_toolChange->setFixedSize( ToolboxIconSize, ToolboxIconSize );
     connect( m_toolChange, &CustomGUI::CustomIconButton::clicked,
              this, &PersonListView::clickedChange );      // Forward buttons signal.
     m_toolDelete = new CustomGUI::CustomIconButton( ":svg/delete_icon_normal",
                                                     ":svg/delete_icon_mover",
                                                     ":svg/delete_icon_selected",
                                                     false );
-    m_toolDelete->setFixedSize( 70,70 );
+    m_toolDelete->setFixedSize( ToolboxIconSize, ToolboxIconSize );
     connect( m_toolDelete, &CustomGUI::CustomIconButton::clicked,
              this, &PersonListView::clickedDelete );      // Forward buttons signal.
 

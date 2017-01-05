@@ -117,6 +117,7 @@ PersonEditView::PersonEditView( const QPalette& appPalette, QWidget* parent )
     setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
     setBackgroundRole( QPalette::Background );
     setAutoFillBackground( true );
+    setMaximumHeight(300);
     updateDisplayedTexts();
 }
 
