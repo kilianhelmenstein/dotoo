@@ -12,8 +12,6 @@
 #include <QComboBox>
 #include <QGroupBox>
 
-#include "customiconbutton.h"
-
 #include "viewmodels/tasklistviewmodel.h"
 #include "taskview.h"
 #include "utilz/textviewutilz.h"
@@ -31,6 +29,10 @@ TaskListView::TaskListView( const QPalette& appPalette,
       m_personsModel( nullptr ),
       m_defaultPalette( appPalette ),
       m_listLayout( nullptr ),
+      m_toolUpdate( nullptr ),
+      m_toolAdd( nullptr ),
+      m_toolChange( nullptr ),
+      m_toolDelete( nullptr ),
       m_selectedTask( nullptr )
 {  
     /****************************************************************/
@@ -108,33 +110,33 @@ TaskListView::TaskListView( const QPalette& appPalette,
     scrollArea->setWidget( mainWidget );
 
     /*** Tool bar: ***/
-    CustomGUI::CustomIconButton* toolUpdate = new CustomGUI::CustomIconButton( ":svg/update_icon_normal",
-                                                                               ":svg/update_icon_mover",
-                                                                               ":svg/update_icon_selected",
-                                                                               false );
-    toolUpdate->setFixedSize( ToolboxIconSize, ToolboxIconSize );
-    connect( toolUpdate, &CustomGUI::CustomIconButton::clicked,
+    m_toolUpdate = new CustomGUI::CustomIconButton( ":svg/update_icon_normal",
+                                                    ":svg/update_icon_mover",
+                                                    ":svg/update_icon_selected",
+                                                    false );
+    m_toolUpdate->setFixedSize( ToolboxIconSize, ToolboxIconSize );
+    connect( m_toolUpdate, &CustomGUI::CustomIconButton::clicked,
              this, &TaskListView::clickedUpdate );      // Forward buttons signal.
-    CustomGUI::CustomIconButton* toolAdd = new CustomGUI::CustomIconButton( ":svg/add_icon_normal",
-                                                                            ":svg/add_icon_mover",
-                                                                            ":svg/add_icon_selected",
-                                                                            false );
-    toolAdd->setFixedSize( ToolboxIconSize, ToolboxIconSize );
-    connect( toolAdd, &CustomGUI::CustomIconButton::clicked,
+    m_toolAdd = new CustomGUI::CustomIconButton( ":svg/add_icon_normal",
+                                                 ":svg/add_icon_mover",
+                                                 ":svg/add_icon_selected",
+                                                 false );
+    m_toolAdd->setFixedSize( ToolboxIconSize, ToolboxIconSize );
+    connect( m_toolAdd, &CustomGUI::CustomIconButton::clicked,
              this, &TaskListView::clickedAdd );         // Forward buttons signal.
-    CustomGUI::CustomIconButton* toolChange = new CustomGUI::CustomIconButton( ":svg/change_icon_normal",
-                                                                               ":svg/change_icon_mover",
-                                                                               ":svg/change_icon_selected",
-                                                                               false );
-    toolChange->setFixedSize( ToolboxIconSize, ToolboxIconSize );
-    connect( toolChange, &CustomGUI::CustomIconButton::clicked,
+    m_toolChange = new CustomGUI::CustomIconButton( ":svg/change_icon_normal",
+                                                    ":svg/change_icon_mover",
+                                                    ":svg/change_icon_selected",
+                                                    false );
+    m_toolChange->setFixedSize( ToolboxIconSize, ToolboxIconSize );
+    connect( m_toolChange, &CustomGUI::CustomIconButton::clicked,
              this, &TaskListView::clickedChange );      // Forward buttons signal.
-    CustomGUI::CustomIconButton* toolDelete = new CustomGUI::CustomIconButton( ":svg/delete_icon_normal",
-                                                                               ":svg/delete_icon_mover",
-                                                                               ":svg/delete_icon_selected",
-                                                                               false );
-    toolDelete->setFixedSize( ToolboxIconSize, ToolboxIconSize );
-    connect( toolDelete, &CustomGUI::CustomIconButton::clicked,
+    m_toolDelete = new CustomGUI::CustomIconButton( ":svg/delete_icon_normal",
+                                                    ":svg/delete_icon_mover",
+                                                    ":svg/delete_icon_selected",
+                                                    false );
+    m_toolDelete->setFixedSize( ToolboxIconSize, ToolboxIconSize );
+    connect( m_toolDelete, &CustomGUI::CustomIconButton::clicked,
              this, &TaskListView::clickedDelete );      // Forward buttons signal.
 
 
@@ -170,10 +172,10 @@ TaskListView::TaskListView( const QPalette& appPalette,
 
     // Toolbox layout:
     QVBoxLayout* toolboxLayout = new QVBoxLayout();
-    toolboxLayout->addWidget( toolUpdate );
-    toolboxLayout->addWidget( toolAdd );
-    toolboxLayout->addWidget( toolChange );
-    toolboxLayout->addWidget( toolDelete );
+    toolboxLayout->addWidget( m_toolUpdate );
+    toolboxLayout->addWidget( m_toolAdd );
+    toolboxLayout->addWidget( m_toolChange );
+    toolboxLayout->addWidget( m_toolDelete );
 
     /*** Main VBox layout. Contains headline, task list itself (contained within
      *   scroll area and tool bar (for manipulating task and task list): ***/
@@ -256,6 +258,15 @@ void TaskListView::updateDisplayedTexts()
     m_cobFilterIsDone->setItemText( 0, tr("Yes") );
     m_cobFilterIsDone->setItemText( 1, tr("No") );
     TextViewUtilz::SetTextToLabel( m_lblSearchString, tr("Search:") );
+
+    // Tooltips:
+    m_toolUpdate->setToolTip( tr("Update task list") );
+    m_toolAdd->setToolTip( tr("Add a new task") );
+    m_toolChange->setToolTip( tr("Edit selected task") );
+    m_toolDelete->setToolTip( tr("Delete selected task") );
+    m_chbFilterEnabled->setToolTip( tr("Enable filtering of task list") );
+    m_cobFilterIsDone->setToolTip( tr("Filter done/not done tasks") );
+    m_leFilterSearchString->setToolTip( tr("Enter phrase to search") );
 
     // Person views:
     foreach ( TaskView* taskView, m_taskViews )

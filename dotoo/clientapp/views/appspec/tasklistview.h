@@ -9,6 +9,8 @@
 #include <QComboBox>
 #include <QLineEdit>
 
+#include "customiconbutton.h"
+
 
 namespace Dotoo {
 namespace GUI {
@@ -221,6 +223,11 @@ private:
     QComboBox* m_cobFilterIsDone;
     QLabel* m_lblSearchString;
     QLineEdit* m_leFilterSearchString;
+
+    CustomGUI::CustomIconButton* m_toolUpdate;
+    CustomGUI::CustomIconButton* m_toolAdd;
+    CustomGUI::CustomIconButton* m_toolChange;
+    CustomGUI::CustomIconButton* m_toolDelete;
 
     // View specific:
     QList<TaskView*> m_taskViews;               /*!< All task view instances, that are currently shown by this view. Each item is instantiated by this class. */

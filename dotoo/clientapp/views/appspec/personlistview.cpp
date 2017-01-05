@@ -12,8 +12,6 @@
 #include <QComboBox>
 #include <QGroupBox>
 
-#include "customiconbutton.h"
-
 #include "viewmodels/personlistviewmodel.h"
 #include "personview.h"
 #include "utilz/textviewutilz.h"
@@ -34,6 +32,10 @@ PersonListView::PersonListView( const QPalette& appPalette,
       m_listLayout( nullptr ),
       m_lblSearchString( nullptr ),
       m_leFilterSearchString( nullptr ),
+      m_toolUpdate( nullptr ),
+      m_toolAdd( nullptr ),
+      m_toolChange( nullptr ),
+      m_toolDelete( nullptr ),
       m_selectedPerson( nullptr )
 {
     /****************************************************************/
@@ -89,33 +91,33 @@ PersonListView::PersonListView( const QPalette& appPalette,
     scrollArea->setWidget( mainWidget );
 
     /*** Tool bar: ***/
-    CustomGUI::CustomIconButton* toolUpdate = new CustomGUI::CustomIconButton( ":svg/update_icon_normal",
-                                                                               ":svg/update_icon_mover",
-                                                                               ":svg/update_icon_selected",
-                                                                               false );
-    toolUpdate->setFixedSize( 70,70 );
-    connect( toolUpdate, &CustomGUI::CustomIconButton::clicked,
+    m_toolUpdate = new CustomGUI::CustomIconButton( ":svg/update_icon_normal",
+                                                    ":svg/update_icon_mover",
+                                                    ":svg/update_icon_selected",
+                                                    false );
+    m_toolUpdate->setFixedSize( 70,70 );
+    connect( m_toolUpdate, &CustomGUI::CustomIconButton::clicked,
              this, &PersonListView::clickedUpdate );      // Forward buttons signal.
-    CustomGUI::CustomIconButton* toolAdd = new CustomGUI::CustomIconButton( ":svg/add_icon_normal",
-                                                                            ":svg/add_icon_mover",
-                                                                            ":svg/add_icon_selected",
-                                                                            false );
-    toolAdd->setFixedSize( 70,70 );
-    connect( toolAdd, &CustomGUI::CustomIconButton::clicked,
+    m_toolAdd = new CustomGUI::CustomIconButton( ":svg/add_icon_normal",
+                                                 ":svg/add_icon_mover",
+                                                 ":svg/add_icon_selected",
+                                                 false );
+    m_toolAdd->setFixedSize( 70,70 );
+    connect( m_toolAdd, &CustomGUI::CustomIconButton::clicked,
              this, &PersonListView::clickedAdd );         // Forward buttons signal.
-    CustomGUI::CustomIconButton* toolChange = new CustomGUI::CustomIconButton( ":svg/change_icon_normal",
-                                                                               ":svg/change_icon_mover",
-                                                                               ":svg/change_icon_selected",
-                                                                               false );
-    toolChange->setFixedSize(70,70);
-    connect( toolChange, &CustomGUI::CustomIconButton::clicked,
+    m_toolChange = new CustomGUI::CustomIconButton( ":svg/change_icon_normal",
+                                                    ":svg/change_icon_mover",
+                                                    ":svg/change_icon_selected",
+                                                    false );
+    m_toolChange->setFixedSize(70,70);
+    connect( m_toolChange, &CustomGUI::CustomIconButton::clicked,
              this, &PersonListView::clickedChange );      // Forward buttons signal.
-    CustomGUI::CustomIconButton* toolDelete = new CustomGUI::CustomIconButton( ":svg/delete_icon_normal",
-                                                                               ":svg/delete_icon_mover",
-                                                                               ":svg/delete_icon_selected",
-                                                                               false );
-    toolDelete->setFixedSize( 70,70 );
-    connect( toolDelete, &CustomGUI::CustomIconButton::clicked,
+    m_toolDelete = new CustomGUI::CustomIconButton( ":svg/delete_icon_normal",
+                                                    ":svg/delete_icon_mover",
+                                                    ":svg/delete_icon_selected",
+                                                    false );
+    m_toolDelete->setFixedSize( 70,70 );
+    connect( m_toolDelete, &CustomGUI::CustomIconButton::clicked,
              this, &PersonListView::clickedDelete );      // Forward buttons signal.
 
 
@@ -146,10 +148,10 @@ PersonListView::PersonListView( const QPalette& appPalette,
 
     // Toolbox layout:
     QVBoxLayout* toolboxLayout = new QVBoxLayout();
-    toolboxLayout->addWidget( toolUpdate );
-    toolboxLayout->addWidget( toolAdd );
-    toolboxLayout->addWidget( toolChange );
-    toolboxLayout->addWidget( toolDelete );
+    toolboxLayout->addWidget( m_toolUpdate );
+    toolboxLayout->addWidget( m_toolAdd );
+    toolboxLayout->addWidget( m_toolChange );
+    toolboxLayout->addWidget( m_toolDelete );
 
     /*** Main VBox layout. Contains headline, Person list itself (contained within
      *   scroll area and tool bar (for manipulating Person and Person list): ***/
@@ -227,6 +229,13 @@ void PersonListView::updateDisplayedTexts()
     // Child widgets:
     TextViewUtilz::SetTextToLabel( m_headline, tr("All Persons") );
     TextViewUtilz::SetTextToLabel( m_lblSearchString, tr("Search:") );
+
+    // Tooltips:
+    m_toolUpdate->setToolTip( tr("Update person list") );
+    m_toolAdd->setToolTip( tr("Add a new person") );
+    m_toolChange->setToolTip( tr("Edit selected person") );
+    m_toolDelete->setToolTip( tr("Delete selected person") );
+    m_leFilterSearchString->setToolTip( tr("Enter phrase to search") );
 
     // Person views:
     foreach ( PersonView* personView, m_personViews )
