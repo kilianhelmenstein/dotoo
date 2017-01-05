@@ -14,9 +14,11 @@ CustomMenuBar::CustomMenuBar( AttachedEdge attachedEdge,
                               int maximumBarWidth,
                               QPalette barPalette,
                               QWidget* parent )
-    : QWidget(parent),
-      m_attachedEdge(attachedEdge),
-      m_mainLayout(nullptr)
+    : QWidget( parent ),
+      m_attachedEdge( attachedEdge ),
+      m_mainLayout( nullptr ),
+      m_iconLayout( nullptr ),
+      m_maxIconSize( maximumBarWidth )
 {
     /****************************************************************/
     /*********                Widget's Layout:                *******/
@@ -46,15 +48,10 @@ CustomMenuBar::CustomMenuBar( AttachedEdge attachedEdge,
         iconWidget->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Expanding );
         iconWidget->setMaximumWidth( maximumBarWidth );
     }
-    m_maxIconSize  = maximumBarWidth;
     iconWidget->setLayout( m_iconLayout );
 
     m_mainLayout->addWidget( iconWidget );
     setLayout( m_mainLayout );
-
-    /****************************************************************/
-    /*********                Widget's Style:                 *******/
-    /****************************************************************/
 }
 
 
