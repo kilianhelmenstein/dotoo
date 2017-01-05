@@ -33,35 +33,60 @@
     <name>Dotoo::GUI::PersonListView</name>
     <message>
         <location filename="../views/appspec/personlistview.cpp" line="68"/>
-        <location filename="../views/appspec/personlistview.cpp" line="232"/>
+        <location filename="../views/appspec/personlistview.cpp" line="231"/>
         <source>Search:</source>
         <translation>Suche:</translation>
     </message>
     <message>
-        <location filename="../views/appspec/personlistview.cpp" line="231"/>
+        <location filename="../views/appspec/personlistview.cpp" line="230"/>
         <source>All Persons</source>
         <translation>Alle Personen</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/personlistview.cpp" line="234"/>
+        <source>Update person list</source>
+        <translation>Personenliste aktualisieren</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/personlistview.cpp" line="235"/>
+        <source>Add a new person</source>
+        <translation>Neue Person anlegen</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/personlistview.cpp" line="236"/>
+        <source>Edit selected person</source>
+        <translation>Ausgewählte Person bearbeiten</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/personlistview.cpp" line="237"/>
+        <source>Delete selected person</source>
+        <translation>Ausgewählte Person löschen</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/personlistview.cpp" line="238"/>
+        <source>Enter phrase to search</source>
+        <translation>Gesuchtes Schlagwort eingeben</translation>
     </message>
 </context>
 <context>
     <name>Dotoo::GUI::SettingsView</name>
     <message>
-        <location filename="../views/appspec/settingsview.cpp" line="146"/>
+        <location filename="../views/appspec/settingsview.cpp" line="147"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../views/appspec/settingsview.cpp" line="147"/>
+        <location filename="../views/appspec/settingsview.cpp" line="148"/>
         <source>Language</source>
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="../views/appspec/settingsview.cpp" line="149"/>
+        <location filename="../views/appspec/settingsview.cpp" line="150"/>
         <source>Abort</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../views/appspec/settingsview.cpp" line="150"/>
+        <location filename="../views/appspec/settingsview.cpp" line="151"/>
         <source>Apply</source>
         <translation>Abbrechen</translation>
     </message>
@@ -96,35 +121,70 @@
 <context>
     <name>Dotoo::GUI::TaskListView</name>
     <message>
-        <location filename="../views/appspec/tasklistview.cpp" line="255"/>
+        <location filename="../views/appspec/tasklistview.cpp" line="254"/>
         <source>All Tasks</source>
         <translation>Alle Aufgaben</translation>
     </message>
     <message>
+        <location filename="../views/appspec/tasklistview.cpp" line="255"/>
         <location filename="../views/appspec/tasklistview.cpp" line="256"/>
-        <location filename="../views/appspec/tasklistview.cpp" line="257"/>
         <source>Enable filter:</source>
         <translation>Filter aktiv:</translation>
     </message>
     <message>
-        <location filename="../views/appspec/tasklistview.cpp" line="258"/>
+        <location filename="../views/appspec/tasklistview.cpp" line="257"/>
         <source>Done:</source>
         <translation>Erledigt:</translation>
     </message>
     <message>
-        <location filename="../views/appspec/tasklistview.cpp" line="259"/>
+        <location filename="../views/appspec/tasklistview.cpp" line="258"/>
         <source>Yes</source>
         <translation>Ja</translation>
     </message>
     <message>
-        <location filename="../views/appspec/tasklistview.cpp" line="260"/>
+        <location filename="../views/appspec/tasklistview.cpp" line="259"/>
         <source>No</source>
         <translation>Nein</translation>
     </message>
     <message>
-        <location filename="../views/appspec/tasklistview.cpp" line="261"/>
+        <location filename="../views/appspec/tasklistview.cpp" line="260"/>
         <source>Search:</source>
         <translation>Suche:</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/tasklistview.cpp" line="263"/>
+        <source>Update task list</source>
+        <translation>Aufgabenliste aktualisieren</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/tasklistview.cpp" line="264"/>
+        <source>Add a new task</source>
+        <translation>Eine neue Aufgabe anlegen</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/tasklistview.cpp" line="265"/>
+        <source>Edit selected task</source>
+        <translation>Ausgewählte Aufgabe bearbeiten</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/tasklistview.cpp" line="266"/>
+        <source>Delete selected task</source>
+        <translation>Ausgewählte Aufgabe löschen</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/tasklistview.cpp" line="267"/>
+        <source>Enable filtering of task list</source>
+        <translation>Filterung der Aufgabenliste aktivieren</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/tasklistview.cpp" line="268"/>
+        <source>Filter done/not done tasks</source>
+        <translation>Erledigte/Nicht erledigte Aufgaben filtern</translation>
+    </message>
+    <message>
+        <location filename="../views/appspec/tasklistview.cpp" line="269"/>
+        <source>Enter phrase to search</source>
+        <translation>Gesuchtes Schlagwort eingeben</translation>
     </message>
 </context>
 </TS>
