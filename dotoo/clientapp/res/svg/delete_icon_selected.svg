@@ -48,11 +48,11 @@
      borderopacity="0.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="0"
-     inkscape:zoom="0.12374369"
-     inkscape:cx="463.87691"
-     inkscape:cy="237.10097"
+     inkscape:zoom="0.49497476"
+     inkscape:cx="510.19443"
+     inkscape:cy="603.53776"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer9"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -71,7 +71,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -79,7 +79,8 @@
      inkscape:label="Icon-Backround"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(553.66933,75.073825)">
+     transform="translate(553.66933,75.073825)"
+     sodipodi:insensitive="true">
     <path
        sodipodi:type="arc"
        style="fill:url(#radialGradient3831);fill-opacity:1;stroke:none"
@@ -119,13 +120,12 @@
        sodipodi:rx="304.28571"
        sodipodi:ry="80"
        d="m -1254.2857,296.89056 a 304.28571,80 0 1 1 -608.5714,0 304.28571,80 0 1 1 608.5714,0 z"
-       transform="matrix(0.67939307,0,0,0.52285361,1618.5599,182.35812)" />
+       transform="matrix(0.67725372,0.05387336,-0.04146036,0.52120719,1627.2544,243.48729)" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer9"
-     inkscape:label="Icon"
-     sodipodi:insensitive="true">
+     inkscape:label="Icon">
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:none"
        d="m 332.60393,353.34537 c 0.79088,37.13032 72.94474,434.82491 81.14137,445.56687 8.41375,11.02668 250.90523,9.37497 259.27336,-1.76582 7.97364,-10.6155 75.62659,-392.2941 79.18179,-443.75798 -1.00009,0.41698 -2.0223,0.83797 -3.03638,1.24899 -14.83464,17.239 -82.60453,30.85704 -168.74303,34.00271 -0.0717,0.003 -0.14355,0.0189 -0.21534,0.0215 -12.36526,0.65609 -24.95861,0.99058 -37.74966,0.99058 -12.79911,0 -25.42016,-0.3334 -37.7928,-0.99058 -0.0283,-0.002 -0.0572,0.002 -0.0861,0 -86.34708,-3.13648 -154.27885,-16.8039 -169.00143,-34.08884 -0.993,-0.4031 -1.99219,-0.81866 -2.97174,-1.22747 z"
@@ -140,6 +140,6 @@
        sodipodi:rx="304.28571"
        sodipodi:ry="80"
        d="m -1254.2857,296.89056 a 304.28571,80 0 1 1 -608.5714,0 304.28571,80 0 1 1 608.5714,0 z"
-       transform="matrix(0.67939307,0,0,0.52285361,1601.2847,175.97377)" />
+       transform="matrix(0.67725372,0.05387336,-0.04146036,0.52120719,1610.5399,235.75318)" />
   </g>
 </svg>

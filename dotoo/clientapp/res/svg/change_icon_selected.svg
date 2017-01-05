@@ -48,11 +48,11 @@
      borderopacity="0.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="0"
-     inkscape:zoom="0.70000002"
-     inkscape:cx="405.94699"
-     inkscape:cy="550.10697"
+     inkscape:zoom="0.49497476"
+     inkscape:cx="254.22351"
+     inkscape:cy="545.36836"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer6"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -80,7 +80,8 @@
      inkscape:label="Icon-Backround"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(553.66933,75.073825)">
+     transform="translate(553.66933,75.073825)"
+     sodipodi:insensitive="true">
     <path
        sodipodi:type="arc"
        style="fill:url(#radialGradient3831);fill-opacity:1;stroke:none"
@@ -105,11 +106,10 @@
   <g
      inkscape:groupmode="layer"
      id="layer7"
-     inkscape:label="IconShader"
-     sodipodi:insensitive="true">
+     inkscape:label="IconShader">
     <g
        id="g6251-4"
-       transform="matrix(1.0487997,0.09197694,0.09197694,1.0487997,525.98495,53.601309)"
+       transform="matrix(0.94446949,-0.0154321,0.17958715,0.92736682,476.24697,119.56832)"
        style="fill:#000000">
       <rect
          transform="matrix(-0.70710678,-0.70710678,0.70710678,-0.70710678,0,0)"
@@ -133,11 +133,10 @@
   <g
      inkscape:groupmode="layer"
      id="layer6"
-     inkscape:label="Icon"
-     sodipodi:insensitive="true">
+     inkscape:label="Icon">
     <g
        id="g6251"
-       transform="matrix(1.0487997,0.09197694,0.09197694,1.0487997,518.41136,42.63742)">
+       transform="matrix(0.94446949,-0.0154321,0.17958715,0.92736682,468.46918,110.4886)">
       <rect
          transform="matrix(-0.70710678,-0.70710678,0.70710678,-0.70710678,0,0)"
          ry="8.8086996"
