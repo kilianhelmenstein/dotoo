@@ -256,6 +256,11 @@ void TaskView::changeIsDonePresentation( bool isDone )
 
 /* Private slots: */
 
+void TaskView::resizeEvent( QResizeEvent* )
+{
+    //onModelChange();
+}
+
 void TaskView::onModelChange()
 {
     if ( !m_model ) return;

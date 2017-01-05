@@ -191,6 +191,9 @@ private:
     void changeIsDonePresentation( bool isDone );
 
 private slots:
+
+    void resizeEvent( QResizeEvent* );
+
     /*!
      * \brief   Handles changes of model's data.
      *
