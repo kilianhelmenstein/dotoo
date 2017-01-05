@@ -25,8 +25,6 @@ CustomMenuBar::CustomMenuBar( AttachedEdge attachedEdge,
     m_mainLayout->setSpacing(0);
     m_mainLayout->setMargin(0);
 
-    QBoxLayout* barLayout = new QBoxLayout( attachedEdge == Bottom || attachedEdge == Top ? QBoxLayout::LeftToRight
-                                                                                         : QBoxLayout::TopToBottom );
     m_iconLayout = new QBoxLayout( attachedEdge == Bottom || attachedEdge == Top ? QBoxLayout::LeftToRight
                                                                                  : QBoxLayout::TopToBottom );
     m_iconLayout->setMargin(0);
