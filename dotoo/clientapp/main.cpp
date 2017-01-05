@@ -1,31 +1,28 @@
 #include <QApplication>
-#include <QMainWindow>
 #include <QPalette>
 
+// 'Tasks' dependencies:
 #include "data/implementation/asyncdatalyr_taskhttp.h"
 #include "modelparser/taskjson.h"
 #include "models/interface/task.h"
+#include "tasklistviewmodel.h"
+#include "tasklistview.h"
+#include "tasklistctrl.h"
 
+// 'Persons' dependencies:
 #include "data/implementation/asyncdatalyr_personhttp.h"
 #include "modelparser/person_json.h"
 #include "models/interface/person.h"
-
-#include "viewmodels/tasklistviewmodel.h"
-#include "viewmodels/personlistviewmodel.h"
-
-#include "tasklistview.h"
-#include "tasklistctrl.h"
-#include "taskeditview.h"
-#include "taskeditctrl.h"
-
+#include "personlistviewmodel.h"
 #include "personlistview.h"
 #include "personlistctrl.h"
 
-#include "custommenubar.h"
-
+// 'Settings' dependencies:
 #include "settingsview.h"
 #include "settingsctrl.h"
 #include "utilz/languagesetting.h"
+
+#include "custommenubar.h"
 
 
 using namespace Dotoo;
@@ -39,17 +36,17 @@ int main(int argc, char *argv[])
     using namespace Dotoo;
 
     QApplication a(argc, argv);
-    QMainWindow mainWindow;
 
+    // Color palette for consistent application style:
     QPalette* appPalette = new QPalette();
     appPalette->setColor( QPalette::All, QPalette::Background, QColor("grey") );
 
+    // Menu bar:
     CustomGUI::CustomMenuBar menuBar( CustomGUI::CustomMenuBar::Left, 70, *appPalette );
     appPalette->setColor( QPalette::All, QPalette::Background, QColor("#fff5f5f5") );
 
 
-    /********************** PERSON LIST **************************/
-    /* Dependencies used by MVC's: */
+    /********************** PERSON LIST MENU *************************/
     AsyncDataLyr_Person* dataLayerPerson = new AsyncDataLyr_PersonHttp( "http://localhost:8080",
                                                                         "persons",
                                                                         new JSONPersonParser() );
@@ -62,8 +59,7 @@ int main(int argc, char *argv[])
     PersonListCtrl* controllerPersons = new PersonListCtrl( modelPersons, viewPersons );
 
 
-    /********************** TASK LIST **************************/
-    /* Dependencies used by MVC's: */
+    /********************** TASK LIST MENU **************************/
     AsyncDataLyr_Task* dataLayer = new AsyncDataLyr_TaskHttp( "http://localhost:8080",
                                                               "tasks",
                                                               new JsonTaskParser() );
@@ -76,7 +72,8 @@ int main(int argc, char *argv[])
     view->setPersonsModel(modelPersons);
     TaskListCtrl* controller = new TaskListCtrl( model, view );
 
-    // Settings menu:
+
+    /********************** SETTINGS MENU *************************/
     LanguageSetting langSetting( "lang" );
     SettingsView* viewSettings = new SettingsView( *appPalette );
     viewSettings->setLanguageModel( &langSetting );
@@ -84,6 +81,7 @@ int main(int argc, char *argv[])
                                                          &langSetting );
 
 
+    // Add all menus to menu bar (it will manage all views):
     menuBar.addWidget( view,
                        ":svg/task_menu_normal",
                        ":svg/task_menu_mover",
@@ -98,8 +96,5 @@ int main(int argc, char *argv[])
                        ":svg/settings_menu_selected" );
 
     menuBar.show();
-//    mainWindow.setCentralWidget( &menuBar );
-//    mainWindow.show();
-
     return a.exec();
 }
