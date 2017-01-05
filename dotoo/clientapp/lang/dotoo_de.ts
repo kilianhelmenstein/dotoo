@@ -92,7 +92,7 @@
     <message>
         <location filename="../views/appspec/settingsview.cpp" line="151"/>
         <source>Apply</source>
-        <translation>Abbrechen</translation>
+        <translation>Übernehmen</translation>
     </message>
 </context>
 <context>
