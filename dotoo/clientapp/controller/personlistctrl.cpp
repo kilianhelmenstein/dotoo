@@ -17,8 +17,8 @@ namespace GUI {
 
 
 PersonListCtrl::PersonListCtrl( PersonListViewModel* model,
-                            PersonListView* view,
-                            QObject* parent )
+                                PersonListView* view,
+                                QObject* parent )
     : QObject( parent ),
       m_model( model ),
       m_view( view )
@@ -45,7 +45,7 @@ void PersonListCtrl::onClickedAdd()
 {
     PersonViewModel* model = m_model->createDummy();      // Create new dummy as data holder
     PersonEditView* editView = createEditView( PersonEditCtrl::Create,
-                                             model );
+                                               model );
     model->setParent( editView );
 
     connect( editView, &PersonEditView::destroyed,
@@ -57,7 +57,7 @@ void PersonListCtrl::onClickedAdd()
 
 void PersonListCtrl::onClickedChange()
 {
-    onDoubleClickedPerson( m_view->selectedPerson() );
+    if ( m_view->selectedPerson() ) onDoubleClickedPerson( m_view->selectedPerson() );
 }
 
 
@@ -74,7 +74,7 @@ void PersonListCtrl::onClickedDelete()
 void PersonListCtrl::onDoubleClickedPerson( PersonView* view )
 {
     PersonEditView* editView = createEditView( PersonEditCtrl::Change,
-                                             view->model() );
+                                               view->model() );
     connect( editView, &PersonEditView::destroyed,
              [this] () { m_view->setVisualFocus( true ); });
 
@@ -116,7 +116,7 @@ void PersonListCtrl::onFilterChanged()
 
 
 PersonEditView* PersonListCtrl::createEditView( PersonEditCtrl::Mode modeSelection,
-                                            PersonViewModel* usedModel ) const
+                                                PersonViewModel* usedModel ) const
 {
     PersonEditView* editView = new PersonEditView( QPalette() );
     editView->setModel( usedModel );
