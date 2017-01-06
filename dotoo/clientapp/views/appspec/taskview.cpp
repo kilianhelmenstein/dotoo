@@ -43,9 +43,8 @@ TaskView::TaskView( const QPalette &appPalette, QWidget* parent )
     QHBoxLayout* commentRowLayout = new QHBoxLayout();
     QHBoxLayout* subInfoRowLayout = new QHBoxLayout();
 
-    baseLayout->addLayout( commentRowLayout, RowIdxComment, ClmnIdxComment );
+    baseLayout->addLayout( commentRowLayout, RowIdxComment, ClmnIdxComment, 1, 1, Qt::AlignVCenter);
     baseLayout->addLayout( subInfoRowLayout, RowIdxSubInformation, ClmnIdxSubInformation );
-
 
     /****************************************************************/
     /*********                Widget's Style:                 *******/
