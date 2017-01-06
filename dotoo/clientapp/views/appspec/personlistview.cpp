@@ -159,7 +159,7 @@ PersonListView::PersonListView( const QPalette& appPalette,
     mainLayout->addWidget( m_headline, 0, 0 );
     mainLayout->addWidget( filterGroup, 1, 0 );
     mainLayout->addWidget( scrollArea, 2, 0 );
-    mainLayout->addLayout( toolboxLayout, 2, 1, 1, 1, Qt::AlignTop | Qt::AlignLeft );     // TODO: Implement custom toolbar. Add here.
+    mainLayout->addLayout( toolboxLayout, 0, 1, 3, 1, Qt::AlignCenter | Qt::AlignTop );
     setLayout( mainLayout );
 
     setMinimumWidth( toolboxLayout->minimumSize().width() + mainWidget->minimumWidth() );

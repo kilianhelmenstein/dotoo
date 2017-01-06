@@ -24,7 +24,7 @@ class PersonListView : public QWidget
 {
     Q_OBJECT
 public:
-    static const unsigned int ToolboxIconSize = 80; /*!< Size of toolbox icons. */
+    static const unsigned int ToolboxIconSize = 60; /*!< Size of toolbox icons. */
 
 public:
     /*!
