@@ -19,7 +19,7 @@ The server-side delivers the main data by running a http server (without ssl). H
 - Data is provided in JSON format, but format range is very extensible
 
 ## REST-API
-Currently there are two collection resources '/tasks' and '/persons'. To access particular resources, use '/tasks/<id>' respective '/persons/<id>'. (Ids starting at '1'. Id '0' is invalid within this REST-API.)
+Currently there are two collection resources '/tasks' and '/persons'. To access particular resources, use '/tasks/<id>' respective '/persons/<id>'. (An Id starts at '1'. The Id '0' is invalid within this REST-API.)
 
 ### /tasks
 #### Get all tasks: 
